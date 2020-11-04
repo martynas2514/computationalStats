@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ### 1 
 It is not possible to represent exact 1/3 and 1/12 in binary. As a result it is rounded towards nearest computer float and in R its equal to 0.33333333333333331 and 0.083333333333333329 respectively.
 In the first snippet code, the result is "Subtraction is wrong", but the second snippet code the result is "Subtraction is correct". 
-The only numbers that represent exactly in r , are integers and fractions by power of 2 denominator. Hence all other numbers are rounded to 53 binary digits accuracy.When ever floating point operations are done , we should assume that there will be  numeric error. 1/3 and 1/12 are repeating decimals that are rounded in R.
+The only numbers that represent exactly in r , are integers and fractions by power of 2 denominator. Hence all other numbers are rounded to 53 binary digits accuracy. When ever floating point operations are done , we should assume that there will be  numeric error. 1/3 and 1/12 are repeating decimals that are rounded in R.
 
 ### 2
 
@@ -105,3 +105,11 @@ plot(n, y3, type = "l", sub = "C , k =n-20", ylab = "y")
 ```
 
 ### 3
+expression A and B, because with large numbers method prod() will overflow. 
+
+In expression A we calculate product of vector from 1 to n and later divide it by other products with smaller vectors. However in this case first operation (prod(1:n)) will overflow ( = Inf) and other operations wont matter as the result will be Inf or Nan (if denominator will be also Inf).
+
+In expression B overflow will depend on k, if k is close to n it wont overflow.
+
+In expression C, as first vectors are divided, the final vector for product will have smaller values and that is why prod() method wont overflow.
+
