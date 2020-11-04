@@ -73,9 +73,9 @@ y <-  sapply(n, calc1, k = k)
 y2 <-  sapply(n, calc2, k = k)
 y3 <-  sapply(n, calc3, k = k)
 par(mfrow=c(3,1))
-plot(n,y, type = "l", main = "A , k =n-20" , ylab = "y")
-plot(n,y2, type = "l", main = "B , k =n-20", ylab = "y")
-plot(n, y3, type = "l", main = "C , k =n-20", ylab = "y")
+plot(n,y, type = "l", main = "k = n - 20", sub =  "A"  , ylab = "y")
+plot(n,y2, type = "l", sub =  "B" , ylab = "y")
+plot(n, y3, type = "l", sub =  "C" , ylab = "y")
 ```
 
 
@@ -98,9 +98,9 @@ y2 <-  sapply(n, calc2, k = k)
 y3 <-  sapply(n, calc3, k = k)
 par(mfrow=c(3,1))
 
-plot(n,y, type = "l", main = "k =n-20", sub =  "A  " , ylab = "y")
-plot(n,y2, type = "l", sub = "B , k =n-20", ylab = "y")
-plot(n, y3, type = "l", sub = "C , k =n-20", ylab = "y")
+plot(n,y, type = "l", main = "k = 20", sub =  "A  " , ylab = "y")
+plot(n,y2, type = "l", sub = "B", ylab = "y")
+plot(n, y3, type = "l", sub = "C", ylab = "y")
 
 ```
 
