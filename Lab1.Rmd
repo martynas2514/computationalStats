@@ -49,16 +49,17 @@ derivative <- function(x,e){
 
 
 ```
+
 ### 2
 Evaluate your derivative function at ``x = 1`` and ``x = 100000``
-```{r}
+```{r }
 e <- 10^(-15)
 x <- 1
 
 derivative(x,e)
 ```
 
-[1] 1.110223
+
 
 ```{r}
 e <- 10^(-15)
@@ -66,9 +67,8 @@ x <- 100000
 
 derivative(x,e)
 ```
-[1] 0
 
-###3
+### 3
 
 when x = 1, derivative  = 1.110223, when x = 100000, derivative = 0
 
@@ -104,7 +104,8 @@ for (i in 1:length(x)) {
   result <- append(result, y)
 }
 
-plot(c(1:length(x)), result, main = "Variance", xlab = "i",type = "p",  pch = 20 , ylab = "difference")
+plot(c(1:length(x)), result, main = "myvar() - var()",
+     xlab = "i",type = "p",  pch = 20 , ylab = "difference")
 
 ```
 
@@ -128,7 +129,8 @@ for (i in 1:length(x)) {
   result <- append(result, y)
 }
 
-plot(c(1:length(x)), result, main = "Variance", xlab = "i",type = "p",  pch = 20 , ylab = "difference", ylim = c(-5,5))
+plot(c(1:length(x)), result, main = "myvar2() - var()", xlab = "i",type = "p",
+     pch = 20 , ylab = "difference", ylim = c(-5,5))
 
 ```
 
@@ -144,7 +146,7 @@ C: same as B
 
 because  prod(0) = 0 and 0 / 0 will be NaN
 
-```{r , echo=FALSE}
+```{r , echo=FALSE,  include=FALSE}
 n <- 0
 k <- 0
 prod(1:n) / (prod(1:k) * prod(1:(n-k)))
