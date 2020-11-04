@@ -9,7 +9,7 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Question 1
+## Question 1 (Be Careful When Comparing)
 
 ### 1 
 It is not possible to represent exact 1/3 and 1/12 in binary. As a result it is rounded towards nearest computer float and in R its equal to 0.33333333333333331 and 0.083333333333333329 respectively.
@@ -32,7 +32,35 @@ if (isTRUE(all.equal.numeric(x1-x2, 1/12))) {
 }
 ```
 
+## Question 2 (Derivative)
+###1
 
+Write your own R function to calculate the derivative of ``f(x) = x`` in this way with ``e = 10^-15``.
+```{r}
+deriv <- function(x){
+  e <- 10^(-15)
+  derivative <- ((x+e)-x)/e
+  return(derivative)
+}
+
+```
+###2
+Evaluate your derivative function at ``x = 1`` and ``x = 100000``
+```{r}
+deriv(1)
+```
+
+[1] 1.110223
+
+```{r}
+deriv(100000)
+```
+[1] 0
+
+###3
+What values did you obtain? What are the true values? Explain the reasons behind the
+discovered differences.
+The smallest positive computer number is epsilon that here we considered it ``10^(-15)``When ``x=100000`` the derivative function showed 0, in equation``((x+e)-x)`` , difference between large numbers dominates epsilon, in other words the smallest positive number is added to the large number. Hence the epsilon would be ignored. But when `` x=1``, the effect of epsilon can not be ignored the result would be 1.110223.  
 
 ## Question 4
 

@@ -30,16 +30,12 @@ if(isTRUE(all.equal.numeric(x1-x2, 1/12))){
  }
 
 # Question 2
-
-f <- function(x){
-  return(x)
-}
+f <- function(x) x
 e <- 10^(-15)
-x<- 100
-f(x+e)-f(x)
-derivative <- function(x,e){
-  out <- (f(x+e)-f(x))/e
-  return(out)
+deriv <- function(f,e){
   
+  derivative <- ((f+e)-f)/e
+  return(derivative)
 }
-derivative(100000, e)
+deriv(1)
+      
