@@ -1,3 +1,5 @@
+# Question 1
+
 x1<- 1/3 
 x2<-1/4
 if ( x1-x2==1/12) {
@@ -26,3 +28,14 @@ if(isTRUE(all.equal.numeric(x1-x2, 1/12))){
    print("Subtraction is wrong")
    
  }
+
+# Question 2
+f <- function(x) x
+e <- 10^(-15)
+deriv <- function(f,e){
+  
+  derivative <- ((f+e)-f)/e
+  return(derivative)
+}
+deriv(1)
+      
