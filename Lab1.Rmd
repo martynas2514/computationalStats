@@ -38,11 +38,11 @@ if (isTRUE(all.equal.numeric(x1-x2, 1/12))) {
 Write your own R function to calculate the derivative of ``f(x) = x`` in this way with ``e = 10^-15``.
 ```{r}
 
-
-derivative <- function(x,e){
   f <- function(x){
   return(x)
-}
+  }
+
+derivative <- function(x,e){
   return((f(x+e)-f(x))/e)
 }
 
@@ -109,7 +109,7 @@ plot(c(1:length(x)), result, main = "myvar() - var()",
 
 ```
 
-The function does not work good. It can be noted that the oscillation pattern in the produced response (myVar(Xi) - var(Xi)) decreases as the value of terms involved increases. Squaring big numbers result in losing precision ( point ). As a result first squaring and summing might be less than first summing and later squaring. that is why function will not produce correct answers. 
+The function does not work good. It can be noted that the oscillation pattern in the produced response (myVar(Xi) - var(Xi)) decreases as the value of terms involved increases. Squaring big numbers result in overflow. As a result first squaring and summing might be less than first summing and later squaring. This is why function will not produce correct answers. 
 
 
 
@@ -219,3 +219,133 @@ In expression B overflow will depend on k, if k is close to n it wont overflow.
 
 In expression C, as first vectors are divided, the final vector for product will have smaller values and that is why prod() method wont overflow.
 
+\newpage
+# Appendix
+
+```{r, eval=FALSE}
+#1
+# all.equal.numeric() and isTRUE() function
+x1 <- 1/3
+x2 <- 1/4
+if (isTRUE(all.equal.numeric(x1-x2, 1/12))) {
+  print ("Subtraction is correct" )
+} else {
+  print ("Subtraction is wrong")
+}
+
+#2
+
+f <- function(x){
+  return(x)
+}
+
+derivative <- function(x,e){
+  return((f(x+e)-f(x))/e)
+}
+
+e <- 10^(-15)
+x <- 1
+
+derivative(x,e)
+
+e <- 10^(-15)
+x <- 100000
+
+derivative(x,e)
+
+#3
+myvar <- function(x){
+  n <- length(x)
+  xSq <- sum(x^2)
+  sumXSq <- sum(x)^2
+  part2 <- sumXSq/n
+  return((xSq - part2)* (1/(n-1)))
+}
+
+x <- rnorm(10000, 10^8, 1)
+
+result <- list()
+options(digits = 22 )
+for (i in 1:length(x)) {
+  temp <- x[1:i]
+  y <- myvar(temp) - var(temp)
+  result <- append(result, y)
+}
+
+plot(c(1:length(x)), result, main = "myvar() - var()",
+     xlab = "i",type = "p",  pch = 20 , ylab = "difference")
+
+myvar2 <- function(x){
+  n <- length(x)
+  return((sum((x - mean(x))^2))/(n-1))
+}
+
+result <- list()
+options(digits = 22 )
+for (i in 1:length(x)) {
+  temp <- x[1:i]
+  y <- myvar2(temp) - var(temp)
+  result <- append(result, y)
+}
+
+plot(c(1:length(x)), result, main = "myvar2() - var()", xlab = "i",type = "p",
+     pch = 20 , ylab = "difference", ylim = c(-5,5))
+
+#4
+
+n <- 0
+k <- 0
+prod(1:n) / (prod(1:k) * prod(1:(n-k)))
+prod((k+1):n) / prod(1:(n-k))
+prod(((k+1):n) / (1:(n-k)))
+
+
+#n <- c(20:100)
+
+calc1 <- function(n,k){
+k <- n - k
+ return(prod(1:n) / (prod(1:k) * prod(1:(n-k)))) 
+}
+calc2 <- function(n,k){
+  k <- n - k
+ return(prod((k+1):n) / prod(1:(n-k))) 
+}
+calc3 <- function(n,k){
+  k <- n - k
+ return(prod(((k+1):n) / (1:(n-k)))) 
+}
+
+n <- c(20:400)
+k <- 20
+
+y <-  sapply(n, calc1, k = k)
+y2 <-  sapply(n, calc2, k = k)
+y3 <-  sapply(n, calc3, k = k)
+par(mfrow=c(3,1))
+plot(n,y, type = "l", main = "k = n - 20", sub =  "A"  , ylab = "y")
+plot(n,y2, type = "l", sub =  "B" , ylab = "y")
+plot(n, y3, type = "l", sub =  "C" , ylab = "y")
+
+calc1 <- function(n,k){
+ return(prod(1:n) / (prod(1:k) * prod(1:(n-k)))) 
+}
+calc2 <- function(n,k){
+ return(prod((k+1):n) / prod(1:(n-k))) 
+}
+calc3 <- function(n,k){
+ return(prod(((k+1):n) / (1:(n-k)))) 
+}
+
+n <- c(20:400)
+k <- 20
+
+y <-  sapply(n, calc1, k = k)
+y2 <-  sapply(n, calc2, k = k)
+y3 <-  sapply(n, calc3, k = k)
+par(mfrow=c(3,1))
+
+plot(n,y, type = "l", main = "k = 20", sub =  "A  " , ylab = "y")
+plot(n,y2, type = "l", sub = "B", ylab = "y")
+plot(n, y3, type = "l", sub = "C", ylab = "y")
+
+```
