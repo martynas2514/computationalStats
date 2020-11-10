@@ -19,8 +19,8 @@ The only numbers that can be represented exactly in R are integers and powers of
 
 ### 2
 
-Instead of writing  ``if(x1 - x2 == 1/12)`` it should be written ``if(isTRUE(all.equal(x1-x2,1/12)))``. In this case this equation will return TRUE.
-We can use ``all.equal`` function , or we can use ``all.equal.numeric`` function too.
+Instead of writing  $if(x_1 - x_2 == 1/12)$ it should be written $if(isTRUE(all.equal(x_1-x_2,1/12)))$. In this case this equation will return TRUE.
+We can use ``all.equal`` function , or we can use ``all.equal.numeric`` function too, which will test if the compared numbers are nearly equal.
 ```{r echo = FALSE, warning=FALSE, include=FALSE}
 #1.2
 # all.equal.numeric() and isTRUE() function
@@ -36,7 +36,7 @@ if (isTRUE(all.equal.numeric(x1-x2, 1/12))) {
 ## Question 2 (Derivative)
 ### 1
 
-Write your own R function to calculate the derivative of ``f(x) = x`` in this way with ``e = 10^-15``.
+Write your own R function to calculate the derivative of $f(x) = x$ in this way with $e = 10^{-15}$.
 ```{r}
 
   f <- function(x){
@@ -52,7 +52,7 @@ derivative <- function(x,e){
 ```
 
 ### 2
-Evaluate your derivative function at ``x = 1`` and ``x = 100000``
+Evaluate your derivative function at $x = 1$ and $x = 100000$
 ```{r }
 e <- 10^(-15)
 x <- 1
@@ -71,11 +71,11 @@ derivative(x,e)
 
 ### 3
 
-When x = 1, derivative  = 1.110223 and when x = 100000, derivative = 0
+When $x = 1$, $derivative  = 1.110223$ and when $x = 100000$, $derivative = 0$
 
 However, true values for both cases should be 1.
 
-The smallest positive computer number is epsilon that here we considered it  to be``10^(-15)``. When ``x=100000`` the derivative function showed 0, in the equation``((x+e)-x)``, the difference between large numbers dominates over epsilon, in other words the smallest positive number is added to the large number. Hence the epsilon would be ignored. However, when `` x=1``, the effect of epsilon cannot be ignored the result would be 1.110223.  
+The smallest positive computer number is epsilon that here we considered it to be $10^{-15}$. When $x=100000$ the derivative function showed 0, in the equation $((x+e)-x)$, the difference between large numbers dominates over epsilon. In other words, the smallest positive number is added to the large number. Hence the epsilon would be ignored. However, when $x=1$, the effect of epsilon cannot be ignored the result would be 1.110223.  
 
 ## Question 3 (Variance)
 
@@ -110,7 +110,7 @@ plot(c(1:length(x)), result, main = "myvar() - var()",
 
 ```
 
-The function does not work properly. It oscillates primarily when a smaller set of values is involved in the variances calculation. It can also be noted that the oscillation pattern in the produced response (myVar(Xi) - var(Xi)) decreases as the value of terms involved increases. Squaring big numbers result in overflow, since the computer is not able to handle such a large number correctly. That is because the numbers are so big that the computer cannot destine the right amount of bytes for them. Moreover, first squaring and summing might be less than first summing and later squaring. This is why our function will not produce correct answers. 
+The function does not work properly. It oscillates primarily when a smaller set of values is involved in the variances calculation. It can also be noted that the oscillation pattern in the produced response $(myVar(X_i) - var(X_i))$ decreases as the value of terms involved increases. Squaring big numbers result in overflow, since the computer is not able to handle such a large number correctly. That is because the numbers are so big that the computer cannot destine the right amount of bytes for them. Moreover, first squaring and summing may lead to a smaller result than first summing and later squaring. This is why our function will not produce correct answers. 
 
 
 
@@ -139,13 +139,13 @@ plot(c(1:length(x)), result, main = "myvar2() - var()", xlab = "i",type = "p",
 
 ### 1
 
-A: n , k and n - k cant be zero
+A: $n$ , k and $n - k$ cant be zero
 
-B: n and n - k cant be zero 
+B: $n$ and $n - k$ cant be zero 
 
 C: same as B
 
-because  prod(0) = 0 and 0 / 0 will be NaN
+because  $prod(0) = 0$ and $\frac{0}{0}$ will be NaN
 
 ```{r , echo=FALSE,  include=FALSE}
 n <- 0
@@ -212,13 +212,13 @@ plot(n, y3, type = "l", sub = "C", ylab = "y")
 ```
 
 ### 3
-The expressions A and B, because with large numbers method prod() will overflow. 
+The expressions A and B, because with large numbers method $prod()$ will overflow. 
 
-In expression A we calculate the product of a vector from 1 to n and later divide it by other products with smaller vectors. However, in this case, the first operation (prod(1:n)) will overflow ( = Inf) and other operations won't matter as the result will be Inf or Nan (if denominator will be also Inf).
+In expression A we calculate the product of a vector from 1 to n and later divide it by other products with smaller vectors. However, in this case, the first operation ($prod(1:n)$) will overflow ( = Inf) and other operations won't matter as the result will be Inf or Nan (if denominator will be also Inf).
 
-In expression B overflow will depend on k, if k is close to n it won't overflow.
+In expression B overflow will depend on $k$, if $k$ is close to $n$ it won't overflow.
 
-In expression C, as first vectors are divided, the final vector for product will have smaller values and that is why prod() method won't overflow.
+In expression C, as first vectors are divided, the final vector for product will have smaller values and that is why $prod()$ method won't overflow.
 
 \newpage
 # Appendix
