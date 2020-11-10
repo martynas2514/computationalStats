@@ -113,19 +113,37 @@ $$ln L(p(\mu, \sigma|y)) = - \frac n {2} ln(2 \pi \sigma^2) - \sum^n_{i = 1} \fr
 ```{r}
 
 
-minusLogLikelihood <- function(x, n, data){
+minusLogLikelihood <- function(x){
+  n <- length(data)
+  data <- data
   mu <- x[1]
   sigma <- x[2]
-  part1 <-  (n/2) * log(2*pi * (sigma^2))
+  part1 <-  ((n/2) * log(2*pi * (sigma^2)))
   part2 <- (sum(data - mu)^2) / (2* sigma^2)
   return(part1 + part2)
 }
 
-
+gradient <- function(x){
+  mu <- x[1]
+  sigma <- x[2]
+  n <- length(data)
+  gMu <- (n/(sigma^2)) * sum(data - mu)
+  gSigma <- (n/sigma) - ((1/(sigma^3)) * sum((data-mu)^2))
+  return(c(gMu,gSigma))
+}
 
 init <- c(0, 1)
-test1 <- optim(init, minusLogLikelihood, n = 100, data = data,  method = "CG", control=list(fnscale= -1))
-test2 <- optim(init, minusLogLikelihood, n = 100, data = data, method = "BFGS", control=list(fnscale= -1))
+test1 <- optim(init, minusLogLikelihood,  method = "CG")
+test2 <- optim(init, minusLogLikelihood, gr = gradient,  method = "CG")
+test3 <- optim(init, minusLogLikelihood, method = "BFGS")
+test4 <- optim(init, minusLogLikelihood, gr = gradient, method = "BFGS")
 
 ```
+
+The function \texttt{optim()} minimizes the function by default in R. Thus we will optimize the minus log-likelihood function in order to find the maximum of the function. We will perform two types of algorithms, Conjugate Gradient and BFGS, both with gradient specified and without, to optimize the minus log-likelihood function. It is a better idea to maximize the log-likelihood than maximize the likelihood. This is due to the large values that occurs in the likelihood, which are numerically unstable, so it is preferable to take the logarithm which gives us a better scale to work with. Also, differentiating the log-likelihood function is more computationally convenient, since the product is replaced by a sum (see Question 2.2). 
+
+
+### 4
+
+
 
