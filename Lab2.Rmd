@@ -26,7 +26,7 @@ SSE <- function(x, a, method1, method2){
 }
 
 optimiser <- function(x, method){
-  aInit <- rep(1,3)
+  aInit <- c(0, 0, 0)
   res <- optim(aInit, SSE, x = x, method1 = method, method2 = interpolator)
   return(res$par)
 }
@@ -52,17 +52,15 @@ f1 <- function(x){
   return(-x * (1-x))
 }
 
-f2 <- function(x){
-  return(-x * sin(10 * pi * x))
-}
-
 
 x <- seq(0, 1, by = 0.01)
 plot(x,f1(x))
 
 test <- aproximate(100, f1)
-for (a in test) {
-  yint <- sapply(x, interpolator, a = a)
+scale <- 1/length(test)
+for (i in 1:length(test)) {
+  x <- seq((scale*i)- scale, scale*i, by = 0.01/length(test))
+  yint <- sapply(x, interpolator, a = test[[i]])
   lines(x,yint)
 }
 ```
@@ -76,9 +74,12 @@ f2 <- function(x){
 x <- seq(0, 1, by = 0.01)
 plot(x,f2(x))
 
+
 test <- aproximate(100, f2)
-for (a in test) {
-  yint <- sapply(x, interpolator, a = a)
+scale <- 1/length(test)
+for (i in 1:length(test)) {
+  x <- seq((scale*i)- scale, scale*i, by = 0.01/length(test))
+  yint <- sapply(x, interpolator, a = test[[i]])
   lines(x,yint)
 }
 ```
@@ -109,7 +110,7 @@ sqrt((sum((data-meanEst)^2))/ length(data))
 ### 3
 
 $$ln L(p(\mu, \sigma|y)) = - \frac n {2} ln(2 \pi \sigma^2) - \sum^n_{i = 1} \frac{(y_i - \mu)^2} {2\sigma^2}$$
-
+$$ \frac{\sum (y-\mu)^2}{2\sigma^2} = \frac{\sum y^2-2(\sum y)\mu +n\mu^2}{2\sigma^2} = \frac{\sum( \mu - y_i)}{\sigma^2}$$
 ```{r}
 
 
@@ -127,16 +128,16 @@ gradient <- function(x){
   mu <- x[1]
   sigma <- x[2]
   n <- length(data)
-  gMu <- (n/(sigma^2)) * sum(data - mu)
+  gMu <- sum(mu - data)/(sigma^2)
   gSigma <- (n/sigma) - ((1/(sigma^3)) * sum((data-mu)^2))
   return(c(gMu,gSigma))
 }
 
 init <- c(0, 1)
-test1 <- optim(c(0, 1), minusLogLikelihood,  method = "CG", control=list(fnscale=-1))
-test2 <- optim(c(0, 1), minusLogLikelihood, gr = gradient,  method = "CG", control=list(fnscale=-1))
-test3 <- optim(c(0, 1), minusLogLikelihood, method = "BFGS", control=list(fnscale=-1))
-test4 <- optim(c(0, 1), minusLogLikelihood, gr = gradient, method = "BFGS", control=list(fnscale=-1))
+test1 <- optim(c(0, 1), minusLogLikelihood,  method = "CG")
+test2 <- optim(c(0, 1), minusLogLikelihood, gr = gradient,  method = "CG")
+test3 <- optim(c(0, 1), minusLogLikelihood, method = "BFGS")
+test4 <- optim(c(0, 1), minusLogLikelihood, gr = gradient, method = "BFGS")
 
 ```
 
@@ -144,7 +145,18 @@ The function \texttt{optim()} minimizes the function by default in R. Thus we wi
 
 
 ### 4
+```{r}
 
+mm = matrix(1:20, ncol=5, dimnames=list(c("minus loglikelihood CG", "minus loglikelihood CG gradient","minus loglikelihood BFGS" ,"minus loglikelihood BFGS gradient"), c("converge", "mean", "variance", "n. of functions", "n. of gradients")))
+mm[1, ] <- c(ifelse(test1$convergence == 0, "Yes", "No"), test1$par[1], test1$par[2], test1$counts[1], test1$counts[2])
+mm[2, ] <- c(ifelse(test2$convergence == 0, "Yes", "No"), test2$par[1], test2$par[2], test2$counts[1], test2$counts[2])
+mm[3, ] <- c(ifelse(test3$convergence == 0, "Yes", "No"), test3$par[1], test3$par[2], test3$counts[1], test3$counts[2])
+mm[4, ] <- c(ifelse(test4$convergence == 0, "Yes", "No"), test4$par[1], test4$par[2], test4$counts[1], test4$counts[2])
+as.table(mm)
+
+
+
+```
 
 
 
