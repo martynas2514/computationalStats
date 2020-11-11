@@ -119,7 +119,7 @@ minusLogLikelihood <- function(x){
   mu <- x[1]
   sigma <- x[2]
   part1 <-  ((n/2) * log(2*pi * (sigma^2)))
-  part2 <- (sum(data - mu)^2) / (2* sigma^2)
+  part2 <- (sum((data - mu)^2)) / (2 * sigma^2)
   return(part1 + part2)
 }
 
@@ -133,10 +133,10 @@ gradient <- function(x){
 }
 
 init <- c(0, 1)
-test1 <- optim(init, minusLogLikelihood,  method = "CG")
-test2 <- optim(init, minusLogLikelihood, gr = gradient,  method = "CG")
-test3 <- optim(init, minusLogLikelihood, method = "BFGS")
-test4 <- optim(init, minusLogLikelihood, gr = gradient, method = "BFGS")
+test1 <- optim(c(0, 1), minusLogLikelihood,  method = "CG", control=list(fnscale=-1))
+test2 <- optim(c(0, 1), minusLogLikelihood, gr = gradient,  method = "CG", control=list(fnscale=-1))
+test3 <- optim(c(0, 1), minusLogLikelihood, method = "BFGS", control=list(fnscale=-1))
+test4 <- optim(c(0, 1), minusLogLikelihood, gr = gradient, method = "BFGS", control=list(fnscale=-1))
 
 ```
 
@@ -147,3 +147,8 @@ The function \texttt{optim()} minimizes the function by default in R. Thus we wi
 
 
 
+
+## Questions
+
+- Do we have to estimate for sigma squared or sigma
+- are our partial 
