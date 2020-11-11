@@ -150,5 +150,15 @@ The function \texttt{optim()} minimizes the function by default in R. Thus we wi
 
 ## Questions
 
+
 - Do we have to estimate for sigma squared or sigma
-- are our partial 
+
+- Our parabolic function approximation looks weird, are we missing sth?
+
+- are our partial derivatives well calculated?, therefore MLE estimates for mu and sigma?
+
+- Are the gradients of our function  gradient well expressed? minus sign?
+
+- Our optim function calls in #3 are returning such mismatched values, one parameter huge and the other really small, our parameters are not similar as the estimates
+
+  - How should we apply this optim, to minimaze or maximize MLL function?
