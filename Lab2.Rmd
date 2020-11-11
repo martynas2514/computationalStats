@@ -147,3 +147,8 @@ The function \texttt{optim()} minimizes the function by default in R. Thus we wi
 
 
 
+
+## Questions
+
+- Do we have to estimate for sigma squared or sigma
+- are our partial 
