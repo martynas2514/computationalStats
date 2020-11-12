@@ -101,7 +101,7 @@ $$ \frac{\partial lnL(p(\mu, \sigma|y))} {\partial \sigma} = - \frac{n}{\sigma} 
 $$ MLE => - \frac{n}{\sigma} + \frac{1}{\sigma^3} \sum^n_{i=1}(y_i - \mu)^2 = 0$$
 $$\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^n (y_i- \mu)^2$$
 ```{r}
- meanEst <- mean(data)
+meanEst <- mean(data)
 print(meanEst)
 
 sqrt((sum((data-meanEst)^2))/ length(data))
