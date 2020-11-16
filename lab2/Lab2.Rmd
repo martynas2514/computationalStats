@@ -120,6 +120,12 @@ $\hat \sigma _{MLE}$ estimator:
 $$ \frac{\partial lnL(p(\mu, \sigma|y))} {\partial \sigma} = - \frac{n}{\sigma} + \frac{1}{\sigma^3} \sum^n_{i=1}(y_i - \mu)^2 $$
 $$ MLE => - \frac{n}{\sigma} + \frac{1}{\sigma^3} \sum^n_{i=1}(y_i - \mu)^2 = 0$$
 $$\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^n (y_i- \mu)^2$$
+<<<<<<< HEAD:Lab2.Rmd
+```{r}
+meanEst <- mean(data)
+print(meanEst)
+```
+
 ```{r, echo=FALSE}
 meanEst <- mean(data)
 sigma <- sqrt((sum((data-meanEst)^2))/ length(data))
@@ -133,9 +139,9 @@ knitr::kable(res, col.names = c("mean", "variance"), digits = 3)
 <!-- not sure if we need to show this  -->
 <!-- Gradients: -->
 
-<!-- $$ln L(p(\mu, \sigma|y)) = - \frac n {2} ln(2 \pi \sigma^2) - \sum^n_{i = 1} \frac{(y_i - \mu)^2} {2\sigma^2}$$ -->
-<!-- $$ \frac{\sum (y-\mu)^2}{2\sigma^2} = \frac{\sum y^2-2(\sum y)\mu +n\mu^2}{2\sigma^2} = \frac{\sum( \mu - y_i)}{\sigma^2}$$ -->
-<!-- --- -->
+$$ln L(p(\mu, \sigma|y)) = - \frac n {2} ln(2 \pi \sigma^2) - \sum^n_{i = 1} \frac{(y_i - \mu)^2} {2\sigma^2}$$ -->
+$$ \frac{\sum (y-\mu)^2}{2\sigma^2} = \frac{\sum y^2-2(\sum y)\mu +n\mu^2}{2\sigma^2} = \frac{\sum( \mu - y_i)}{\sigma^2}$$ -->
+
 ```{r}
 
 
@@ -172,7 +178,8 @@ test4 <- optim(c(0, 1), minusLogLikelihood, gr = gradient, method = "BFGS")
 
 The function \texttt{optim()} minimizes the function by default in R. Thus we will optimize the minus log-likelihood function in order to find the maximum of the function. We will perform two types of algorithms, Conjugate Gradient and BFGS, both with gradient specified and without, to optimize the minus log-likelihood function. It is a better idea to maximize the log-likelihood than maximize the likelihood. This is due to the large values that occurs in the likelihood, which are numerically unstable, so it is preferable to take the logarithm which gives us a better scale to work with. Also, differentiating the log-likelihood function is more computationally convenient, since the product is replaced by a sum (see Question 2.2). 
 
-
+###3(extra explanation)
+it is almost always simplified by taking the natural logarithm of the expression. This is absolutely fine because the natural logarithm is a monotonically increasing function. This means that if the value on the x-axis increases, the value on the y-axis also increases (see figure below). This is important because it ensures that the maximum value of the log of the probability occurs at the same point as the original probability function. Therefore we can work with the simpler log-likelihood instead of the original likelihood. It’s also easier to take the derivative of a log of a product than it is of the product itself.The likelihood is a big product, often of exponential functions, such as this one when you’re working with normal distributions.
 ### 4
 ```{r, echo=FALSE}
 
