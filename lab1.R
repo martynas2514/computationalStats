@@ -32,10 +32,10 @@ if(isTRUE(all.equal.numeric(x1-x2, 1/12))){
 # Question 2
 f <- function(x) x
 e <- 10^(-15)
-deriv <- function(f,e){
+deriv <- function(f,x,e){
   
-  derivative <- ((f+e)-f)/e
+  derivative <- (f(x+e)-f(x))/e
   return(derivative)
 }
-deriv(1)
+deriv(1, 100)
       
