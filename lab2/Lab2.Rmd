@@ -120,11 +120,6 @@ $\hat \sigma _{MLE}$ estimator:
 $$ \frac{\partial lnL(p(\mu, \sigma|y))} {\partial \sigma} = - \frac{n}{\sigma} + \frac{1}{\sigma^3} \sum^n_{i=1}(y_i - \mu)^2 $$
 $$ MLE => - \frac{n}{\sigma} + \frac{1}{\sigma^3} \sum^n_{i=1}(y_i - \mu)^2 = 0$$
 $$\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^n (y_i- \mu)^2$$
-<<<<<<< HEAD:Lab2.Rmd
-```{r}
-meanEst <- mean(data)
-print(meanEst)
-```
 
 ```{r, echo=FALSE}
 meanEst <- mean(data)
@@ -133,6 +128,7 @@ res <- matrix(c(meanEst, sigma), nrow = 1)
 knitr::kable(res, col.names = c("mean", "variance"), digits = 3)
 
 ```
+
 ### 3
 
 <!-- --- -->
@@ -180,7 +176,9 @@ The function \texttt{optim()} minimizes the function by default in R. Thus we wi
 
 ###3(extra explanation)
 it is almost always simplified by taking the natural logarithm of the expression. This is absolutely fine because the natural logarithm is a monotonically increasing function. This means that if the value on the x-axis increases, the value on the y-axis also increases (see figure below). This is important because it ensures that the maximum value of the log of the probability occurs at the same point as the original probability function. Therefore we can work with the simpler log-likelihood instead of the original likelihood. It’s also easier to take the derivative of a log of a product than it is of the product itself.The likelihood is a big product, often of exponential functions, such as this one when you’re working with normal distributions.
+
 ### 4
+
 ```{r, echo=FALSE}
 
 mm = matrix(1:20, ncol=5, dimnames=list(c("minus loglikelihood CG", "minus loglikelihood CG gradient","minus loglikelihood BFGS" ,"minus loglikelihood BFGS gradient"), c("converge", "mean", "variance", "n. of functions", "n. of gradients")))
@@ -194,19 +192,6 @@ knitr::kable(mm, digits = 2)
 
 ```
 
+We would recommend to use BFGS with specified gradient, because it required to evaluate less functions and gradients as a result its faster. 
 
 
-## Questions
-
-
-- Do we have to estimate for sigma squared or sigma
-
-- Our parabolic function approximation looks weird, are we missing sth?
-
-- are our partial derivatives well calculated?, therefore MLE estimates for mu and sigma?
-
-- Are the gradients of our function  gradient well expressed? minus sign?
-
-- Our optim function calls in #3 are returning such mismatched values, one parameter huge and the other really small, our parameters are not similar as the estimates
-
-  - How should we apply this optim, to minimaze or maximize MLL function?
