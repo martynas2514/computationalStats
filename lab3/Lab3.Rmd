@@ -1,0 +1,140 @@
+---
+title: "Computer Lab 3"
+author: "Martynas Lukosevicius"
+date: "17/11/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Question 2
+
+## 1.
+
+$$ DE(\mu, \alpha) = \frac{\alpha}{2} e^{-\alpha |x-\mu|}$$
+
+* $\mu$ - location parameter
+* $b > 0$ - scale parameter
+
+inverse CDF of DE:
+
+Source - https://en.wikipedia.org/wiki/Laplace_distribution
+
+$$F^{-1}(p) = \mu - b sgn(p-0.5)ln(1-2|p-0.5|)$$
+
+where $b = \frac 1 \alpha$
+
+
+```{r }
+rLaplace <- function(n, mean = 0, alpha = 1){
+  b <- 1/alpha
+  u <- runif(n)
+  res <- mean - (b*sign(u-0.5) * log(1-(2*abs(u-0.5))))
+  return(res)
+}
+```
+
+meaning:
+
+1. calculate b.
+2. take n random variables from uniform distribution [0,1]
+3. calculate random numbers from inverse CDF of laplace distribution where x is a random variable from uniform distribution
+
+
+```{r , echo=FALSE, warning=FALSE, message=FALSE}
+library(rmutil)
+hist(rlaplace(10000, 2,1), 100, 
+     col = "red",
+     main = "Comparison of rlaplace function from rmutil with our rLaplace", 
+     xlab = "values")
+hist(rLaplace(10000, 2,1), 100, col = "blue", add = TRUE)
+legend("topright", c("rLaplace", "rlaplace"), fill=c("blue", "red"))
+```
+
+
+## 2.
+
+```{r }
+DE <- function(x, mean = 0,alpha = 1){
+  return((0.5*alpha)*exp((-alpha)*abs(x-mean)))
+}
+
+genNorm <- function(c, rej){
+  z <- TRUE
+  res <- 0
+  while (z == TRUE) {
+    y <- rLaplace(1)
+    u <- runif(1)
+    if(u <= pnorm(y) / (c*DE(y))){
+      res <- y
+      z <- FALSE    
+    }
+    if(rej){
+    rejected <<- rejected + 1
+    }
+  }
+  return(res)
+}
+  
+rNorm <- function(n,c,rej = FALSE){
+ return(replicate(n, genNorm(c, rej)))
+}
+```
+
+algorithm:
+
+1. write Laplace probability function
+2. assign 0 to result value res
+3. generate random number y from rLaplace function
+4. generate random number u from uniform distribution 
+5. check if u is less or equal to probability y in normal distribution / c * probability of y in laplace distribution
+    a) if yes, return u
+    b) repeat steps from 3
+
+
+```{r , echo=FALSE}
+LF <- function(c){
+  x <- rNorm(100000,c)
+  mean <- mean(x)
+  variance <- var(x)
+  SSE <- ( ((1-variance)^2)) 
+  return(SSE)
+}
+a <- optim(1,LF, method = "Brent",lower = 0, upper = 2)
+c <- a$par
+```
+Estimated optimal c using `optim( method = "Brent",lower = 0, upper = 2)` - `r c`
+
+
+```{r , echo=FALSE}
+rejected <- 0
+datarNorm <- rNorm(2000, c, TRUE)
+datarnorm <- rnorm(2000)
+
+b <- min(c(datarNorm,datarnorm))
+e <- max(c(datarNorm,datarnorm))
+ax <- seq(b,e,by=(e-b)/50)
+
+hist(datarNorm, breaks = ax,
+     col = "red",
+     main = "Comparison of rnorm()  with our rNorm()",
+     xlab = "values",
+     xlim = range(datarNorm,datarnorm))
+
+hist(datarnorm, breaks = ax, col = "blue",  xlim = range(datarNorm,datarnorm),  ylim = c(0,250), add = TRUE)
+legend("topright", c("rnorm", "rNorm"), fill=c("blue", "red"))
+```
+```{r , echo=FALSE}
+RR <- (rejected / 2000) 
+```
+
+rejection rate: `r RR`
+
+```{r , echo=FALSE}
+compare <- matrix(c(mean(datarNorm), var(datarNorm), mean(datarnorm), var(datarnorm)), nrow = 2, byrow = TRUE)
+row.names(compare) <- c("rNorm()", "rnorm()")
+colnames(compare) <- c("mean", "variance")
+knitr::kable(compare)
+```
