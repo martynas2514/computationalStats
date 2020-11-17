@@ -91,6 +91,7 @@ From graphs we can see that piecewice - parabolic interpolator predicted values 
 ## Question 2
 
 ### 1
+
 ```{r}
 load("data.RData")
 ```
@@ -131,12 +132,11 @@ knitr::kable(res, col.names = c("mean", "variance"), digits = 3)
 
 ### 3
 
-<!-- --- -->
-<!-- not sure if we need to show this  -->
-<!-- Gradients: -->
 
-$$ln L(p(\mu, \sigma|y)) = - \frac n {2} ln(2 \pi \sigma^2) - \sum^n_{i = 1} \frac{(y_i - \mu)^2} {2\sigma^2}$$ -->
-$$ \frac{\sum (y-\mu)^2}{2\sigma^2} = \frac{\sum y^2-2(\sum y)\mu +n\mu^2}{2\sigma^2} = \frac{\sum( \mu - y_i)}{\sigma^2}$$ -->
+
+<!-- $$ln L(p(\mu, \sigma|y)) = - \frac n {2} ln(2 \pi \sigma^2) - \sum^n_{i = 1} \frac{(y_i - \mu)^2} {2\sigma^2}$$ -->
+<!-- $$ \frac{\sum (y-\mu)^2}{2\sigma^2} = \frac{\sum y^2-2(\sum y)\mu +n\mu^2}{2\sigma^2} = \frac{\sum( \mu - y_i)}{\sigma^2}$$ -->
+
 
 ```{r}
 
@@ -172,20 +172,43 @@ test4 <- optim(c(0, 1), minusLogLikelihood, gr = gradient, method = "BFGS")
 
 ```
 
-The function \texttt{optim()} minimizes the function by default in R. Thus we will optimize the minus log-likelihood function in order to find the maximum of the function. We will perform two types of algorithms, Conjugate Gradient and BFGS, both with gradient specified and without, to optimize the minus log-likelihood function. It is a better idea to maximize the log-likelihood than maximize the likelihood. This is due to the large values that occurs in the likelihood, which are numerically unstable, so it is preferable to take the logarithm which gives us a better scale to work with. Also, differentiating the log-likelihood function is more computationally convenient, since the product is replaced by a sum (see Question 2.2). 
 
-###3(extra explanation)
-it is almost always simplified by taking the natural logarithm of the expression. This is absolutely fine because the natural logarithm is a monotonically increasing function. This means that if the value on the x-axis increases, the value on the y-axis also increases (see figure below). This is important because it ensures that the maximum value of the log of the probability occurs at the same point as the original probability function. Therefore we can work with the simpler log-likelihood instead of the original likelihood. It’s also easier to take the derivative of a log of a product than it is of the product itself.The likelihood is a big product, often of exponential functions, such as this one when you’re working with normal distributions.
+The natural logarithm is a monotonically increasing function. If one value of x increases the value of y related to it will increase too and it will ensure us max log likelihood occurs at the same point where max likelihood function occurs. Also it is easier and simpler to work with log instead of original likelihood. Taking derivative from log is simpler than original likelihood that are often exponential functions.
 
 ### 4
 
 ```{r, echo=FALSE}
 
-mm = matrix(1:20, ncol=5, dimnames=list(c("minus loglikelihood CG", "minus loglikelihood CG gradient","minus loglikelihood BFGS" ,"minus loglikelihood BFGS gradient"), c("converge", "mean", "variance", "n. of functions", "n. of gradients")))
-mm[1, ] <- c(ifelse(test1$convergence == 0, "Yes", "No"), test1$par[1], test1$par[2], test1$counts[1], test1$counts[2])
-mm[2, ] <- c(ifelse(test2$convergence == 0, "Yes", "No"), test2$par[1], test2$par[2], test2$counts[1], test2$counts[2])
-mm[3, ] <- c(ifelse(test3$convergence == 0, "Yes", "No"), test3$par[1], test3$par[2], test3$counts[1], test3$counts[2])
-mm[4, ] <- c(ifelse(test4$convergence == 0, "Yes", "No"), test4$par[1], test4$par[2], test4$counts[1], test4$counts[2])
+mm = matrix(1:20, ncol=5, dimnames=list(c("minus loglikelihood CG", 
+                                          "minus loglikelihood CG gradient",
+                                          "minus loglikelihood BFGS" ,
+                                          "minus loglikelihood BFGS gradient"), 
+                                        c("converge", 
+                                          "mean", 
+                                          "variance", 
+                                          "n. of functions", 
+                                          "n. of gradients")))
+
+mm[1, ] <- c(ifelse(test1$convergence == 0, "Yes", "No"), 
+             test1$par[1], 
+             test1$par[2], 
+             test1$counts[1], 
+             test1$counts[2])
+mm[2, ] <- c(ifelse(test2$convergence == 0, "Yes", "No"), 
+             test2$par[1], 
+             test2$par[2], 
+             test2$counts[1], 
+             test2$counts[2])
+mm[3, ] <- c(ifelse(test3$convergence == 0, "Yes", "No"), 
+             test3$par[1], 
+             test3$par[2], 
+             test3$counts[1], 
+             test3$counts[2])
+mm[4, ] <- c(ifelse(test4$convergence == 0, "Yes", "No"), 
+             test4$par[1], 
+             test4$par[2], 
+             test4$counts[1], 
+             test4$counts[2])
 knitr::kable(mm, digits = 2)
 
 
@@ -194,4 +217,8 @@ knitr::kable(mm, digits = 2)
 
 We would recommend to use BFGS with specified gradient, because it required to evaluate less functions and gradients as a result its faster. 
 
+# Appendix
+
+```{r ref.label=knitr::all_labels(), echo = T, eval = F}
+```
 
