@@ -173,7 +173,7 @@ test4 <- optim(c(0, 1), minusLogLikelihood, gr = gradient, method = "BFGS")
 ```
 
 
-The natural logarithm is a monotonically increasing function. If one value of x increases the value of y related to it will increase too and it will ensure us max log likelihood occurs at the same point where max likelihood function occurs. Also it is easier and simpler to work with log instead of original likelihood. Taking derivative from log is simpler than original likelihood that are often exponential functions.
+The natural logarithm is a monotonically increasing function. If one value of x increases the value of y related to it will increase too. It will eventually ensure max-log-likelihood occurs at the same point where max-likelihood function occurs. It is also easier and simpler to work with logarithms instead of original likelihood. Taking derivative from a logarithm is simpler than with the original likelihood which are often exponential functions.
 
 ### 4
 
@@ -215,7 +215,7 @@ knitr::kable(mm, digits = 2)
 
 ```
 
-We would recommend to use BFGS with specified gradient, because it required to evaluate less functions and gradients as a result its faster. 
+We would recommend to use BFGS with specified gradient, because it required to evaluate less functions and gradients as a result of being faster. 
 
 # Appendix
 
