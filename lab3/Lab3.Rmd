@@ -8,6 +8,153 @@ output: pdf_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+# Question 1
+
+```{r }
+
+
+distrib1 <- function(x,c){
+  if(x>0){
+    return(c*(sqrt(2*pi)^(-1))*(exp(-(c^2)/(2*x))) * (x^(-3/2)))
+  }
+  else return(0)
+}
+
+powerlaw <- function(x,a,t){
+  if(x>t){
+    return(((a-1)/t) * ((x/t)^(-a)))
+  }
+  else return(0)
+  
+}
+
+x <- seq(0,50, by=0.01)
+c <- 2
+y1 <- sapply(x, distrib1, c=c)
+y2 <- sapply(x, powerlaw, a = 1.3,t = 1)
+ymax <- max(y1,y2)
+b <- min(c(y1,y2))
+e <- max(c(y1,y2))
+ax <- seq(b,e,by=(e-b)/200)
+
+plot(x,y1, type="l", col = "blue", ylim = c(0,ymax))
+lines(x,y2, col = "red")
+legend("topright", c("target density", "powerlaw"), fill=c("blue", "red"))
+# hist(y1, breaks = ax,
+#      col = "red",
+#      main = "Comparison of rnorm()  with our rNorm()",
+#      xlab = "values",
+#      xlim = range(y1,y2))
+# 
+# hist(y2, breaks = ax, col = "blue",  xlim =range(y1,y2), add = TRUE)
+
+```
+power-law distribution cannot be used just by itself because it doesnt support range from 0 to $T_{min}$. parameters from 0 to 1 can be taken from another distribution
+
+
+lets assume that $T_{min} = 1$
+
+probability that number will be in 0-1 region is:
+$$\int_0^1 c\sqrt{2{\pi}}^{-1}\mathrm{e}^{-\frac{c^2}{2x}}{x^\frac{-3}{2}} = \dfrac{\operatorname{\Gamma}\left(\frac{1}{2},\frac{c^2}{2}\right)}{\sqrt{{\pi}}}$$
+lets assume that other distribution will be uniform(0,1)
+
+```{r }
+majDensity <- function(x){
+  if(x>1){
+    return(powerlaw(x, 1.6, 1))
+  }
+  else {return(dunif(x,0,1))}
+}
+# y3 <- sapply(x, target)
+# plot(x,y3, type = "l")
+# #lines(x,dnorm(x,3,1.2), col ="red")
+# lines(x,y1, col ="blue")
+# #lines(x,y1, col = "red")
+```
+
+## 2
+
+```{r }
+library(poweRlaw)
+randomnumber <- function(prob){
+  numb <- runif(1)
+  if(numb<= prob){
+    return(runif(1,0,1))
+  }
+  else{
+    return(rplcon(1,1,1.5))
+  }
+}
+
+CompleteDist <- function(c, rej){
+  z <- TRUE
+  res <- 0
+  while (z == TRUE) {
+    y <- randomnumber(0.5)
+    u <- runif(1)
+    if(u <= distrib1(y, 2) / (c*majDensity(y))){
+      res <- y
+      z <- FALSE    
+    }
+    if(rej){
+    rejected <<- rejected + 1
+    }
+  }
+  return(res)
+}
+
+rDist <- function(n,c ,rej = FALSE){
+ return(replicate(n, CompleteDist(c, rej)))
+}
+
+
+```
+
+```{r , echo=FALSE}
+
+rejected <- 0
+par(mfrow=c(1,3))
+datarDist <- rDist(2000, 100, TRUE)
+datarDist <- datarDist[datarDist < 30]
+hist(datarDist, breaks = 50)
+
+datarDist <- rDist(2000, 1, TRUE)
+datarDist <- datarDist[datarDist < 30]
+hist(datarDist, breaks = 50)
+
+datarDist <- rDist(2000, 1.5, TRUE)
+datarDist <- datarDist[datarDist < 30]
+hist(datarDist, breaks = 50)
+
+
+
+# b <- min(c(datarDist))
+# e <- 3
+# ax <- seq(b,e,by=(e-b)/200)
+# 
+# hist(datarDist, breaks = 5000,
+#      col = "red",
+#      main = "Comparison of rnorm()  with our rNorm()",
+#      xlab = "values",
+#      xlim=c(0,5))
+
+
+# library(ggplot2)
+# # Basic histogram
+# df <- as.data.frame(datarDist)
+# colnames(df) <- c("weight")
+# ggplot(df, aes(x=weight)) + 
+#   geom_histogram(binwidth=1)+
+#  geom_density(alpha=.2, fill="#FF6666") + coord_cartesian(xlim =c(0, 30), ylim = c(0, 50))
+# # hist(datarnorm, breaks = ax, col = "blue",  xlim = range(datarNorm,datarnorm),  ylim = c(0,250), add = TRUE)
+# # legend("topright", c("rnorm", "rNorm"), fill=c("blue", "red"))
+```
+
+
+```{r , echo=FALSE}
+RR <- (rejected / 2000) 
+```
+
 
 # Question 2
 
@@ -89,23 +236,23 @@ algorithm:
 2. assign 0 to result value res
 3. generate random number y from rLaplace function
 4. generate random number u from uniform distribution 
-5. check if u is less or equal to probability y in normal distribution / c * probability of y in laplace distribution
-    a) if yes, return u
+5. check if u is less or equal to probability of y in normal distribution / c * probability of y in laplace distribution
+    a) if yes, return y
     b) repeat steps from 3
 
 
 ```{r , echo=FALSE}
-LF <- function(c){
-  x <- rNorm(100000,c)
-  mean <- mean(x)
-  variance <- var(x)
-  SSE <- ( ((1-variance)^2)) 
-  return(SSE)
-}
-a <- optim(1,LF, method = "Brent",lower = 0, upper = 2)
-c <- a$par
+x <- seq(-500,500, by=0.1)
+cde <- sapply(x, DE)
+cnorm <- dnorm(x)
+c <- max(cnorm/cde)
 ```
-Estimated optimal c using `optim( method = "Brent",lower = 0, upper = 2)` - `r c`
+
+c should be > 0 ; $sup_x(f(x)/g(x)) \le c$
+
+Estimated optimal c - `r c`
+
+source  - http://www.columbia.edu/~ks20/4703-Sigman/4703-07-Notes-ARM.pdf
 
 
 ```{r , echo=FALSE}
@@ -126,11 +273,6 @@ hist(datarNorm, breaks = ax,
 hist(datarnorm, breaks = ax, col = "blue",  xlim = range(datarNorm,datarnorm),  ylim = c(0,250), add = TRUE)
 legend("topright", c("rnorm", "rNorm"), fill=c("blue", "red"))
 ```
-```{r , echo=FALSE}
-RR <- (rejected / 2000) 
-```
-
-rejection rate: `r RR`
 
 ```{r , echo=FALSE}
 compare <- matrix(c(mean(datarNorm), var(datarNorm), mean(datarnorm), var(datarnorm)), nrow = 2, byrow = TRUE)
@@ -138,3 +280,9 @@ row.names(compare) <- c("rNorm()", "rnorm()")
 colnames(compare) <- c("mean", "variance")
 knitr::kable(compare)
 ```
+
+```{r , echo=FALSE}
+RR <- (rejected / 2000) 
+```
+
+rejection rate: `r RR`, expected rejection rate = c = `r c`, difference - `r RR - c`
