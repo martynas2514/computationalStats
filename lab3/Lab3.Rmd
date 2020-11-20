@@ -192,12 +192,15 @@ meaning:
 
 ```{r , echo=FALSE, warning=FALSE, message=FALSE}
 library(rmutil)
+c1 <- rgb(173,216,230,max = 255, alpha = 80, names = "lt.blue")
+c2 <- rgb(255,192,203, max = 255, alpha = 80, names = "lt.pink")
+
 hist(rlaplace(10000, 2,1), 100, 
-     col = "red",
+     col = c1,
      main = "Comparison of rlaplace function from rmutil with our rLaplace", 
      xlab = "values")
-hist(rLaplace(10000, 2,1), 100, col = "blue", add = TRUE)
-legend("topright", c("rLaplace", "rlaplace"), fill=c("blue", "red"))
+hist(rLaplace(10000, 2,1), 100, col = c2, add = TRUE)
+legend("topright", c("rLaplace", "rlaplace"), fill=c(c2, c1))
 ```
 
 
@@ -242,20 +245,37 @@ algorithm:
 
 
 ```{r , echo=FALSE}
-x <- seq(-500,500, by=0.1)
-cde <- sapply(x, DE)
-cnorm <- dnorm(x)
-c <- max(cnorm/cde)
+# x <- seq(-5,5, by=0.1)
+# 
+# test <- function(x){ return((dnorm(x)/DE(x)))}
+# cde <- sapply(x, test)
+# cnorm <- dnorm(x)
+#c <- max(cnorm/cde)
+
+## why it calculates 1,35 ???
 ```
 
-c should be > 0 ; $sup_x(f(x)/g(x)) \le c$
+$$c>0;sup_x(f(x)/g(x)) \le c$$
 
-Estimated optimal c - `r c`
+$$h(x) = \frac {f(x)}  {g(x)}$$
+$$f(x) = N(0,1) = \frac 1 {\sqrt{2 \pi}} e^{ - \frac {x^2} 2}$$
+$$g(x) = \frac 1 2 e^{-|x|}$$
+$$h(x) = \sqrt{\frac{2}{\pi }} e^{| x| -\frac{x^2}{2}}$$
+
+$$\frac{d}{x d}\text{Null}\sqrt{\frac{2}{\pi }} e^{| x| -\frac{x^2}{2}}=\sqrt{\frac{2}{\pi }} x e^{| x| -\frac{x^2}{2}} \left(\frac{1}{| x| }-1\right)$$
+
+$$\frac{\sqrt{2} e^{x-\frac{x^2}{2}} (x-1)}{\pi }=0$$
+$$x=\pm1$$
+$$c = h(1) = 1.3154892$$
+
 
 source  - http://www.columbia.edu/~ks20/4703-Sigman/4703-07-Notes-ARM.pdf
 
 
 ```{r , echo=FALSE}
+
+c <- 1.3154892
+
 rejected <- 0
 datarNorm <- rNorm(2000, c, TRUE)
 datarnorm <- rnorm(2000)
@@ -264,14 +284,16 @@ b <- min(c(datarNorm,datarnorm))
 e <- max(c(datarNorm,datarnorm))
 ax <- seq(b,e,by=(e-b)/50)
 
+
+
 hist(datarNorm, breaks = ax,
-     col = "red",
+     col = c1,
      main = "Comparison of rnorm()  with our rNorm()",
      xlab = "values",
      xlim = range(datarNorm,datarnorm))
 
-hist(datarnorm, breaks = ax, col = "blue",  xlim = range(datarNorm,datarnorm),  ylim = c(0,250), add = TRUE)
-legend("topright", c("rnorm", "rNorm"), fill=c("blue", "red"))
+hist(datarnorm, breaks = ax, col = c2,  xlim = range(datarNorm,datarnorm),  ylim = c(0,250), add = TRUE)
+legend("topright", c("rnorm", "rNorm"), fill=c(c2, c1))
 ```
 
 ```{r , echo=FALSE}
@@ -285,4 +307,4 @@ knitr::kable(compare)
 RR <- (rejected / 2000) 
 ```
 
-rejection rate: `r RR`, expected rejection rate = c = `r c`, difference - `r RR - c`
+rejection rate: `r 1-(1/RR)`, expected rejection rate = c = `r 1-(1/c)`, difference - `r RR - c`
