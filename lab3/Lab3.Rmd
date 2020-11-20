@@ -49,6 +49,13 @@ legend("topright", c("target density", "powerlaw"), fill=c("blue", "red"))
 # hist(y2, breaks = ax, col = "blue",  xlim =range(y1,y2), add = TRUE)
 
 ```
+Lets find maximum of target density function:
+$$\frac{\partial }{\partial x}\frac{c e^{-\frac{c^2}{2 x}} x^{-\frac{3}{2}}}{\sqrt{2 \pi }}=\frac{c e^{-\frac{c^2}{2 x}} \left(c^2-3 x\right)}{2 \sqrt{2 \pi } x^{7/2}}$$
+$$\frac{c \frac{e^{-c^2}}{2 x} \left(c^2-3 x\right)}{2 \sqrt{2 \pi } x^{7/2}}=0$$
+
+$$x=\frac{c^2}{3}$$
+$$T_{min} = \frac {c^2} 3$$
+
 power-law distribution cannot be used just by itself because it doesnt support range from 0 to $T_{min}$. parameters from 0 to 1 can be taken from another distribution
 
 
