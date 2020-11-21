@@ -59,11 +59,22 @@ $$T_{min} = \frac {c^2} 3$$
 power-law distribution cannot be used just by itself because it doesnt support range from 0 to $T_{min}$. parameters from 0 to 1 can be taken from another distribution
 
 
-lets assume that $T_{min} = 1$
+<!-- lets assume that $T_{min} = 1$ -->
 
-probability that number will be in 0-1 region is:
-$$\int_0^1 c\sqrt{2{\pi}}^{-1}\mathrm{e}^{-\frac{c^2}{2x}}{x^\frac{-3}{2}} = \dfrac{\operatorname{\Gamma}\left(\frac{1}{2},\frac{c^2}{2}\right)}{\sqrt{{\pi}}}$$
-lets assume that other distribution will be uniform(0,1)
+probability that number will be in 0- $T_{min}$ region is:
+
+$$\int_0^T_{min} \frac{c x^{-\frac{3}{2}} e^{-\frac{c^2}{2 x}}}{\sqrt{2 \pi }} \, dx = \dfrac{\operatorname{\Gamma}\left(\frac{1}{2},\frac{c^2}{2T_{min}}\right)}{\sqrt{{\pi}}}$$
+
+as $T_{min} = \frac {c^2} 3$ - $\dfrac{\operatorname{\Gamma}\left(\frac{1}{2},\frac{c^2}{2T_{min}}\right)}{\sqrt{{\pi}}} = \frac{\Gamma \left(\frac{1}{2},\frac{3}{2}\right)}{\sqrt{\pi }} \sim 0.08326451666$
+
+lets assume that other density from 0 to $T_{min}$ will be $Unif(0,T{min})$
+
+majorising density function is:
+
+$$
+g(x) =  \frac{2 * 0.08326}{c^2} 1_{[0,T_{min}]} + (1-0.08326)* \frac{2^{1-a} (a-1) \left(\frac{x}{c^2}\right)^{-a}}{c^2} * 1_{(T_{min},\infty)}
+$$
+
 
 ```{r }
 majDensity <- function(x){
