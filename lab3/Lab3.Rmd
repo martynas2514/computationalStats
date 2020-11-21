@@ -63,7 +63,9 @@ power-law distribution cannot be used just by itself because it doesnt support r
 
 probability that number will be in 0- $T_{min}$ region is:
 
-$$\int_0^T_{min} \frac{c x^{-\frac{3}{2}} e^{-\frac{c^2}{2 x}}}{\sqrt{2 \pi }} \, dx = \dfrac{\operatorname{\Gamma}\left(\frac{1}{2},\frac{c^2}{2T_{min}}\right)}{\sqrt{{\pi}}}$$
+$$$$
+
+$$\int_0^{T_{min}} c x^{-\frac{3}{2}} e^{-\frac{c^2}{2 x}} {\sqrt{2 \pi }}^{-1}  dx = \dfrac{\operatorname{\Gamma}\left(\frac{1}{2},\frac{c^2}{2T_{min}}\right)}{\sqrt{{\pi}}}$$
 
 as $T_{min} = \frac {c^2} 3$ - $\dfrac{\operatorname{\Gamma}\left(\frac{1}{2},\frac{c^2}{2T_{min}}\right)}{\sqrt{{\pi}}} = \frac{\Gamma \left(\frac{1}{2},\frac{3}{2}\right)}{\sqrt{\pi }} \sim 0.08326451666$
 
@@ -75,28 +77,58 @@ $$
 g(x) =  \frac{2 * 0.08326}{c^2} 1_{[0,T_{min}]} + (1-0.08326)* \frac{2^{1-a} (a-1) \left(\frac{x}{c^2}\right)^{-a}}{c^2} * 1_{(T_{min},\infty)}
 $$
 
+$$f(x) = c(\sqrt{2\pi})^{-1} e^{\frac {-c^2} {2x}} x^{ \frac {-3}{2}} 1_{(0,\infty)}(x)$$
+
+$$c_{maj}>0;sup_x(f(x)/g(x)) \le c_{maj}$$
+
+$$h(x) = \frac {f(x)}  {g(x)}$$
+
+if x < Tmin 
+
+$$\frac {\partial}{\partial x} \frac{f(x)}{\frac{0.16652}{c^2}} = \frac{e^{-\frac{c^2}{2 x}} \left(1.19788 c^5-3.59364 c^3 x\right)}{x^{7/2}}$$
+$$\frac{e^{-\frac{c^2}{2 x}} \left(1.19788 c^5-3.59364 c^3 x\right)}{x^{7/2}} = 0$$
+
+$$x_{maj}=\frac{c^2}{3}$$
+
+x for cmaj = $x=0.333333 c^2 = T_{min}$
+
+if x> Tmin
+
+$$\frac {\partial}{\partial x} \frac{f(x)}{g(x)} = \frac{3^{a-1} c^3 \frac{e^{-c^2}}{2 x} \left(\frac{x}{c^2}\right)^a \left((2 a-3) x+c^2\right)}{2 \sqrt{2 \pi } (a-1) x^{7/2}}$$
+$$\frac{3^{a-1} c^3 \frac{e^{-c^2}}{2 x} \left(\frac{x}{c^2}\right)^a \left((2 a-3) x+c^2\right)}{2 \sqrt{2 \pi } (a-1) x^{7/2}} = 0$$
+
+$$ x_{maj}=\frac{c^2}{3-2 a}$$
+when $1<a<1.5$
+
+$$c_{maj} = h(x_{maj})$$
+
 
 ```{r }
-majDensity <- function(x){
-  if(x>1){
-    return(powerlaw(x, 1.6, 1))
+majDensity <- function(x, c,a){
+  Tmin <- (c^2)/3
+  
+  if(x>Tmin){
+    return((1-0.083264) * powerlaw(x, a, Tmin))
   }
-  else {return(dunif(x,0,1))}
+  else {return(0.083264 * dunif(x,0,Tmin))}
 }
-# y3 <- sapply(x, target)
-# plot(x,y3, type = "l")
-# #lines(x,dnorm(x,3,1.2), col ="red")
-# lines(x,y1, col ="blue")
-# #lines(x,y1, col = "red")
+
+c <- 6
+y3 <- sapply(x, majDensity, c = c, a = 1.3)
+plot(x,y3, type = "l")
+#lines(x,dnorm(x,3,1.2), col ="red")
+y1 <- sapply(x, distrib1, c = c)
+lines(x,y1, col ="blue")
+#lines(x,y1, col = "red")
 ```
 
 ## 2
 
 ```{r }
 library(poweRlaw)
-randomnumber <- function(prob){
+randomnumber <- function(){
   numb <- runif(1)
-  if(numb<= prob){
+  if(numb<= 0.08326){
     return(runif(1,0,1))
   }
   else{
@@ -104,13 +136,18 @@ randomnumber <- function(prob){
   }
 }
 
-CompleteDist <- function(c, rej){
+CompleteDist <- function(c, a, rej){
   z <- TRUE
   res <- 0
+
+  Tmin <- (c^2)/3
+  xmaj <- Tmin
+  cmaj <- distrib1(xmaj,c)/majDensity(xmaj,c, a) 
+  
   while (z == TRUE) {
-    y <- randomnumber(0.5)
+    y <- randomnumber()
     u <- runif(1)
-    if(u <= distrib1(y, 2) / (c*majDensity(y))){
+    if(u <= distrib1(y, c) / (cmaj*majDensity(y,c,a))){
       res <- y
       z <- FALSE    
     }
@@ -121,8 +158,8 @@ CompleteDist <- function(c, rej){
   return(res)
 }
 
-rDist <- function(n,c ,rej = FALSE){
- return(replicate(n, CompleteDist(c, rej)))
+rDist <- function(n,c,a ,rej = FALSE){
+ return(replicate(n, CompleteDist(c, a, rej)))
 }
 
 
@@ -132,15 +169,15 @@ rDist <- function(n,c ,rej = FALSE){
 
 rejected <- 0
 par(mfrow=c(1,3))
-datarDist <- rDist(2000, 100, TRUE)
+datarDist <- rDist(2000, 2, 1.3, TRUE)
 datarDist <- datarDist[datarDist < 30]
 hist(datarDist, breaks = 50)
 
-datarDist <- rDist(2000, 1, TRUE)
+datarDist <- rDist(2000, 5, 1.3, TRUE)
 datarDist <- datarDist[datarDist < 30]
 hist(datarDist, breaks = 50)
 
-datarDist <- rDist(2000, 1.5, TRUE)
+datarDist <- rDist(2000, 8, 1.3, TRUE)
 datarDist <- datarDist[datarDist < 30]
 hist(datarDist, breaks = 50)
 
@@ -280,7 +317,7 @@ $$f(x) = N(0,1) = \frac 1 {\sqrt{2 \pi}} e^{ - \frac {x^2} 2}$$
 $$g(x) = \frac 1 2 e^{-|x|}$$
 $$h(x) = \sqrt{\frac{2}{\pi }} e^{| x| -\frac{x^2}{2}}$$
 
-$$\frac{d}{x d}\text{Null}\sqrt{\frac{2}{\pi }} e^{| x| -\frac{x^2}{2}}=\sqrt{\frac{2}{\pi }} x e^{| x| -\frac{x^2}{2}} \left(\frac{1}{| x| }-1\right)$$
+$$\frac{d}{dx }\sqrt{\frac{2}{\pi }} e^{| x| -\frac{x^2}{2}}=\sqrt{\frac{2}{\pi }} x e^{| x| -\frac{x^2}{2}} \left(\frac{1}{| x| }-1\right)$$
 
 $$\frac{\sqrt{2} e^{x-\frac{x^2}{2}} (x-1)}{\pi }=0$$
 $$x=\pm1$$
