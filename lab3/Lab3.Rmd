@@ -285,7 +285,7 @@ hist(rlaplace(10000, 2,1), 100,
 hist(rLaplace(10000, 2,1), 100, col = c2, add = TRUE)
 legend("topright", c("rLaplace", "rlaplace"), fill=c(c2, c1))
 ```
-
+From histogram we can see that inverse CDF method aproximated laplace distribution reasonably, mean and variance very similar.
 
 ## 2.
 
@@ -352,9 +352,6 @@ $$x=\pm1$$
 $$c = h(1) = 1.3154892$$
 
 
-source  - http://www.columbia.edu/~ks20/4703-Sigman/4703-07-Notes-ARM.pdf
-
-
 ```{r , echo=FALSE}
 
 c <- 1.3154892
@@ -386,8 +383,11 @@ colnames(compare) <- c("mean", "variance")
 knitr::kable(compare)
 ```
 
+
 ```{r , echo=FALSE}
 RR <- (rejected / 2000) 
 ```
 
 rejection rate: `r 1-(1/RR)`, expected rejection rate = c = `r 1-(1/c)`, difference - `r RR - c`
+
+We can see that mean and variance of generated distribution slightly differs. 
