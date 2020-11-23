@@ -66,15 +66,14 @@ $$T_{min} = \frac {c^2} 3$$
 
 <!-- lets assume that $T_{min} = 1$ -->
 
-To make a mixture model we need to know the probability of taking uniform distribution and powerlaw distribution
-probability that number will be in 0- $T_{min}$ region is:
+To make a mixture model we need to know the probability of taking uniform distribution and powerlaw distribution probability. That number will be in the range $[0,T_{min}]$:
 
 $$\int_0^{T_{min}} c x^{-\frac{3}{2}} e^{-\frac{c^2}{2 x}} {\sqrt{2 \pi }}^{-1}  dx = \dfrac{\operatorname{\Gamma}\left(\frac{1}{2},\frac{c^2}{2T_{min}}\right)}{\sqrt{{\pi}}}$$
 
 as $T_{min} = \frac {c^2} 3$ - $\dfrac{\operatorname{\Gamma}\left(\frac{1}{2},\frac{c^2}{2T_{min}}\right)}{\sqrt{{\pi}}} = \frac{\Gamma \left(\frac{1}{2},\frac{3}{2}\right)}{\sqrt{\pi }} \sim 0.08326451666$
 
 
-As the result: majorising density function is:
+As a result, majorising density function is:
 
 $$
 g(x) =  \frac{2 * 0.08326}{c^2} 1_{[0,T_{min}]} + (1-0.08326)* \frac{2^{1-a} (a-1) \left(\frac{x}{c^2}\right)^{-a}}{c^2} * 1_{(T_{min},\infty)}
@@ -216,7 +215,7 @@ row.names(results) <- c("mean","variance")
 knitr::kable(results) 
 ```
 
-Because of c variance and mean is increasing
+Variance and mean is increase due to c
 
 ```{r , echo=FALSE}
 
@@ -235,7 +234,7 @@ for (ci in c) {
 plot(c,resrejected, type="l", ylab= "rejection rate")
 ```
 
-From plot we can see that rejection rate doesnt depend on constant c of target density. 
+From plot we can see that rejection rate does not depend on the constant c of the target density. 
 
 # Question 2
 
@@ -283,7 +282,7 @@ hist(rlaplace(10000, 2,1), 100,
 hist(rLaplace(10000, 2,1), 100, col = c2, add = TRUE)
 legend("topright", c("rLaplace", "rlaplace"), fill=c(c2, c1))
 ```
-From histogram we can see that inverse CDF method aproximated laplace distribution reasonably, mean and variance very similar.
+From histogram we can see that inverse CDF method approximated Laplace distribution reasonably, mean and variance similarly, in turn.
 
 ## 2.
 
