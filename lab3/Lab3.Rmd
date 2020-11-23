@@ -29,11 +29,10 @@ powerlaw <- function(x,a,t){
 }
 
 x <- seq(0,50, by=0.01)
-c <- 5
-#n <- length(x)
-#a= 1 + n*(sum(log(x/t)))^(-1)
+c <- 2
+
 y1 <- sapply(x, distrib1, c=c)
-y2 <- sapply(x, powerlaw, a = 1.12,t = 1)
+y2 <- sapply(x, powerlaw, a = 2, t = 3)
 ymax <- max(y1,y2)
 b <- min(c(y1,y2))
 e <- max(c(y1,y2))
