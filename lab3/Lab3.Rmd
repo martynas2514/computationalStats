@@ -127,12 +127,12 @@ majDensity <- function(x, c,a){
   else {return(0.083264 * dunif(x,0,Tmin))}
 }
 
-c <- 6
+c <- 8
 y3 <- sapply(x, majDensity, c = c, a = 1.3)
-plot(x,y3, type = "l")
+plot(x,y1, type = "l")
 #lines(x,dnorm(x,3,1.2), col ="red")
 y1 <- sapply(x, distrib1, c = c)
-lines(x,y1, col ="blue")
+lines(x,y3, col ="blue")
 #lines(x,y1, col = "red")
 ```
 
@@ -140,13 +140,13 @@ lines(x,y1, col ="blue")
 
 ```{r }
 library(poweRlaw)
-randomnumber <- function(){
+randomnumber <- function(t,a){
   numb <- runif(1)
   if(numb<= 0.08326){
-    return(runif(1,0,1))
+    return(runif(1,0,t))
   }
   else{
-    return(rplcon(1,1,1.5))
+    return(rplcon(1,t,a))
   }
 }
 
@@ -159,7 +159,7 @@ CompleteDist <- function(c, a, rej){
   cmaj <- distrib1(xmaj,c)/majDensity(xmaj,c, a) 
   
   while (z == TRUE) {
-    y <- randomnumber()
+    y <- randomnumber(Tmin,a)
     u <- runif(1)
     if(u <= distrib1(y, c) / (cmaj*majDensity(y,c,a))){
       res <- y
@@ -185,20 +185,20 @@ rDist <- function(n,c,a ,rej = FALSE){
 rejected <- 0
 par(mfrow=c(1,3))
 datarDist <- rDist(2000, 2, 1.3, TRUE)
-datarDist <- datarDist[datarDist < 30]
-hist(datarDist, breaks = 10)
+datarDist <- datarDist[datarDist < 100]
+hist(datarDist, breaks = 20)
 rejected1 <- rejected
 
 rejected <- 0
 datarDist <- rDist(2000, 5, 1.3, TRUE)
-datarDist <- datarDist[datarDist < 30]
-hist(datarDist, breaks = 10)
+datarDist <- datarDist[datarDist < 100]
+hist(datarDist, breaks = 20)
 rejected2 <- rejected
 
 rejected <- 0
 datarDist <- rDist(2000, 8, 1.3, TRUE)
-datarDist <- datarDist[datarDist < 30]
-hist(datarDist, breaks = 10)
+datarDist <- datarDist[datarDist < 100]
+hist(datarDist, breaks = 20)
 rejected3 <- rejected
 
 
