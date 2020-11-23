@@ -29,11 +29,11 @@ powerlaw <- function(x,a,t){
 }
 
 x <- seq(0,50, by=0.01)
-c <- 2
+c <- 1.6
 #n <- length(x)
 #a= 1 + n*(sum(log(x/t)))^(-1)
 y1 <- sapply(x, distrib1, c=c)
-y2 <- sapply(x, powerlaw, a = 1.5,t = 1)
+y2 <- sapply(x, powerlaw, a = 2,t = 1.5)
 ymax <- max(y1,y2)
 b <- min(c(y1,y2))
 e <- max(c(y1,y2))
@@ -51,7 +51,7 @@ legend("topright", c("target density", "powerlaw"), fill=c("blue", "red"))
 # hist(y2, breaks = ax, col = "blue",  xlim =range(y1,y2), add = TRUE)
 
 ```
-Power-law distribution cannot be used just by itself because it doesnt support range from 0 to $T_{min}$. Because of this we need to use mixture distribution. Tio support x from 0 to $T_{min}$ we choose uniform distribution $Unif(0,T_{min})$. AS we can see power-law distribution is monotonically decreasing, so we $T_{min}$ should be equal to x where target density has maximum value.
+Power-law distribution cannot be used just by itself because it doesnt support range from 0 to $T_{min}$. Because of this we need to use mixture distribution. To support x from 0 to $T_{min}$ we choose uniform distribution $Unif(0,T_{min})$. As we can see power-law distribution is monotonically decreasing, so we $T_{min}$ should be equal to x where target density has maximum value. Aside from this, we will fix $c=1.6$ and $t=1.5$ to ensure the powerlaw function goes pretty much over the target function for the most of its support.  
 
 Lets find maximum of target density function:
 
