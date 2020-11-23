@@ -1,0 +1,688 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Computer Lab 3},
+  pdfauthor={Martynas Lukosevicius},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Computer Lab 3}
+\author{Martynas Lukosevicius}
+\date{17/11/2020}
+
+\begin{document}
+\maketitle
+
+\hypertarget{question-1}{%
+\section{Question 1}\label{question-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{distrib1 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x,c)\{}
+  \ControlFlowTok{if}\NormalTok{(x}\OperatorTok{>}\DecValTok{0}\NormalTok{)\{}
+    \KeywordTok{return}\NormalTok{(c}\OperatorTok{*}\NormalTok{(}\KeywordTok{sqrt}\NormalTok{(}\DecValTok{2}\OperatorTok{*}\NormalTok{pi)}\OperatorTok{^}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\NormalTok{))}\OperatorTok{*}\NormalTok{(}\KeywordTok{exp}\NormalTok{(}\OperatorTok{-}\NormalTok{(c}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\NormalTok{(}\DecValTok{2}\OperatorTok{*}\NormalTok{x))) }\OperatorTok{*}\StringTok{ }\NormalTok{(x}\OperatorTok{^}\NormalTok{(}\OperatorTok{-}\DecValTok{3}\OperatorTok{/}\DecValTok{2}\NormalTok{)))}
+\NormalTok{  \}}
+  \ControlFlowTok{else} \KeywordTok{return}\NormalTok{(}\DecValTok{0}\NormalTok{)}
+\NormalTok{\}}
+
+\NormalTok{powerlaw <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x,a,t)\{}
+  \ControlFlowTok{if}\NormalTok{(x}\OperatorTok{>}\NormalTok{t)\{}
+    \KeywordTok{return}\NormalTok{(((a}\DecValTok{-1}\NormalTok{)}\OperatorTok{/}\NormalTok{t) }\OperatorTok{*}\StringTok{ }\NormalTok{((x}\OperatorTok{/}\NormalTok{t)}\OperatorTok{^}\NormalTok{(}\OperatorTok{-}\NormalTok{a)))}
+\NormalTok{  \}}
+  \ControlFlowTok{else} \KeywordTok{return}\NormalTok{(}\DecValTok{0}\NormalTok{)}
+  
+\NormalTok{\}}
+
+\NormalTok{x <-}\StringTok{ }\KeywordTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{50}\NormalTok{, }\DataTypeTok{by=}\FloatTok{0.01}\NormalTok{)}
+\NormalTok{c <-}\StringTok{ }\FloatTok{1.6}
+\CommentTok{#n <- length(x)}
+\CommentTok{#a= 1 + n*(sum(log(x/t)))^(-1)}
+\NormalTok{y1 <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(x, distrib1, }\DataTypeTok{c=}\NormalTok{c)}
+\NormalTok{y2 <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(x, powerlaw, }\DataTypeTok{a =} \DecValTok{2}\NormalTok{,}\DataTypeTok{t =} \DecValTok{3}\NormalTok{)}
+\NormalTok{ymax <-}\StringTok{ }\KeywordTok{max}\NormalTok{(y1,y2)}
+\NormalTok{b <-}\StringTok{ }\KeywordTok{min}\NormalTok{(}\KeywordTok{c}\NormalTok{(y1,y2))}
+\NormalTok{e <-}\StringTok{ }\KeywordTok{max}\NormalTok{(}\KeywordTok{c}\NormalTok{(y1,y2))}
+\NormalTok{ax <-}\StringTok{ }\KeywordTok{seq}\NormalTok{(b,e,}\DataTypeTok{by=}\NormalTok{(e}\OperatorTok{-}\NormalTok{b)}\OperatorTok{/}\DecValTok{200}\NormalTok{)}
+
+\KeywordTok{plot}\NormalTok{(x,y1, }\DataTypeTok{type=}\StringTok{"l"}\NormalTok{, }\DataTypeTok{col =} \StringTok{"blue"}\NormalTok{, }\DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,ymax))}
+\KeywordTok{lines}\NormalTok{(x,y2, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\KeywordTok{c}\NormalTok{(}\StringTok{"target density"}\NormalTok{, }\StringTok{"powerlaw"}\NormalTok{), }\DataTypeTok{fill=}\KeywordTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{, }\StringTok{"red"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab3_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# hist(y1, breaks = ax,}
+\CommentTok{#      col = "red",}
+\CommentTok{#      main = "Comparison of rnorm()  with our rNorm()",}
+\CommentTok{#      xlab = "values",}
+\CommentTok{#      xlim = range(y1,y2))}
+\CommentTok{# }
+\CommentTok{# hist(y2, breaks = ax, col = "blue",  xlim =range(y1,y2), add = TRUE)}
+\end{Highlighting}
+\end{Shaded}
+
+Power-law distribution cannot be used just by itself because it doesnt
+support range from 0 to \(T_{min}\). Because of this we need to use
+mixture distribution. To support x from 0 to \(T_{min}\) we choose
+uniform distribution \(Unif(0,T_{min})\). As we can see power-law
+distribution is monotonically decreasing, so we \(T_{min}\) should be
+equal to x where target density has maximum value. Aside from this, we
+will fix \(\alpha=2\) to ensure the powerlaw function goes pretty much
+over the target function for the most of its support. Afterwards, the
+majorizing constant will ensure it gets above of it.
+
+Lets find maximum of target density function:
+
+\[\frac{\partial }{\partial x}\frac{c e^{-\frac{c^2}{2 x}} x^{-\frac{3}{2}}}{\sqrt{2 \pi }}=\frac{c e^{-\frac{c^2}{2 x}} \left(c^2-3 x\right)}{2 \sqrt{2 \pi } x^{7/2}}\]
+\[\frac{c \frac{e^{-c^2}}{2 x} \left(c^2-3 x\right)}{2 \sqrt{2 \pi } x^{7/2}}=0\]
+
+\[x=\frac{c^2}{3}\] \[T_{min} = \frac {c^2} 3\]
+
+To make a mixture model we need to know the probability of taking
+uniform distribution and powerlaw distribution probability that number
+will be in 0- \(T_{min}\) region is:
+
+\[\int_0^{T_{min}} c x^{-\frac{3}{2}} e^{-\frac{c^2}{2 x}} {\sqrt{2 \pi }}^{-1}  dx = \dfrac{\operatorname{\Gamma}\left(\frac{1}{2},\frac{c^2}{2T_{min}}\right)}{\sqrt{{\pi}}}\]
+
+as \(T_{min} = \frac {c^2} 3\) -
+\(\dfrac{\operatorname{\Gamma}\left(\frac{1}{2},\frac{c^2}{2T_{min}}\right)}{\sqrt{{\pi}}} = \frac{\Gamma \left(\frac{1}{2},\frac{3}{2}\right)}{\sqrt{\pi }} \sim 0.08326451666\)
+
+As the result: majorising density function is:
+
+\[
+g(x) =  \frac{2 * 0.08326}{c^2} 1_{[0,T_{min}]} + (1-0.08326)* \frac{2^{1-a} (a-1) \left(\frac{x}{c^2}\right)^{-a}}{c^2} * 1_{(T_{min},\infty)}
+\]
+
+\hypertarget{section}{%
+\subsection{2.}\label{section}}
+
+Target density:
+
+\[f(x) = c(\sqrt{2\pi})^{-1} e^{\frac {-c^2} {2x}} x^{ \frac {-3}{2}} 1_{(0,\infty)}(x)\]
+
+We need to find \(c_{maj}\)
+
+\[c_{maj}>0;sup_x(f(x)/g(x)) \le c_{maj}\]
+
+\[h(x) = \frac {f(x)}  {g(x)}\] \(c_{maj} = h(x_{maj})\)
+
+if x \textless{} \(T_{min}\)
+
+\[\frac {\partial}{\partial x} \frac{f(x)}{\frac{0.16652}{c^2}} = \frac{e^{-\frac{c^2}{2 x}} \left(1.19788 c^5-3.59364 c^3 x\right)}{x^{7/2}}\]
+
+\[\frac{e^{-\frac{c^2}{2 x}} \left(1.19788 c^5-3.59364 c^3 x\right)}{x^{7/2}} = 0\]
+
+\[x_{maj}=\frac{c^2}{3}\]
+
+x for cmaj = \(x=0.333333 c^2 = T_{min}\)
+
+if x\textgreater{} Tmin
+
+\[\frac {\partial}{\partial x} \frac{f(x)}{g(x)} = \frac{3^{a-1} c^3 \frac{e^{-c^2}}{2 x} \left(\frac{x}{c^2}\right)^a \left((2 a-3) x+c^2\right)}{2 \sqrt{2 \pi } (a-1) x^{7/2}}\]
+\[\frac{3^{a-1} c^3 \frac{e^{-c^2}}{2 x} \left(\frac{x}{c^2}\right)^a \left((2 a-3) x+c^2\right)}{2 \sqrt{2 \pi } (a-1) x^{7/2}} = 0\]
+
+\[ x_{maj}=\frac{c^2}{3-2 a}\] when \(1<a<1.5\)
+
+\[c_{maj} = h(x_{maj})\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{majDensity <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x, c,a)\{}
+\NormalTok{  Tmin <-}\StringTok{ }\NormalTok{(c}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\DecValTok{3}
+  
+  \ControlFlowTok{if}\NormalTok{(x}\OperatorTok{>}\NormalTok{Tmin)\{}
+    \KeywordTok{return}\NormalTok{((}\DecValTok{1}\FloatTok{-0.083264}\NormalTok{) }\OperatorTok{*}\StringTok{ }\KeywordTok{powerlaw}\NormalTok{(x, a, Tmin))}
+\NormalTok{  \}}
+  \ControlFlowTok{else}\NormalTok{ \{}\KeywordTok{return}\NormalTok{(}\FloatTok{0.083264} \OperatorTok{*}\StringTok{ }\KeywordTok{dunif}\NormalTok{(x,}\DecValTok{0}\NormalTok{,Tmin))\}}
+\NormalTok{\}}
+
+\NormalTok{c <-}\StringTok{ }\DecValTok{9}
+\NormalTok{y3 <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(x, majDensity, }\DataTypeTok{c =}\NormalTok{ c, }\DataTypeTok{a =} \FloatTok{1.12}\NormalTok{)}
+\NormalTok{y1 <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(x, distrib1, }\DataTypeTok{c =}\NormalTok{ c)}
+\KeywordTok{plot}\NormalTok{(x,y1, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{, }\DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\KeywordTok{max}\NormalTok{(y3,y1)))}
+\CommentTok{#lines(x,dnorm(x,3,1.2), col ="red")}
+
+\KeywordTok{lines}\NormalTok{(x,y3, }\DataTypeTok{col =}\StringTok{"blue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab3_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#lines(x,y1, col = "red")}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{section-1}{%
+\subsection{2}\label{section-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(poweRlaw)}
+\NormalTok{randomnumber <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(t,a)\{}
+\NormalTok{  numb <-}\StringTok{ }\KeywordTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+  \ControlFlowTok{if}\NormalTok{(numb}\OperatorTok{<=}\StringTok{ }\FloatTok{0.08326}\NormalTok{)\{}
+    \KeywordTok{return}\NormalTok{(}\KeywordTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,t))}
+\NormalTok{  \}}
+  \ControlFlowTok{else}\NormalTok{\{}
+    \KeywordTok{return}\NormalTok{(}\KeywordTok{rplcon}\NormalTok{(}\DecValTok{1}\NormalTok{,t,a))}
+\NormalTok{  \}}
+\NormalTok{\}}
+
+\NormalTok{CompleteDist <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(c, a, rej)\{}
+\NormalTok{  z <-}\StringTok{ }\OtherTok{TRUE}
+\NormalTok{  res <-}\StringTok{ }\DecValTok{0}
+
+\NormalTok{  Tmin <-}\StringTok{ }\NormalTok{(c}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\DecValTok{3}
+\NormalTok{  xmaj <-}\StringTok{ }\NormalTok{(c}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\NormalTok{(}\DecValTok{3-2}\OperatorTok{*}\NormalTok{a)}
+\NormalTok{  cmaj <-}\StringTok{ }\KeywordTok{distrib1}\NormalTok{(xmaj,c)}\OperatorTok{/}\KeywordTok{majDensity}\NormalTok{(xmaj,c, a) }
+  
+  \ControlFlowTok{while}\NormalTok{ (z }\OperatorTok{==}\StringTok{ }\OtherTok{TRUE}\NormalTok{) \{}
+\NormalTok{    y <-}\StringTok{ }\KeywordTok{randomnumber}\NormalTok{(Tmin,a)}
+\NormalTok{    u <-}\StringTok{ }\KeywordTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+    \ControlFlowTok{if}\NormalTok{(u }\OperatorTok{<=}\StringTok{ }\KeywordTok{distrib1}\NormalTok{(y, c) }\OperatorTok{/}\StringTok{ }\NormalTok{(cmaj}\OperatorTok{*}\KeywordTok{majDensity}\NormalTok{(y,c,a)))\{}
+\NormalTok{      res <-}\StringTok{ }\NormalTok{y}
+\NormalTok{      z <-}\StringTok{ }\OtherTok{FALSE}    
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{(rej)\{}
+\NormalTok{    rejected <<-}\StringTok{ }\NormalTok{rejected }\OperatorTok{+}\StringTok{ }\DecValTok{1}
+\NormalTok{    \}}
+\NormalTok{  \}}
+  \KeywordTok{return}\NormalTok{(res)}
+\NormalTok{\}}
+
+\NormalTok{rDist <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(n,c,a ,}\DataTypeTok{rej =} \OtherTok{FALSE}\NormalTok{)\{}
+ \KeywordTok{return}\NormalTok{(}\KeywordTok{replicate}\NormalTok{(n, }\KeywordTok{CompleteDist}\NormalTok{(c, a, rej)))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{section-2}{%
+\subsection{3.}\label{section-2}}
+
+\includegraphics{Lab3_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule
+& c=2 & c=9 & c=15\tabularnewline
+\midrule
+\endhead
+mean & 1.425902e+04 & 3.207782e+05 & 1.288500e+05\tabularnewline
+variance & 2.429637e+11 & 1.182314e+14 & 2.840267e+12\tabularnewline
+\bottomrule
+\end{longtable}
+
+Because of c variance and mean is increasing
+
+\includegraphics{Lab3_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+From plot we can see that rejection rate doesnt depend on constant c of
+target density.
+
+\hypertarget{question-2}{%
+\section{Question 2}\label{question-2}}
+
+\hypertarget{section-3}{%
+\subsection{1.}\label{section-3}}
+
+\[ DE(\mu, \alpha) = \frac{\alpha}{2} e^{-\alpha |x-\mu|}\]
+
+\begin{itemize}
+\tightlist
+\item
+  \(\mu\) - location parameter
+\item
+  \(b > 0\) - scale parameter
+\end{itemize}
+
+inverse CDF of DE:
+
+Source - \url{https://en.wikipedia.org/wiki/Laplace_distribution}
+
+\[F^{-1}(p) = \mu - b sgn(p-0.5)ln(1-2|p-0.5|)\]
+
+where \(b = \frac 1 \alpha\)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rLaplace <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(n, }\DataTypeTok{mean =} \DecValTok{0}\NormalTok{, }\DataTypeTok{alpha =} \DecValTok{1}\NormalTok{)\{}
+\NormalTok{  b <-}\StringTok{ }\DecValTok{1}\OperatorTok{/}\NormalTok{alpha}
+\NormalTok{  u <-}\StringTok{ }\KeywordTok{runif}\NormalTok{(n)}
+\NormalTok{  res <-}\StringTok{ }\NormalTok{mean }\OperatorTok{-}\StringTok{ }\NormalTok{(b}\OperatorTok{*}\KeywordTok{sign}\NormalTok{(u}\FloatTok{-0.5}\NormalTok{) }\OperatorTok{*}\StringTok{ }\KeywordTok{log}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{(}\DecValTok{2}\OperatorTok{*}\KeywordTok{abs}\NormalTok{(u}\FloatTok{-0.5}\NormalTok{))))}
+  \KeywordTok{return}\NormalTok{(res)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+meaning:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  calculate b.
+\item
+  take n random variables from uniform distribution {[}0,1{]}
+\item
+  calculate random numbers from inverse CDF of laplace distribution
+  where x is a random variable from uniform distribution
+\end{enumerate}
+
+\includegraphics{Lab3_files/figure-latex/unnamed-chunk-9-1.pdf} From
+histogram we can see that inverse CDF method aproximated laplace
+distribution reasonably, mean and variance very similar.
+
+\hypertarget{section-4}{%
+\subsection{2.}\label{section-4}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{DE <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x, }\DataTypeTok{mean =} \DecValTok{0}\NormalTok{,}\DataTypeTok{alpha =} \DecValTok{1}\NormalTok{)\{}
+  \KeywordTok{return}\NormalTok{((}\FloatTok{0.5}\OperatorTok{*}\NormalTok{alpha)}\OperatorTok{*}\KeywordTok{exp}\NormalTok{((}\OperatorTok{-}\NormalTok{alpha)}\OperatorTok{*}\KeywordTok{abs}\NormalTok{(x}\OperatorTok{-}\NormalTok{mean)))}
+\NormalTok{\}}
+
+\NormalTok{genNorm <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(c, rej)\{}
+\NormalTok{  z <-}\StringTok{ }\OtherTok{TRUE}
+\NormalTok{  res <-}\StringTok{ }\DecValTok{0}
+  \ControlFlowTok{while}\NormalTok{ (z }\OperatorTok{==}\StringTok{ }\OtherTok{TRUE}\NormalTok{) \{}
+\NormalTok{    y <-}\StringTok{ }\KeywordTok{rLaplace}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\NormalTok{    u <-}\StringTok{ }\KeywordTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+    \ControlFlowTok{if}\NormalTok{(u }\OperatorTok{<=}\StringTok{ }\KeywordTok{pnorm}\NormalTok{(y) }\OperatorTok{/}\StringTok{ }\NormalTok{(c}\OperatorTok{*}\KeywordTok{DE}\NormalTok{(y)))\{}
+\NormalTok{      res <-}\StringTok{ }\NormalTok{y}
+\NormalTok{      z <-}\StringTok{ }\OtherTok{FALSE}    
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{(rej)\{}
+\NormalTok{    rejected <<-}\StringTok{ }\NormalTok{rejected }\OperatorTok{+}\StringTok{ }\DecValTok{1}
+\NormalTok{    \}}
+\NormalTok{  \}}
+  \KeywordTok{return}\NormalTok{(res)}
+\NormalTok{\}}
+  
+\NormalTok{rNorm <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(n,c,}\DataTypeTok{rej =} \OtherTok{FALSE}\NormalTok{)\{}
+ \KeywordTok{return}\NormalTok{(}\KeywordTok{replicate}\NormalTok{(n, }\KeywordTok{genNorm}\NormalTok{(c, rej)))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+algorithm:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  write Laplace probability function
+\item
+  assign 0 to result value res
+\item
+  generate random number y from rLaplace function
+\item
+  generate random number u from uniform distribution
+\item
+  check if u is less or equal to probability of y in normal distribution
+  / c * probability of y in laplace distribution
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \tightlist
+  \item
+    if yes, return y
+  \item
+    repeat steps from 3
+  \end{enumerate}
+\end{enumerate}
+
+\[c>0;sup_x(f(x)/g(x)) \le c\]
+
+\[h(x) = \frac {f(x)}  {g(x)}\]
+\[f(x) = N(0,1) = \frac 1 {\sqrt{2 \pi}} e^{ - \frac {x^2} 2}\]
+\[g(x) = \frac 1 2 e^{-|x|}\]
+\[h(x) = \sqrt{\frac{2}{\pi }} e^{| x| -\frac{x^2}{2}}\]
+
+\[\frac{d}{dx }\sqrt{\frac{2}{\pi }} e^{| x| -\frac{x^2}{2}}=\sqrt{\frac{2}{\pi }} x e^{| x| -\frac{x^2}{2}} \left(\frac{1}{| x| }-1\right)\]
+
+\[\frac{\sqrt{2} e^{x-\frac{x^2}{2}} (x-1)}{\pi }=0\] \[x=\pm1\]
+\[c = h(1) = 1.3154892\]
+
+\includegraphics{Lab3_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\begin{longtable}[]{@{}lrr@{}}
+\toprule
+& mean & variance\tabularnewline
+\midrule
+\endhead
+rNorm() & 0.4548479 & 1.4296996\tabularnewline
+rnorm() & -0.0018330 & 0.9573345\tabularnewline
+\bottomrule
+\end{longtable}
+
+rejection rate: 0.2236025, expected rejection rate = c = 0.2398265,
+difference - -0.0274892
+
+We can see that mean and variance of generated distribution slightly
+differs.
+
+\hypertarget{appendix}{%
+\section{Appendix}\label{appendix}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knitr}\OperatorTok{::}\NormalTok{opts_chunk}\OperatorTok{$}\KeywordTok{set}\NormalTok{(}\DataTypeTok{echo =} \OtherTok{TRUE}\NormalTok{)}
+
+
+\NormalTok{distrib1 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x,c)\{}
+  \ControlFlowTok{if}\NormalTok{(x}\OperatorTok{>}\DecValTok{0}\NormalTok{)\{}
+    \KeywordTok{return}\NormalTok{(c}\OperatorTok{*}\NormalTok{(}\KeywordTok{sqrt}\NormalTok{(}\DecValTok{2}\OperatorTok{*}\NormalTok{pi)}\OperatorTok{^}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\NormalTok{))}\OperatorTok{*}\NormalTok{(}\KeywordTok{exp}\NormalTok{(}\OperatorTok{-}\NormalTok{(c}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\NormalTok{(}\DecValTok{2}\OperatorTok{*}\NormalTok{x))) }\OperatorTok{*}\StringTok{ }\NormalTok{(x}\OperatorTok{^}\NormalTok{(}\OperatorTok{-}\DecValTok{3}\OperatorTok{/}\DecValTok{2}\NormalTok{)))}
+\NormalTok{  \}}
+  \ControlFlowTok{else} \KeywordTok{return}\NormalTok{(}\DecValTok{0}\NormalTok{)}
+\NormalTok{\}}
+
+\NormalTok{powerlaw <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x,a,t)\{}
+  \ControlFlowTok{if}\NormalTok{(x}\OperatorTok{>}\NormalTok{t)\{}
+    \KeywordTok{return}\NormalTok{(((a}\DecValTok{-1}\NormalTok{)}\OperatorTok{/}\NormalTok{t) }\OperatorTok{*}\StringTok{ }\NormalTok{((x}\OperatorTok{/}\NormalTok{t)}\OperatorTok{^}\NormalTok{(}\OperatorTok{-}\NormalTok{a)))}
+\NormalTok{  \}}
+  \ControlFlowTok{else} \KeywordTok{return}\NormalTok{(}\DecValTok{0}\NormalTok{)}
+  
+\NormalTok{\}}
+
+\NormalTok{x <-}\StringTok{ }\KeywordTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{50}\NormalTok{, }\DataTypeTok{by=}\FloatTok{0.01}\NormalTok{)}
+\NormalTok{c <-}\StringTok{ }\FloatTok{1.6}
+\CommentTok{#n <- length(x)}
+\CommentTok{#a= 1 + n*(sum(log(x/t)))^(-1)}
+\NormalTok{y1 <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(x, distrib1, }\DataTypeTok{c=}\NormalTok{c)}
+\NormalTok{y2 <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(x, powerlaw, }\DataTypeTok{a =} \DecValTok{2}\NormalTok{,}\DataTypeTok{t =} \DecValTok{3}\NormalTok{)}
+\NormalTok{ymax <-}\StringTok{ }\KeywordTok{max}\NormalTok{(y1,y2)}
+\NormalTok{b <-}\StringTok{ }\KeywordTok{min}\NormalTok{(}\KeywordTok{c}\NormalTok{(y1,y2))}
+\NormalTok{e <-}\StringTok{ }\KeywordTok{max}\NormalTok{(}\KeywordTok{c}\NormalTok{(y1,y2))}
+\NormalTok{ax <-}\StringTok{ }\KeywordTok{seq}\NormalTok{(b,e,}\DataTypeTok{by=}\NormalTok{(e}\OperatorTok{-}\NormalTok{b)}\OperatorTok{/}\DecValTok{200}\NormalTok{)}
+
+\KeywordTok{plot}\NormalTok{(x,y1, }\DataTypeTok{type=}\StringTok{"l"}\NormalTok{, }\DataTypeTok{col =} \StringTok{"blue"}\NormalTok{, }\DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,ymax))}
+\KeywordTok{lines}\NormalTok{(x,y2, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\KeywordTok{c}\NormalTok{(}\StringTok{"target density"}\NormalTok{, }\StringTok{"powerlaw"}\NormalTok{), }\DataTypeTok{fill=}\KeywordTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{, }\StringTok{"red"}\NormalTok{))}
+\CommentTok{# hist(y1, breaks = ax,}
+\CommentTok{#      col = "red",}
+\CommentTok{#      main = "Comparison of rnorm()  with our rNorm()",}
+\CommentTok{#      xlab = "values",}
+\CommentTok{#      xlim = range(y1,y2))}
+\CommentTok{# }
+\CommentTok{# hist(y2, breaks = ax, col = "blue",  xlim =range(y1,y2), add = TRUE)}
+
+\NormalTok{majDensity <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x, c,a)\{}
+\NormalTok{  Tmin <-}\StringTok{ }\NormalTok{(c}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\DecValTok{3}
+  
+  \ControlFlowTok{if}\NormalTok{(x}\OperatorTok{>}\NormalTok{Tmin)\{}
+    \KeywordTok{return}\NormalTok{((}\DecValTok{1}\FloatTok{-0.083264}\NormalTok{) }\OperatorTok{*}\StringTok{ }\KeywordTok{powerlaw}\NormalTok{(x, a, Tmin))}
+\NormalTok{  \}}
+  \ControlFlowTok{else}\NormalTok{ \{}\KeywordTok{return}\NormalTok{(}\FloatTok{0.083264} \OperatorTok{*}\StringTok{ }\KeywordTok{dunif}\NormalTok{(x,}\DecValTok{0}\NormalTok{,Tmin))\}}
+\NormalTok{\}}
+
+\NormalTok{c <-}\StringTok{ }\DecValTok{9}
+\NormalTok{y3 <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(x, majDensity, }\DataTypeTok{c =}\NormalTok{ c, }\DataTypeTok{a =} \FloatTok{1.12}\NormalTok{)}
+\NormalTok{y1 <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(x, distrib1, }\DataTypeTok{c =}\NormalTok{ c)}
+\KeywordTok{plot}\NormalTok{(x,y1, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{, }\DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\KeywordTok{max}\NormalTok{(y3,y1)))}
+\CommentTok{#lines(x,dnorm(x,3,1.2), col ="red")}
+
+\KeywordTok{lines}\NormalTok{(x,y3, }\DataTypeTok{col =}\StringTok{"blue"}\NormalTok{)}
+\CommentTok{#lines(x,y1, col = "red")}
+\KeywordTok{library}\NormalTok{(poweRlaw)}
+\NormalTok{randomnumber <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(t,a)\{}
+\NormalTok{  numb <-}\StringTok{ }\KeywordTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+  \ControlFlowTok{if}\NormalTok{(numb}\OperatorTok{<=}\StringTok{ }\FloatTok{0.08326}\NormalTok{)\{}
+    \KeywordTok{return}\NormalTok{(}\KeywordTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,t))}
+\NormalTok{  \}}
+  \ControlFlowTok{else}\NormalTok{\{}
+    \KeywordTok{return}\NormalTok{(}\KeywordTok{rplcon}\NormalTok{(}\DecValTok{1}\NormalTok{,t,a))}
+\NormalTok{  \}}
+\NormalTok{\}}
+
+\NormalTok{CompleteDist <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(c, a, rej)\{}
+\NormalTok{  z <-}\StringTok{ }\OtherTok{TRUE}
+\NormalTok{  res <-}\StringTok{ }\DecValTok{0}
+
+\NormalTok{  Tmin <-}\StringTok{ }\NormalTok{(c}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\DecValTok{3}
+\NormalTok{  xmaj <-}\StringTok{ }\NormalTok{(c}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\NormalTok{(}\DecValTok{3-2}\OperatorTok{*}\NormalTok{a)}
+\NormalTok{  cmaj <-}\StringTok{ }\KeywordTok{distrib1}\NormalTok{(xmaj,c)}\OperatorTok{/}\KeywordTok{majDensity}\NormalTok{(xmaj,c, a) }
+  
+  \ControlFlowTok{while}\NormalTok{ (z }\OperatorTok{==}\StringTok{ }\OtherTok{TRUE}\NormalTok{) \{}
+\NormalTok{    y <-}\StringTok{ }\KeywordTok{randomnumber}\NormalTok{(Tmin,a)}
+\NormalTok{    u <-}\StringTok{ }\KeywordTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+    \ControlFlowTok{if}\NormalTok{(u }\OperatorTok{<=}\StringTok{ }\KeywordTok{distrib1}\NormalTok{(y, c) }\OperatorTok{/}\StringTok{ }\NormalTok{(cmaj}\OperatorTok{*}\KeywordTok{majDensity}\NormalTok{(y,c,a)))\{}
+\NormalTok{      res <-}\StringTok{ }\NormalTok{y}
+\NormalTok{      z <-}\StringTok{ }\OtherTok{FALSE}    
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{(rej)\{}
+\NormalTok{    rejected <<-}\StringTok{ }\NormalTok{rejected }\OperatorTok{+}\StringTok{ }\DecValTok{1}
+\NormalTok{    \}}
+\NormalTok{  \}}
+  \KeywordTok{return}\NormalTok{(res)}
+\NormalTok{\}}
+
+\NormalTok{rDist <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(n,c,a ,}\DataTypeTok{rej =} \OtherTok{FALSE}\NormalTok{)\{}
+ \KeywordTok{return}\NormalTok{(}\KeywordTok{replicate}\NormalTok{(n, }\KeywordTok{CompleteDist}\NormalTok{(c, a, rej)))}
+\NormalTok{\}}
+
+
+
+
+\NormalTok{rejected <-}\StringTok{ }\DecValTok{0}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+\NormalTok{datarDist1 <-}\StringTok{ }\KeywordTok{rDist}\NormalTok{(}\DecValTok{2000}\NormalTok{, }\DecValTok{2}\NormalTok{, }\FloatTok{1.12}\NormalTok{, }\OtherTok{TRUE}\NormalTok{)}
+\NormalTok{datarDist12 <-}\StringTok{ }\NormalTok{datarDist1[datarDist1 }\OperatorTok{<}\StringTok{ }\DecValTok{200}\NormalTok{]}
+\NormalTok{rejected1 <-}\StringTok{ }\NormalTok{rejected}
+
+\NormalTok{rejected <-}\StringTok{ }\DecValTok{0}
+\NormalTok{datarDist2 <-}\StringTok{ }\KeywordTok{rDist}\NormalTok{(}\DecValTok{2000}\NormalTok{, }\DecValTok{9}\NormalTok{, }\FloatTok{1.12}\NormalTok{, }\OtherTok{TRUE}\NormalTok{)}
+\NormalTok{datarDist22 <-}\StringTok{ }\NormalTok{datarDist2[datarDist2 }\OperatorTok{<}\StringTok{ }\DecValTok{200}\NormalTok{]}
+\NormalTok{rejected2 <-}\StringTok{ }\NormalTok{rejected}
+
+\NormalTok{rejected <-}\StringTok{ }\DecValTok{0}
+\NormalTok{datarDist3 <-}\StringTok{ }\KeywordTok{rDist}\NormalTok{(}\DecValTok{2000}\NormalTok{, }\DecValTok{15}\NormalTok{, }\FloatTok{1.12}\NormalTok{, }\OtherTok{TRUE}\NormalTok{)}
+\NormalTok{datarDist32 <-}\StringTok{ }\NormalTok{datarDist3[datarDist3 }\OperatorTok{<}\StringTok{ }\DecValTok{200}\NormalTok{]}
+\NormalTok{rejected3 <-}\StringTok{ }\NormalTok{rejected}
+
+\KeywordTok{hist}\NormalTok{(datarDist12, }\DataTypeTok{breaks =} \DecValTok{30}\NormalTok{, }\DataTypeTok{main =} \StringTok{"c = 2"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"data"}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(datarDist22, }\DataTypeTok{breaks =} \DecValTok{30}\NormalTok{, }\DataTypeTok{main =} \StringTok{"c = 9"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"data"}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(datarDist32, }\DataTypeTok{breaks =} \DecValTok{30}\NormalTok{, }\DataTypeTok{main =} \StringTok{"c = 15"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"data"}\NormalTok{)}
+
+
+
+\NormalTok{results <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\KeywordTok{mean}\NormalTok{(datarDist1), }\KeywordTok{var}\NormalTok{(datarDist1), }\KeywordTok{mean}\NormalTok{(datarDist2), }\KeywordTok{var}\NormalTok{(datarDist2), }\KeywordTok{mean}\NormalTok{(datarDist3), }\KeywordTok{var}\NormalTok{(datarDist3)), }\DataTypeTok{nrow =} \DecValTok{2}\NormalTok{)}
+\KeywordTok{colnames}\NormalTok{(results) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"c=2"}\NormalTok{, }\StringTok{"c=9"}\NormalTok{, }\StringTok{"c=15"}\NormalTok{)}
+\KeywordTok{row.names}\NormalTok{(results) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"mean"}\NormalTok{,}\StringTok{"variance"}\NormalTok{)}
+
+\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(results) }
+
+\NormalTok{resrejected <-}\StringTok{ }\KeywordTok{numeric}\NormalTok{()}
+\NormalTok{c <-}\StringTok{ }\KeywordTok{seq}\NormalTok{(}\FloatTok{1.1}\NormalTok{,}\DecValTok{20}\NormalTok{, }\DataTypeTok{by =} \FloatTok{0.1}\NormalTok{)}
+\ControlFlowTok{for}\NormalTok{ (ci }\ControlFlowTok{in}\NormalTok{ c) \{}
+\NormalTok{  rejected <-}\StringTok{ }\DecValTok{0}
+  \KeywordTok{rDist}\NormalTok{(}\DecValTok{2000}\NormalTok{, ci, }\FloatTok{1.12}\NormalTok{, }\OtherTok{TRUE}\NormalTok{)}
+\NormalTok{  RR <-}\StringTok{ }\NormalTok{(rejected }\OperatorTok{/}\StringTok{ }\DecValTok{2000}\NormalTok{)}
+\NormalTok{  resrejected <-}\StringTok{ }\KeywordTok{append}\NormalTok{(resrejected ,}\DecValTok{1}\OperatorTok{-}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\NormalTok{RR))}
+\NormalTok{\}}
+
+\KeywordTok{plot}\NormalTok{(c,resrejected, }\DataTypeTok{type=}\StringTok{"l"}\NormalTok{, }\DataTypeTok{ylab=} \StringTok{"rejection rate"}\NormalTok{)}
+\NormalTok{rLaplace <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(n, }\DataTypeTok{mean =} \DecValTok{0}\NormalTok{, }\DataTypeTok{alpha =} \DecValTok{1}\NormalTok{)\{}
+\NormalTok{  b <-}\StringTok{ }\DecValTok{1}\OperatorTok{/}\NormalTok{alpha}
+\NormalTok{  u <-}\StringTok{ }\KeywordTok{runif}\NormalTok{(n)}
+\NormalTok{  res <-}\StringTok{ }\NormalTok{mean }\OperatorTok{-}\StringTok{ }\NormalTok{(b}\OperatorTok{*}\KeywordTok{sign}\NormalTok{(u}\FloatTok{-0.5}\NormalTok{) }\OperatorTok{*}\StringTok{ }\KeywordTok{log}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{(}\DecValTok{2}\OperatorTok{*}\KeywordTok{abs}\NormalTok{(u}\FloatTok{-0.5}\NormalTok{))))}
+  \KeywordTok{return}\NormalTok{(res)}
+\NormalTok{\}}
+\KeywordTok{library}\NormalTok{(rmutil)}
+\NormalTok{c1 <-}\StringTok{ }\KeywordTok{rgb}\NormalTok{(}\DecValTok{173}\NormalTok{,}\DecValTok{216}\NormalTok{,}\DecValTok{230}\NormalTok{,}\DataTypeTok{max =} \DecValTok{255}\NormalTok{, }\DataTypeTok{alpha =} \DecValTok{80}\NormalTok{, }\DataTypeTok{names =} \StringTok{"lt.blue"}\NormalTok{)}
+\NormalTok{c2 <-}\StringTok{ }\KeywordTok{rgb}\NormalTok{(}\DecValTok{255}\NormalTok{,}\DecValTok{192}\NormalTok{,}\DecValTok{203}\NormalTok{, }\DataTypeTok{max =} \DecValTok{255}\NormalTok{, }\DataTypeTok{alpha =} \DecValTok{80}\NormalTok{, }\DataTypeTok{names =} \StringTok{"lt.pink"}\NormalTok{)}
+
+\KeywordTok{hist}\NormalTok{(}\KeywordTok{rlaplace}\NormalTok{(}\DecValTok{10000}\NormalTok{, }\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{), }\DecValTok{100}\NormalTok{, }
+     \DataTypeTok{col =}\NormalTok{ c1,}
+     \DataTypeTok{main =} \StringTok{"Comparison of rlaplace function from rmutil with our rLaplace"}\NormalTok{, }
+     \DataTypeTok{xlab =} \StringTok{"values"}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(}\KeywordTok{rLaplace}\NormalTok{(}\DecValTok{10000}\NormalTok{, }\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{), }\DecValTok{100}\NormalTok{, }\DataTypeTok{col =}\NormalTok{ c2, }\DataTypeTok{add =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\KeywordTok{c}\NormalTok{(}\StringTok{"rLaplace"}\NormalTok{, }\StringTok{"rlaplace"}\NormalTok{), }\DataTypeTok{fill=}\KeywordTok{c}\NormalTok{(c2, c1))}
+\NormalTok{DE <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x, }\DataTypeTok{mean =} \DecValTok{0}\NormalTok{,}\DataTypeTok{alpha =} \DecValTok{1}\NormalTok{)\{}
+  \KeywordTok{return}\NormalTok{((}\FloatTok{0.5}\OperatorTok{*}\NormalTok{alpha)}\OperatorTok{*}\KeywordTok{exp}\NormalTok{((}\OperatorTok{-}\NormalTok{alpha)}\OperatorTok{*}\KeywordTok{abs}\NormalTok{(x}\OperatorTok{-}\NormalTok{mean)))}
+\NormalTok{\}}
+
+\NormalTok{genNorm <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(c, rej)\{}
+\NormalTok{  z <-}\StringTok{ }\OtherTok{TRUE}
+\NormalTok{  res <-}\StringTok{ }\DecValTok{0}
+  \ControlFlowTok{while}\NormalTok{ (z }\OperatorTok{==}\StringTok{ }\OtherTok{TRUE}\NormalTok{) \{}
+\NormalTok{    y <-}\StringTok{ }\KeywordTok{rLaplace}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\NormalTok{    u <-}\StringTok{ }\KeywordTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+    \ControlFlowTok{if}\NormalTok{(u }\OperatorTok{<=}\StringTok{ }\KeywordTok{pnorm}\NormalTok{(y) }\OperatorTok{/}\StringTok{ }\NormalTok{(c}\OperatorTok{*}\KeywordTok{DE}\NormalTok{(y)))\{}
+\NormalTok{      res <-}\StringTok{ }\NormalTok{y}
+\NormalTok{      z <-}\StringTok{ }\OtherTok{FALSE}    
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{(rej)\{}
+\NormalTok{    rejected <<-}\StringTok{ }\NormalTok{rejected }\OperatorTok{+}\StringTok{ }\DecValTok{1}
+\NormalTok{    \}}
+\NormalTok{  \}}
+  \KeywordTok{return}\NormalTok{(res)}
+\NormalTok{\}}
+  
+\NormalTok{rNorm <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(n,c,}\DataTypeTok{rej =} \OtherTok{FALSE}\NormalTok{)\{}
+ \KeywordTok{return}\NormalTok{(}\KeywordTok{replicate}\NormalTok{(n, }\KeywordTok{genNorm}\NormalTok{(c, rej)))}
+\NormalTok{\}}
+\CommentTok{# x <- seq(-5,5, by=0.1)}
+\CommentTok{# }
+\CommentTok{# test <- function(x)\{ return((dnorm(x)/DE(x)))\}}
+\CommentTok{# cde <- sapply(x, test)}
+\CommentTok{# cnorm <- dnorm(x)}
+\CommentTok{#c <- max(cnorm/cde)}
+
+\CommentTok{## why it calculates 1,35 ???}
+
+\NormalTok{c <-}\StringTok{ }\FloatTok{1.3154892}
+
+\NormalTok{rejected <-}\StringTok{ }\DecValTok{0}
+\NormalTok{datarNorm <-}\StringTok{ }\KeywordTok{rNorm}\NormalTok{(}\DecValTok{2000}\NormalTok{, c, }\OtherTok{TRUE}\NormalTok{)}
+\NormalTok{datarnorm <-}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{2000}\NormalTok{)}
+
+\NormalTok{b <-}\StringTok{ }\KeywordTok{min}\NormalTok{(}\KeywordTok{c}\NormalTok{(datarNorm,datarnorm))}
+\NormalTok{e <-}\StringTok{ }\KeywordTok{max}\NormalTok{(}\KeywordTok{c}\NormalTok{(datarNorm,datarnorm))}
+\NormalTok{ax <-}\StringTok{ }\KeywordTok{seq}\NormalTok{(b,e,}\DataTypeTok{by=}\NormalTok{(e}\OperatorTok{-}\NormalTok{b)}\OperatorTok{/}\DecValTok{50}\NormalTok{)}
+
+
+
+\KeywordTok{hist}\NormalTok{(datarNorm, }\DataTypeTok{breaks =}\NormalTok{ ax,}
+     \DataTypeTok{col =}\NormalTok{ c1,}
+     \DataTypeTok{main =} \StringTok{"Comparison of rnorm()  with our rNorm()"}\NormalTok{,}
+     \DataTypeTok{xlab =} \StringTok{"values"}\NormalTok{,}
+     \DataTypeTok{xlim =} \KeywordTok{range}\NormalTok{(datarNorm,datarnorm))}
+
+\KeywordTok{hist}\NormalTok{(datarnorm, }\DataTypeTok{breaks =}\NormalTok{ ax, }\DataTypeTok{col =}\NormalTok{ c2,  }\DataTypeTok{xlim =} \KeywordTok{range}\NormalTok{(datarNorm,datarnorm),  }\DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{250}\NormalTok{), }\DataTypeTok{add =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\KeywordTok{c}\NormalTok{(}\StringTok{"rnorm"}\NormalTok{, }\StringTok{"rNorm"}\NormalTok{), }\DataTypeTok{fill=}\KeywordTok{c}\NormalTok{(c2, c1))}
+\NormalTok{compare <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\KeywordTok{mean}\NormalTok{(datarNorm), }\KeywordTok{var}\NormalTok{(datarNorm), }\KeywordTok{mean}\NormalTok{(datarnorm), }\KeywordTok{var}\NormalTok{(datarnorm)), }\DataTypeTok{nrow =} \DecValTok{2}\NormalTok{, }\DataTypeTok{byrow =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{row.names}\NormalTok{(compare) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"rNorm()"}\NormalTok{, }\StringTok{"rnorm()"}\NormalTok{)}
+\KeywordTok{colnames}\NormalTok{(compare) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"mean"}\NormalTok{, }\StringTok{"variance"}\NormalTok{)}
+\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(compare)}
+\NormalTok{RR <-}\StringTok{ }\NormalTok{(rejected }\OperatorTok{/}\StringTok{ }\DecValTok{2000}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\end{document}
