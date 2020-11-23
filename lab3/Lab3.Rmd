@@ -138,7 +138,7 @@ lines(x,y3, col ="blue")
 
 ## 2
 
-```{r }
+```{r , message=FALSE, warning=FALSE, error=FALSE}
 library(poweRlaw)
 randomnumber <- function(t,a){
   numb <- runif(1)
@@ -178,6 +178,7 @@ rDist <- function(n,c,a ,rej = FALSE){
 
 
 ```
+
 ## 3.
 
 ```{r , echo=FALSE}
@@ -214,6 +215,8 @@ row.names(results) <- c("mean","variance")
 knitr::kable(results) 
 ```
 
+Because of c variance and mean is increasing
+
 ```{r , echo=FALSE}
 
 resrejected <- numeric()
@@ -225,18 +228,13 @@ for (ci in c) {
   resrejected <- append(resrejected ,1-(1/RR))
 }
 
-# RR1 <- (rejected1 / 2000)
-# RR2 <- (rejected2 / 2000)
-# RR3 <- (rejected3 / 2000)
-# 
-# rejresults <- matrix(c(1-(1/RR1),1-(1/RR2),1-(1/RR3)), nrow = 1)
-# colnames(rejresults) <- c("c=2", "c=9", "c=15")
-# row.names(rejresults) <- c("rejection rate")
-
 ```
+
 ```{r , echo=FALSE}
 plot(c,resrejected, type="l", ylab= "rejection rate")
 ```
+
+From plot we can see that rejection rate doesnt depend on constant c of target density. 
 
 # Question 2
 
@@ -389,4 +387,9 @@ RR <- (rejected / 2000)
 
 rejection rate: `r 1-(1/RR)`, expected rejection rate = c = `r 1-(1/c)`, difference - `r RR - c`
 
-We can see that mean and variance of generated distribution slightly differs. 
+We can see that mean and variance of generated distribution slightly differs.
+
+# Appendix
+
+```{r ref.label=knitr::all_labels(), echo = T, eval = F}
+```
