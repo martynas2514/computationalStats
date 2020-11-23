@@ -29,11 +29,11 @@ powerlaw <- function(x,a,t){
 }
 
 x <- seq(0,50, by=0.01)
-c <- 2
-n <- length(x)
+c <- 5
+#n <- length(x)
 #a= 1 + n*(sum(log(x/t)))^(-1)
 y1 <- sapply(x, distrib1, c=c)
-y2 <- sapply(x, powerlaw, a = 1.3,t = 1)
+y2 <- sapply(x, powerlaw, a = 1.12,t = 1)
 ymax <- max(y1,y2)
 b <- min(c(y1,y2))
 e <- max(c(y1,y2))
@@ -127,11 +127,12 @@ majDensity <- function(x, c,a){
   else {return(0.083264 * dunif(x,0,Tmin))}
 }
 
-c <- 8
-y3 <- sapply(x, majDensity, c = c, a = 1.3)
-plot(x,y1, type = "l")
-#lines(x,dnorm(x,3,1.2), col ="red")
+c <- 9
+y3 <- sapply(x, majDensity, c = c, a = 1.12)
 y1 <- sapply(x, distrib1, c = c)
+plot(x,y1, type = "l", ylim = c(0,max(y3,y1)))
+#lines(x,dnorm(x,3,1.2), col ="red")
+
 lines(x,y3, col ="blue")
 #lines(x,y1, col = "red")
 ```
@@ -155,7 +156,7 @@ CompleteDist <- function(c, a, rej){
   res <- 0
 
   Tmin <- (c^2)/3
-  xmaj <- Tmin
+  xmaj <- (c^2)/(3-2*a)
   cmaj <- distrib1(xmaj,c)/majDensity(xmaj,c, a) 
   
   while (z == TRUE) {
@@ -182,54 +183,61 @@ rDist <- function(n,c,a ,rej = FALSE){
 
 ```{r , echo=FALSE}
 
+
 rejected <- 0
 par(mfrow=c(1,3))
-datarDist <- rDist(2000, 2, 1.3, TRUE)
-datarDist <- datarDist[datarDist < 100]
-hist(datarDist, breaks = 20)
+datarDist1 <- rDist(2000, 2, 1.12, TRUE)
+datarDist12 <- datarDist1[datarDist1 < 200]
 rejected1 <- rejected
 
 rejected <- 0
-datarDist <- rDist(2000, 5, 1.3, TRUE)
-datarDist <- datarDist[datarDist < 100]
-hist(datarDist, breaks = 20)
+datarDist2 <- rDist(2000, 9, 1.12, TRUE)
+datarDist22 <- datarDist2[datarDist2 < 200]
 rejected2 <- rejected
 
 rejected <- 0
-datarDist <- rDist(2000, 8, 1.3, TRUE)
-datarDist <- datarDist[datarDist < 100]
-hist(datarDist, breaks = 20)
+datarDist3 <- rDist(2000, 15, 1.12, TRUE)
+datarDist32 <- datarDist3[datarDist3 < 200]
 rejected3 <- rejected
 
+hist(datarDist12, breaks = 30, main = "c = 2", xlab = "data")
+hist(datarDist22, breaks = 30, main = "c = 9", xlab = "data")
+hist(datarDist32, breaks = 30, main = "c = 15", xlab = "data")
 
 
-# b <- min(c(datarDist))
-# e <- 3
-# ax <- seq(b,e,by=(e-b)/200)
-# 
-# hist(datarDist, breaks = 5000,
-#      col = "red",
-#      main = "Comparison of rnorm()  with our rNorm()",
-#      xlab = "values",
-#      xlim=c(0,5))
 
+results <- matrix(c(mean(datarDist1), var(datarDist1), mean(datarDist2), var(datarDist2), mean(datarDist3), var(datarDist3)), nrow = 2)
+colnames(results) <- c("c=2", "c=9", "c=15")
+row.names(results) <- c("mean","variance")
 
-# library(ggplot2)
-# # Basic histogram
-# df <- as.data.frame(datarDist)
-# colnames(df) <- c("weight")
-# ggplot(df, aes(x=weight)) + 
-#   geom_histogram(binwidth=1)+
-#  geom_density(alpha=.2, fill="#FF6666") + coord_cartesian(xlim =c(0, 30), ylim = c(0, 50))
-# # hist(datarnorm, breaks = ax, col = "blue",  xlim = range(datarNorm,datarnorm),  ylim = c(0,250), add = TRUE)
-# # legend("topright", c("rnorm", "rNorm"), fill=c("blue", "red"))
 ```
-
+```{r , echo=FALSE}
+knitr::kable(results) 
+```
 
 ```{r , echo=FALSE}
-RR <- (rejected / 2000) 
-```
 
+resrejected <- numeric()
+c <- seq(1.1,20, by = 0.1)
+for (ci in c) {
+  rejected <- 0
+  rDist(2000, ci, 1.12, TRUE)
+  RR <- (rejected / 2000)
+  resrejected <- append(resrejected ,1-(1/RR))
+}
+
+# RR1 <- (rejected1 / 2000)
+# RR2 <- (rejected2 / 2000)
+# RR3 <- (rejected3 / 2000)
+# 
+# rejresults <- matrix(c(1-(1/RR1),1-(1/RR2),1-(1/RR3)), nrow = 1)
+# colnames(rejresults) <- c("c=2", "c=9", "c=15")
+# row.names(rejresults) <- c("rejection rate")
+
+```
+```{r , echo=FALSE}
+plot(c,resrejected, type="l", ylab= "rejection rate")
+```
 
 # Question 2
 
