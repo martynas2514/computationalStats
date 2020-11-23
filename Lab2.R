@@ -18,8 +18,6 @@ optimiser <- function(x, method){
 aproximate <- function(n, method){
   scale <- 1/n
   midVal <- scale / 2
-  
-  # value1-----value2------value3
   result <- list()
   for (i in 1:n) {
     x <- c((scale*i)-scale, (scale * i) - midVal, scale * i)
@@ -27,7 +25,6 @@ aproximate <- function(n, method){
   }
   return(result)
 }
-
 
 f1 <- function(x){
   return(-x * (1-x))
@@ -37,14 +34,5 @@ f2 <- function(x){
   return(-x * sin(10 * pi * x))
 }
 
+aproximate(5, f1)
 
-x <- seq(0, 1, by = 0.01)
-plot(x,f1(x))
-
-test <- aproximate(100, f1)
-scale <- 1/length(test)
-for (i in 1:length(test)) {
-  x <- seq((scale*i)- scale, scale*i, by = 0.01/length(test))
-  yint <- sapply(x, interpolator, a = test[[i]])
-  lines(x,yint)
-}

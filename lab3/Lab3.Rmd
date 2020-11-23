@@ -30,6 +30,8 @@ powerlaw <- function(x,a,t){
 
 x <- seq(0,50, by=0.01)
 c <- 2
+n <- length(x)
+a= 1 + n*(sum(log(x/t)))^(-1)
 y1 <- sapply(x, distrib1, c=c)
 y2 <- sapply(x, powerlaw, a = 1.3,t = 1)
 ymax <- max(y1,y2)
@@ -56,7 +58,7 @@ $$\frac{c \frac{e^{-c^2}}{2 x} \left(c^2-3 x\right)}{2 \sqrt{2 \pi } x^{7/2}}=0$
 $$x=\frac{c^2}{3}$$
 $$T_{min} = \frac {c^2} 3$$
 
-power-law distribution cannot be used just by itself because it doesnt support range from 0 to $T_{min}$. parameters from 0 to 1 can be taken from another distribution
+power-law distribution cannot be used just by itself because it doesnt support range from 0 to $T_{min}$. parameters from 0 to 1 can be taken from another distribution. The tail of distribution folows power law distribution.
 
 
 <!-- lets assume that $T_{min} = 1$ -->

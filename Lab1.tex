@@ -1,0 +1,465 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Computer Lab 1},
+  pdfauthor={Martynas Lukosevicius, Alejo Perez Gomez, Zahra Jalil Pour},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Computer Lab 1}
+\author{Martynas Lukosevicius, Alejo Perez Gomez, Zahra Jalil Pour}
+\date{03/11/2020}
+
+\begin{document}
+\maketitle
+
+\hypertarget{question-1-be-careful-when-comparing}{%
+\subsection{Question 1 (Be Careful When
+Comparing)}\label{question-1-be-careful-when-comparing}}
+
+\hypertarget{section}{%
+\subsubsection{1}\label{section}}
+
+It is not possible to represent exact 1/3 and 1/12 in binary. As a
+result it is rounded towards nearest computer float, which in R is equal
+to 0.33333333333333331 and 0.083333333333333329 respectively. In the
+first snippet code, the result is ``Subtraction is wrong'', but in the
+second snippet code the result is ``Subtraction is correct''. A rational
+number , of any size may or may not have an exact representation by a
+floating point number. This is the familiar situation where fractions
+such as 1/3 have no finite representation in base 10. The only numbers
+that can be represented exactly in R are integers and powers of two.
+Hence all other numbers are rounded to 53 binary digits accuracy.
+Whenever floating point operations are done, we should assume that there
+will be numeric error. 1/3 and 1/12 are repeating decimals that are
+rounded in R.
+
+\hypertarget{section-1}{%
+\subsubsection{2}\label{section-1}}
+
+Instead of writing \texttt{if(x1\ -\ x2\ ==\ 1/12)} it should be written
+\texttt{if(isTRUE(all.equal(x1-x2,1/12)))}. In this case this equation
+will return TRUE. We can use \texttt{all.equal} function , or we can use
+\texttt{all.equal.numeric} function too.
+
+\hypertarget{question-2-derivative}{%
+\subsection{Question 2 (Derivative)}\label{question-2-derivative}}
+
+\hypertarget{section-2}{%
+\subsubsection{1}\label{section-2}}
+
+Write your own R function to calculate the derivative of
+\texttt{f(x)\ =\ x} in this way with \texttt{e\ =\ 10\^{}-15}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  f <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x)\{}
+  \KeywordTok{return}\NormalTok{(x)}
+\NormalTok{  \}}
+
+\NormalTok{derivative <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x,e)\{}
+  \KeywordTok{return}\NormalTok{((}\KeywordTok{f}\NormalTok{(x}\OperatorTok{+}\NormalTok{e)}\OperatorTok{-}\KeywordTok{f}\NormalTok{(x))}\OperatorTok{/}\NormalTok{e)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{section-3}{%
+\subsubsection{2}\label{section-3}}
+
+Evaluate your derivative function at \texttt{x\ =\ 1} and
+\texttt{x\ =\ 100000}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{e <-}\StringTok{ }\DecValTok{10}\OperatorTok{^}\NormalTok{(}\OperatorTok{-}\DecValTok{15}\NormalTok{)}
+\NormalTok{x <-}\StringTok{ }\DecValTok{1}
+
+\KeywordTok{derivative}\NormalTok{(x,e)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.110223
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{e <-}\StringTok{ }\DecValTok{10}\OperatorTok{^}\NormalTok{(}\OperatorTok{-}\DecValTok{15}\NormalTok{)}
+\NormalTok{x <-}\StringTok{ }\DecValTok{100000}
+
+\KeywordTok{derivative}\NormalTok{(x,e)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+\hypertarget{section-4}{%
+\subsubsection{3}\label{section-4}}
+
+When x = 1, derivative = 1.110223 and when x = 100000, derivative = 0
+
+However, true values for both cases should be 1.
+
+The smallest positive computer number is epsilon that here we considered
+it to be\texttt{10\^{}(-15)}. When \texttt{x=100000} the derivative
+function showed 0, in the equation\texttt{((x+e)-x)}, the difference
+between large numbers dominates over epsilon, in other words the
+smallest positive number is added to the large number. Hence the epsilon
+would be ignored. However, when \texttt{x=1}, the effect of epsilon
+cannot be ignored the result would be 1.110223.
+
+\hypertarget{question-3-variance}{%
+\subsection{Question 3 (Variance)}\label{question-3-variance}}
+
+\hypertarget{section-5}{%
+\subsubsection{1.}\label{section-5}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myvar <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x)\{}
+\NormalTok{  n <-}\StringTok{ }\KeywordTok{length}\NormalTok{(x)}
+\NormalTok{  xSq <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(x}\OperatorTok{^}\DecValTok{2}\NormalTok{)}
+\NormalTok{  sumXSq <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(x)}\OperatorTok{^}\DecValTok{2}
+\NormalTok{  part2 <-}\StringTok{ }\NormalTok{sumXSq}\OperatorTok{/}\NormalTok{n}
+  \KeywordTok{return}\NormalTok{((xSq }\OperatorTok{-}\StringTok{ }\NormalTok{part2)}\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{/}\NormalTok{(n}\DecValTok{-1}\NormalTok{)))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{section-6}{%
+\subsubsection{2}\label{section-6}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x <-}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{10000}\NormalTok{, }\DecValTok{10}\OperatorTok{^}\DecValTok{8}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{section-7}{%
+\subsubsection{3}\label{section-7}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{result <-}\StringTok{ }\KeywordTok{list}\NormalTok{()}
+\KeywordTok{options}\NormalTok{(}\DataTypeTok{digits =} \DecValTok{22}\NormalTok{ )}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\KeywordTok{length}\NormalTok{(x)) \{}
+\NormalTok{  temp <-}\StringTok{ }\NormalTok{x[}\DecValTok{1}\OperatorTok{:}\NormalTok{i]}
+\NormalTok{  y <-}\StringTok{ }\KeywordTok{myvar}\NormalTok{(temp) }\OperatorTok{-}\StringTok{ }\KeywordTok{var}\NormalTok{(temp)}
+\NormalTok{  result <-}\StringTok{ }\KeywordTok{append}\NormalTok{(result, y)}
+\NormalTok{\}}
+
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\KeywordTok{length}\NormalTok{(x)), result, }\DataTypeTok{main =} \StringTok{"myvar() - var()"}\NormalTok{,}
+     \DataTypeTok{xlab =} \StringTok{"i"}\NormalTok{,}\DataTypeTok{type =} \StringTok{"p"}\NormalTok{,  }\DataTypeTok{pch =} \DecValTok{20}\NormalTok{ , }\DataTypeTok{ylab =} \StringTok{"difference"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab1_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+The function does not work properly. It oscillates primarily when a
+smaller set of values is involved in the variances calculation. It can
+also be noted that the oscillation pattern in the produced response
+(myVar(Xi) - var(Xi)) decreases as the value of terms involved
+increases. Squaring big numbers result in overflow, since the computer
+is not able to handle such a large number correctly. That is because the
+numbers are so big that the computer cannot destine the right amount of
+bytes for them. Moreover, first squaring and summing might be less than
+first summing and later squaring. This is why our function will not
+produce correct answers.
+
+\hypertarget{section-8}{%
+\subsubsection{4}\label{section-8}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myvar2 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x)\{}
+\NormalTok{  n <-}\StringTok{ }\KeywordTok{length}\NormalTok{(x)}
+  \KeywordTok{return}\NormalTok{((}\KeywordTok{sum}\NormalTok{((x }\OperatorTok{-}\StringTok{ }\KeywordTok{mean}\NormalTok{(x))}\OperatorTok{^}\DecValTok{2}\NormalTok{))}\OperatorTok{/}\NormalTok{(n}\DecValTok{-1}\NormalTok{))}
+\NormalTok{\}}
+
+\NormalTok{result <-}\StringTok{ }\KeywordTok{list}\NormalTok{()}
+\KeywordTok{options}\NormalTok{(}\DataTypeTok{digits =} \DecValTok{22}\NormalTok{ )}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\KeywordTok{length}\NormalTok{(x)) \{}
+\NormalTok{  temp <-}\StringTok{ }\NormalTok{x[}\DecValTok{1}\OperatorTok{:}\NormalTok{i]}
+\NormalTok{  y <-}\StringTok{ }\KeywordTok{myvar2}\NormalTok{(temp) }\OperatorTok{-}\StringTok{ }\KeywordTok{var}\NormalTok{(temp)}
+\NormalTok{  result <-}\StringTok{ }\KeywordTok{append}\NormalTok{(result, y)}
+\NormalTok{\}}
+
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\KeywordTok{length}\NormalTok{(x)), result, }\DataTypeTok{main =} \StringTok{"myvar2() - var()"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"i"}\NormalTok{,}\DataTypeTok{type =} \StringTok{"p"}\NormalTok{,}
+     \DataTypeTok{pch =} \DecValTok{20}\NormalTok{ , }\DataTypeTok{ylab =} \StringTok{"difference"}\NormalTok{, }\DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{5}\NormalTok{,}\DecValTok{5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab1_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\hypertarget{question-4-binomial-coeficient}{%
+\subsection{Question 4 (Binomial
+coeficient)}\label{question-4-binomial-coeficient}}
+
+\hypertarget{section-9}{%
+\subsubsection{1}\label{section-9}}
+
+A: n , k and n - k cant be zero
+
+B: n and n - k cant be zero
+
+C: same as B
+
+because prod(0) = 0 and 0 / 0 will be NaN
+
+\hypertarget{section-10}{%
+\subsubsection{2}\label{section-10}}
+
+\includegraphics{Lab1_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\includegraphics{Lab1_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\hypertarget{section-11}{%
+\subsubsection{3}\label{section-11}}
+
+The expressions A and B, because with large numbers method prod() will
+overflow.
+
+In expression A we calculate the product of a vector from 1 to n and
+later divide it by other products with smaller vectors. However, in this
+case, the first operation (prod(1:n)) will overflow ( = Inf) and other
+operations won't matter as the result will be Inf or Nan (if denominator
+will be also Inf).
+
+In expression B overflow will depend on k, if k is close to n it won't
+overflow.
+
+In expression C, as first vectors are divided, the final vector for
+product will have smaller values and that is why prod() method won't
+overflow.
+
+\newpage
+
+\hypertarget{appendix}{%
+\section{Appendix}\label{appendix}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#1}
+\CommentTok{# all.equal.numeric() and isTRUE() function}
+\NormalTok{x1 <-}\StringTok{ }\DecValTok{1}\OperatorTok{/}\DecValTok{3}
+\NormalTok{x2 <-}\StringTok{ }\DecValTok{1}\OperatorTok{/}\DecValTok{4}
+\ControlFlowTok{if}\NormalTok{ (}\KeywordTok{isTRUE}\NormalTok{(}\KeywordTok{all.equal.numeric}\NormalTok{(x1}\OperatorTok{-}\NormalTok{x2, }\DecValTok{1}\OperatorTok{/}\DecValTok{12}\NormalTok{))) \{}
+  \KeywordTok{print}\NormalTok{ (}\StringTok{"Subtraction is correct"}\NormalTok{ )}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+  \KeywordTok{print}\NormalTok{ (}\StringTok{"Subtraction is wrong"}\NormalTok{)}
+\NormalTok{\}}
+
+\CommentTok{#2}
+
+\NormalTok{f <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x)\{}
+  \KeywordTok{return}\NormalTok{(x)}
+\NormalTok{\}}
+
+\NormalTok{derivative <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x,e)\{}
+  \KeywordTok{return}\NormalTok{((}\KeywordTok{f}\NormalTok{(x}\OperatorTok{+}\NormalTok{e)}\OperatorTok{-}\KeywordTok{f}\NormalTok{(x))}\OperatorTok{/}\NormalTok{e)}
+\NormalTok{\}}
+
+\NormalTok{e <-}\StringTok{ }\DecValTok{10}\OperatorTok{^}\NormalTok{(}\OperatorTok{-}\DecValTok{15}\NormalTok{)}
+\NormalTok{x <-}\StringTok{ }\DecValTok{1}
+
+\KeywordTok{derivative}\NormalTok{(x,e)}
+
+\NormalTok{e <-}\StringTok{ }\DecValTok{10}\OperatorTok{^}\NormalTok{(}\OperatorTok{-}\DecValTok{15}\NormalTok{)}
+\NormalTok{x <-}\StringTok{ }\DecValTok{100000}
+
+\KeywordTok{derivative}\NormalTok{(x,e)}
+
+\CommentTok{#3}
+\NormalTok{myvar <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x)\{}
+\NormalTok{  n <-}\StringTok{ }\KeywordTok{length}\NormalTok{(x)}
+\NormalTok{  xSq <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(x}\OperatorTok{^}\DecValTok{2}\NormalTok{)}
+\NormalTok{  sumXSq <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(x)}\OperatorTok{^}\DecValTok{2}
+\NormalTok{  part2 <-}\StringTok{ }\NormalTok{sumXSq}\OperatorTok{/}\NormalTok{n}
+  \KeywordTok{return}\NormalTok{((xSq }\OperatorTok{-}\StringTok{ }\NormalTok{part2)}\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{/}\NormalTok{(n}\DecValTok{-1}\NormalTok{)))}
+\NormalTok{\}}
+
+\NormalTok{x <-}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{10000}\NormalTok{, }\DecValTok{10}\OperatorTok{^}\DecValTok{8}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+
+\NormalTok{result <-}\StringTok{ }\KeywordTok{list}\NormalTok{()}
+\KeywordTok{options}\NormalTok{(}\DataTypeTok{digits =} \DecValTok{22}\NormalTok{ )}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\KeywordTok{length}\NormalTok{(x)) \{}
+\NormalTok{  temp <-}\StringTok{ }\NormalTok{x[}\DecValTok{1}\OperatorTok{:}\NormalTok{i]}
+\NormalTok{  y <-}\StringTok{ }\KeywordTok{myvar}\NormalTok{(temp) }\OperatorTok{-}\StringTok{ }\KeywordTok{var}\NormalTok{(temp)}
+\NormalTok{  result <-}\StringTok{ }\KeywordTok{append}\NormalTok{(result, y)}
+\NormalTok{\}}
+
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\KeywordTok{length}\NormalTok{(x)), result, }\DataTypeTok{main =} \StringTok{"myvar() - var()"}\NormalTok{,}
+     \DataTypeTok{xlab =} \StringTok{"i"}\NormalTok{,}\DataTypeTok{type =} \StringTok{"p"}\NormalTok{,  }\DataTypeTok{pch =} \DecValTok{20}\NormalTok{ , }\DataTypeTok{ylab =} \StringTok{"difference"}\NormalTok{)}
+
+\NormalTok{myvar2 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x)\{}
+\NormalTok{  n <-}\StringTok{ }\KeywordTok{length}\NormalTok{(x)}
+  \KeywordTok{return}\NormalTok{((}\KeywordTok{sum}\NormalTok{((x }\OperatorTok{-}\StringTok{ }\KeywordTok{mean}\NormalTok{(x))}\OperatorTok{^}\DecValTok{2}\NormalTok{))}\OperatorTok{/}\NormalTok{(n}\DecValTok{-1}\NormalTok{))}
+\NormalTok{\}}
+
+\NormalTok{result <-}\StringTok{ }\KeywordTok{list}\NormalTok{()}
+\KeywordTok{options}\NormalTok{(}\DataTypeTok{digits =} \DecValTok{22}\NormalTok{ )}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\KeywordTok{length}\NormalTok{(x)) \{}
+\NormalTok{  temp <-}\StringTok{ }\NormalTok{x[}\DecValTok{1}\OperatorTok{:}\NormalTok{i]}
+\NormalTok{  y <-}\StringTok{ }\KeywordTok{myvar2}\NormalTok{(temp) }\OperatorTok{-}\StringTok{ }\KeywordTok{var}\NormalTok{(temp)}
+\NormalTok{  result <-}\StringTok{ }\KeywordTok{append}\NormalTok{(result, y)}
+\NormalTok{\}}
+
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\KeywordTok{length}\NormalTok{(x)), result, }\DataTypeTok{main =} \StringTok{"myvar2() - var()"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"i"}\NormalTok{,}\DataTypeTok{type =} \StringTok{"p"}\NormalTok{,}
+     \DataTypeTok{pch =} \DecValTok{20}\NormalTok{ , }\DataTypeTok{ylab =} \StringTok{"difference"}\NormalTok{, }\DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{5}\NormalTok{,}\DecValTok{5}\NormalTok{))}
+
+\CommentTok{#4}
+
+\NormalTok{n <-}\StringTok{ }\DecValTok{0}
+\NormalTok{k <-}\StringTok{ }\DecValTok{0}
+\KeywordTok{prod}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{n) }\OperatorTok{/}\StringTok{ }\NormalTok{(}\KeywordTok{prod}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{k) }\OperatorTok{*}\StringTok{ }\KeywordTok{prod}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{(n}\OperatorTok{-}\NormalTok{k)))}
+\KeywordTok{prod}\NormalTok{((k}\OperatorTok{+}\DecValTok{1}\NormalTok{)}\OperatorTok{:}\NormalTok{n) }\OperatorTok{/}\StringTok{ }\KeywordTok{prod}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{(n}\OperatorTok{-}\NormalTok{k))}
+\KeywordTok{prod}\NormalTok{(((k}\OperatorTok{+}\DecValTok{1}\NormalTok{)}\OperatorTok{:}\NormalTok{n) }\OperatorTok{/}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{(n}\OperatorTok{-}\NormalTok{k)))}
+
+
+\CommentTok{#n <- c(20:100)}
+
+\NormalTok{calc1 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(n,k)\{}
+\NormalTok{k <-}\StringTok{ }\NormalTok{n }\OperatorTok{-}\StringTok{ }\NormalTok{k}
+ \KeywordTok{return}\NormalTok{(}\KeywordTok{prod}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{n) }\OperatorTok{/}\StringTok{ }\NormalTok{(}\KeywordTok{prod}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{k) }\OperatorTok{*}\StringTok{ }\KeywordTok{prod}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{(n}\OperatorTok{-}\NormalTok{k)))) }
+\NormalTok{\}}
+\NormalTok{calc2 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(n,k)\{}
+\NormalTok{  k <-}\StringTok{ }\NormalTok{n }\OperatorTok{-}\StringTok{ }\NormalTok{k}
+ \KeywordTok{return}\NormalTok{(}\KeywordTok{prod}\NormalTok{((k}\OperatorTok{+}\DecValTok{1}\NormalTok{)}\OperatorTok{:}\NormalTok{n) }\OperatorTok{/}\StringTok{ }\KeywordTok{prod}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{(n}\OperatorTok{-}\NormalTok{k))) }
+\NormalTok{\}}
+\NormalTok{calc3 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(n,k)\{}
+\NormalTok{  k <-}\StringTok{ }\NormalTok{n }\OperatorTok{-}\StringTok{ }\NormalTok{k}
+ \KeywordTok{return}\NormalTok{(}\KeywordTok{prod}\NormalTok{(((k}\OperatorTok{+}\DecValTok{1}\NormalTok{)}\OperatorTok{:}\NormalTok{n) }\OperatorTok{/}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{(n}\OperatorTok{-}\NormalTok{k)))) }
+\NormalTok{\}}
+
+\NormalTok{n <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{20}\OperatorTok{:}\DecValTok{400}\NormalTok{)}
+\NormalTok{k <-}\StringTok{ }\DecValTok{20}
+
+\NormalTok{y <-}\StringTok{  }\KeywordTok{sapply}\NormalTok{(n, calc1, }\DataTypeTok{k =}\NormalTok{ k)}
+\NormalTok{y2 <-}\StringTok{  }\KeywordTok{sapply}\NormalTok{(n, calc2, }\DataTypeTok{k =}\NormalTok{ k)}
+\NormalTok{y3 <-}\StringTok{  }\KeywordTok{sapply}\NormalTok{(n, calc3, }\DataTypeTok{k =}\NormalTok{ k)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(n,y, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"k = n - 20"}\NormalTok{, }\DataTypeTok{sub =}  \StringTok{"A"}\NormalTok{  , }\DataTypeTok{ylab =} \StringTok{"y"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(n,y2, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{, }\DataTypeTok{sub =}  \StringTok{"B"}\NormalTok{ , }\DataTypeTok{ylab =} \StringTok{"y"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(n, y3, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{, }\DataTypeTok{sub =}  \StringTok{"C"}\NormalTok{ , }\DataTypeTok{ylab =} \StringTok{"y"}\NormalTok{)}
+
+\NormalTok{calc1 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(n,k)\{}
+ \KeywordTok{return}\NormalTok{(}\KeywordTok{prod}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{n) }\OperatorTok{/}\StringTok{ }\NormalTok{(}\KeywordTok{prod}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{k) }\OperatorTok{*}\StringTok{ }\KeywordTok{prod}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{(n}\OperatorTok{-}\NormalTok{k)))) }
+\NormalTok{\}}
+\NormalTok{calc2 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(n,k)\{}
+ \KeywordTok{return}\NormalTok{(}\KeywordTok{prod}\NormalTok{((k}\OperatorTok{+}\DecValTok{1}\NormalTok{)}\OperatorTok{:}\NormalTok{n) }\OperatorTok{/}\StringTok{ }\KeywordTok{prod}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{(n}\OperatorTok{-}\NormalTok{k))) }
+\NormalTok{\}}
+\NormalTok{calc3 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(n,k)\{}
+ \KeywordTok{return}\NormalTok{(}\KeywordTok{prod}\NormalTok{(((k}\OperatorTok{+}\DecValTok{1}\NormalTok{)}\OperatorTok{:}\NormalTok{n) }\OperatorTok{/}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{(n}\OperatorTok{-}\NormalTok{k)))) }
+\NormalTok{\}}
+
+\NormalTok{n <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{20}\OperatorTok{:}\DecValTok{400}\NormalTok{)}
+\NormalTok{k <-}\StringTok{ }\DecValTok{20}
+
+\NormalTok{y <-}\StringTok{  }\KeywordTok{sapply}\NormalTok{(n, calc1, }\DataTypeTok{k =}\NormalTok{ k)}
+\NormalTok{y2 <-}\StringTok{  }\KeywordTok{sapply}\NormalTok{(n, calc2, }\DataTypeTok{k =}\NormalTok{ k)}
+\NormalTok{y3 <-}\StringTok{  }\KeywordTok{sapply}\NormalTok{(n, calc3, }\DataTypeTok{k =}\NormalTok{ k)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+
+\KeywordTok{plot}\NormalTok{(n,y, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"k = 20"}\NormalTok{, }\DataTypeTok{sub =}  \StringTok{"A  "}\NormalTok{ , }\DataTypeTok{ylab =} \StringTok{"y"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(n,y2, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{, }\DataTypeTok{sub =} \StringTok{"B"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"y"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(n, y3, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{, }\DataTypeTok{sub =} \StringTok{"C"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"y"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\end{document}
