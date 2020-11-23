@@ -17,4 +17,4 @@ plot(c, Te, type = "l")
 lines(c,x)
 
 
-test test4545 
+test test solved
