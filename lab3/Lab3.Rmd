@@ -51,7 +51,7 @@ legend("topright", c("target density", "powerlaw"), fill=c("blue", "red"))
 # hist(y2, breaks = ax, col = "blue",  xlim =range(y1,y2), add = TRUE)
 
 ```
-Power-law distribution cannot be used just by itself because it doesnt support range from 0 to $T_{min}$. Because of this we need to use mixture distribution. To support x from 0 to $T_{min}$ we choose uniform distribution $Unif(0,T_{min})$. As we can see power-law distribution is monotonically decreasing, so we $T_{min}$ should be equal to x where target density has maximum value. Aside from this, we will fix $c=1.6$ and $t=1.5$ to ensure the powerlaw function goes pretty much over the target function for the most of its support.  
+Power-law distribution cannot be used just by itself because it doesnt support range from 0 to $T_{min}$. Because of this we need to use mixture distribution. To support x from 0 to $T_{min}$ we choose uniform distribution $Unif(0,T_{min})$. As we can see power-law distribution is monotonically decreasing, so we $T_{min}$ should be equal to x where target density has maximum value. Aside from this, we will fix $c=1.6$ and $t=1.5$ to ensure the powerlaw function goes pretty much over the target function for the most of its support. Afterwards, the majorizing constant will ensure it gets above of it.
 
 Lets find maximum of target density function:
 
