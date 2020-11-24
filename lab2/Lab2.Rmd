@@ -91,6 +91,7 @@ From graphs we can see that piecewice - parabolic interpolator predicted values 
 ## Question 2
 
 ### 1
+
 ```{r}
 load("data.RData")
 ```
@@ -120,11 +121,6 @@ $\hat \sigma _{MLE}$ estimator:
 $$ \frac{\partial lnL(p(\mu, \sigma|y))} {\partial \sigma} = - \frac{n}{\sigma} + \frac{1}{\sigma^3} \sum^n_{i=1}(y_i - \mu)^2 $$
 $$ MLE => - \frac{n}{\sigma} + \frac{1}{\sigma^3} \sum^n_{i=1}(y_i - \mu)^2 = 0$$
 $$\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^n (y_i- \mu)^2$$
-<<<<<<< HEAD:Lab2.Rmd
-```{r}
-meanEst <- mean(data)
-print(meanEst)
-```
 
 ```{r, echo=FALSE}
 meanEst <- mean(data)
@@ -133,14 +129,14 @@ res <- matrix(c(meanEst, sigma), nrow = 1)
 knitr::kable(res, col.names = c("mean", "variance"), digits = 3)
 
 ```
+
 ### 3
 
-<!-- --- -->
-<!-- not sure if we need to show this  -->
-<!-- Gradients: -->
 
-$$ln L(p(\mu, \sigma|y)) = - \frac n {2} ln(2 \pi \sigma^2) - \sum^n_{i = 1} \frac{(y_i - \mu)^2} {2\sigma^2}$$ -->
-$$ \frac{\sum (y-\mu)^2}{2\sigma^2} = \frac{\sum y^2-2(\sum y)\mu +n\mu^2}{2\sigma^2} = \frac{\sum( \mu - y_i)}{\sigma^2}$$ -->
+
+<!-- $$ln L(p(\mu, \sigma|y)) = - \frac n {2} ln(2 \pi \sigma^2) - \sum^n_{i = 1} \frac{(y_i - \mu)^2} {2\sigma^2}$$ -->
+<!-- $$ \frac{\sum (y-\mu)^2}{2\sigma^2} = \frac{\sum y^2-2(\sum y)\mu +n\mu^2}{2\sigma^2} = \frac{\sum( \mu - y_i)}{\sigma^2}$$ -->
+
 
 ```{r}
 
@@ -177,36 +173,52 @@ test4 <- optim(c(0, 1), minusLogLikelihood, gr = gradient, method = "BFGS")
 ```
 
 
-###3
-The natural logarithm is a monotonically increasing function. If one value of x increases the value of y related to it will increase too and it will ensure us max log likelihood occurs at the same point where max likelihood function occurs. Also it is easier and simpler to work with log instead of original likelihood. Taking derivative from log is simpler than original likelihood that are often exponential functions.
+The natural logarithm is a monotonically increasing function. If one value of x increases the value of y related to it will increase too. It will eventually ensure max-log-likelihood occurs at the same point where max-likelihood function occurs. It is also easier and simpler to work with logarithms instead of original likelihood. Taking derivative from a logarithm is simpler than with the original likelihood which are often exponential functions.
 
 ### 4
+
 ```{r, echo=FALSE}
 
-mm = matrix(1:20, ncol=5, dimnames=list(c("minus loglikelihood CG", "minus loglikelihood CG gradient","minus loglikelihood BFGS" ,"minus loglikelihood BFGS gradient"), c("converge", "mean", "variance", "n. of functions", "n. of gradients")))
-mm[1, ] <- c(ifelse(test1$convergence == 0, "Yes", "No"), test1$par[1], test1$par[2], test1$counts[1], test1$counts[2])
-mm[2, ] <- c(ifelse(test2$convergence == 0, "Yes", "No"), test2$par[1], test2$par[2], test2$counts[1], test2$counts[2])
-mm[3, ] <- c(ifelse(test3$convergence == 0, "Yes", "No"), test3$par[1], test3$par[2], test3$counts[1], test3$counts[2])
-mm[4, ] <- c(ifelse(test4$convergence == 0, "Yes", "No"), test4$par[1], test4$par[2], test4$counts[1], test4$counts[2])
+mm = matrix(1:20, ncol=5, dimnames=list(c("minus loglikelihood CG", 
+                                          "minus loglikelihood CG gradient",
+                                          "minus loglikelihood BFGS" ,
+                                          "minus loglikelihood BFGS gradient"), 
+                                        c("converge", 
+                                          "mean", 
+                                          "variance", 
+                                          "n. of functions", 
+                                          "n. of gradients")))
+
+mm[1, ] <- c(ifelse(test1$convergence == 0, "Yes", "No"), 
+             test1$par[1], 
+             test1$par[2], 
+             test1$counts[1], 
+             test1$counts[2])
+mm[2, ] <- c(ifelse(test2$convergence == 0, "Yes", "No"), 
+             test2$par[1], 
+             test2$par[2], 
+             test2$counts[1], 
+             test2$counts[2])
+mm[3, ] <- c(ifelse(test3$convergence == 0, "Yes", "No"), 
+             test3$par[1], 
+             test3$par[2], 
+             test3$counts[1], 
+             test3$counts[2])
+mm[4, ] <- c(ifelse(test4$convergence == 0, "Yes", "No"), 
+             test4$par[1], 
+             test4$par[2], 
+             test4$counts[1], 
+             test4$counts[2])
 knitr::kable(mm, digits = 2)
 
 
 
 ```
 
+We would recommend to use BFGS with specified gradient, because it required to evaluate less functions and gradients as a result of being faster. 
 
+# Appendix
 
-## Questions
+```{r ref.label=knitr::all_labels(), echo = T, eval = F}
+```
 
-
-- Do we have to estimate for sigma squared or sigma
-
-- Our parabolic function approximation looks weird, are we missing sth?
-
-- are our partial derivatives well calculated?, therefore MLE estimates for mu and sigma?
-
-- Are the gradients of our function  gradient well expressed? minus sign?
-
-- Our optim function calls in #3 are returning such mismatched values, one parameter huge and the other really small, our parameters are not similar as the estimates
-
-  - How should we apply this optim, to minimaze or maximize MLL function?
