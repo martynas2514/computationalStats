@@ -1,0 +1,35 @@
+---
+title: "Computer Lab 4"
+author: "Martynas Lukosevicius"
+date: "25/11/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Question 2. Gibbs sampling
+
+### 1.
+```{r}
+load("chemical.RData")  # read csv file 
+plot(X,Y)
+```
+
+linear? IDK
+
+
+### 2.
+
+if $Y_i \sim N(\mu_i,0.2)$
+
+so $p(\vec Y | \vec \mu)$ is multivariate gausian 
+
+$$ p(\vec Y | \vec \mu, \Sigma) \sim \frac {1} {\sqrt{(2 \pi)^n |\Sigma|} } e^{- \frac 1 2 (x- \vec \mu)^T \Sigma^{-1} (x-\vec \mu)}$$
+where $\Sigma = 0.2 I$
+
+likelihood of $p(\vec Y | \vec \mu)$ is 
+$$L(p(\vec Y | \vec \mu)) = (2 \pi)^{- \frac{n^2}{2}} |\Sigma|^{- \frac N 2} e^{ - \frac 1 2  \sum^N_{n=1} (x- \vec \mu)^T \Sigma^{-1} (x-\vec \mu)}$$
+
+
