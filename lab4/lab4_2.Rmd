@@ -26,10 +26,22 @@ if $Y_i \sim N(\mu_i,0.2)$
 
 so $p(\vec Y | \vec \mu)$ is multivariate gausian 
 
-$$ p(\vec Y | \vec \mu, \Sigma) \sim \frac {1} {\sqrt{(2 \pi)^n |\Sigma|} } e^{- \frac 1 2 (x- \vec \mu)^T \Sigma^{-1} (x-\vec \mu)}$$
+$$ p(\vec Y | \vec \mu, \Sigma) \sim \frac {1} {\sqrt{(2 \pi)^n |\Sigma|} } e^{- \frac 1 2 (Y- \vec \mu)^T \Sigma^{-1} (Y-\vec \mu)}$$
 where $\Sigma = 0.2 I$
 
 likelihood of $p(\vec Y | \vec \mu)$ is 
 $$L(p(\vec Y | \vec \mu)) = (2 \pi)^{- \frac{n^2}{2}} |\Sigma|^{- \frac N 2} e^{ - \frac 1 2  \sum^N_{n=1} (x- \vec \mu)^T \Sigma^{-1} (x-\vec \mu)}$$
 
 
+prior:
+
+$$p(\vec \mu) = {(2\pi\sigma^2)^{-\frac{n}{2}}} exp[{-\frac{\sum^n_{i=2} (\mu_i - \mu_{i-1})^2}{2\sigma^2}}] p(\mu_1)$$
+
+where: $\sigma = 0.2$ and $p(\mu_1) = 1$
+
+
+
+posterior$\propto$
+
+
+$$p(\vec \mu | \vec Y) \propto  exp[{-\frac{\sum^n_{i=2} (\mu_i - \mu_{i-1})^2}{2\sigma^2}}] * exp[{-\frac{\sum^n_{i=1} (y_i - \mu_{i})^2}{2\sigma^2}}] = exp[{-\frac{ (y_1 - \mu_1)^2+\sum^n_{i=2} (\mu_i - \mu_{i-1})^2 + (y_i - \mu_{i})^2}{2\sigma^2}}]$$
