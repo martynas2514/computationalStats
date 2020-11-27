@@ -1,0 +1,138 @@
+---
+title: "Untitled"
+author: "z"
+date: '2020-11-27'
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Question 1: Computation with Metropolis - Hastings
+
+ The probability density function is :
+ $$ f(X) \sim  x^5 e^{-x}, x>0$$
+ ### 1
+ Generating samples from target distribution , with metropolis-hastings algorithm, by using Log-normal distribution as proposal distribution.
+
+```{r }
+target <- function(x){
+    return((x^5)*exp(-x))}
+
+
+### density of Log-normal function by sigma=1
+##dlnorm gives the density
+proposed <- function(x, mu){
+  res <- dlnorm(x,log(mu), sd=1)
+  return(res)
+}
+### rlnorm generates random deviates.
+metro_hast <- function(startvalue, iteration){
+  stored <- rep(startvalue, iteration)  
+  vN<-1:iteration
+  for (i in 2:iteration){  ### I am not sure about 2
+    x <- stored[i-1]
+    xprime <- rlnorm(1,log(x),1)  # proposed a value for start and I am not sure about x=1
+    ratio <- min(c(1,target(xprime) * proposed(x, xprime)) / (target(x) * proposed(xprime, x)))
+    accept <- (runif(1) <= ratio)
+    stored[i] <- ifelse(accept, xprime, x)
+  }
+  #return(stored)
+  plot(stored,pch=19,cex=0.3)
+  #hist(stored[2000:10000] , breaks = 30 )
+  #plot(vN,stored,pch=19,cex=0.3,col="black",xlab="t",ylab="X(t)",main="",ylim=c(min(x-0.5,-5),max(5,x+0.5)))
+}
+metro_hast(100,10000)
+
+```
+```{r}
+metro_hast2 <- function(startvalue, iteration){
+  stored <- rep(startvalue, iteration)  
+  vN<-1:iteration
+  for (i in 2:iteration){  ### I am not sure about 2
+    x <- stored[i-1]
+    xprime <- rlnorm(1,log(x),1)  # proposed a value for start and I am not sure about x=1
+    ratio <- min(c(1,target(xprime) * proposed(x, xprime)) / (target(x) * proposed(xprime, x)))
+    accept <- (runif(1) <= ratio)
+    stored[i] <- ifelse(accept, xprime, x)
+  }
+  return(stored)
+}
+```
+
+### 2- performing step 1 by using Chi- Square distribution
+ $$\tilde{\chi}^2([X_{t} + 1])$$ 
+
+```{r }
+####chi- square distribution
+##The dchisq() function gives the density
+p_chi_square <- function(x, df){
+  return(dchisq(x, df=floor(x+1)))
+}
+metro_chi_hast <- function(startvalue, iteration){
+  stored <- rep(startvalue, iteration)  
+  vN<-1:iteration
+  for (i in 2:iteration){  ### I am not sure about 2
+    x <- stored[i-1]
+    xprime <- rchisq(1,df=floor(x+1))  # proposed a value for start and I am not sure about x=1
+    ratio <- min(c(1,target(xprime) * p_chi_square(x, xprime)) / (target(x) * p_chi_square(xprime, x)))
+    accept <- (runif(1) <= ratio)
+    stored[i] <- ifelse(accept, xprime, x)
+  }
+  #return(stored)
+  plot(stored,pch=19,cex=0.3)
+  #hist(stored[5000:10000] , breaks = 30 )
+  #plot(vN,stored,pch=19,cex=0.3,col="black",xlab="t",ylab="X(t)",main="",ylim=c(min(x-0.5,-5),max(5,x+0.5)))
+}
+metro_chi_hast(100,10000)
+
+
+```
+
+### 3  Comparing result of step1 and step2:
+
+
+### 4 Generating 10 MCMC sequences using the generator from step2, by using Gelman-Rubin method:
+
+```{r}
+### Generate 10 MCMC
+p_chi_square <- function(x, df){
+  return(dchisq(x, df=floor(x+1)))
+}
+metro_chi_hast2 <- function(startvalue, iteration){
+  stored <- rep(startvalue, iteration)  
+  vN<-1:iteration
+  for (i in 2:iteration){  ### I am not sure about 2
+    x <- stored[i-1]
+    xprime <- rchisq(1,df=floor(x+1))  # proposed a value for start and I am not sure about x=1
+    ratio <- min(c(1,target(xprime) * p_chi_square(x, xprime)) / (target(x) * p_chi_square(xprime, x)))
+    accept <- (runif(1) <= ratio)
+    stored[i] <- ifelse(accept, xprime, x)
+  }
+  return(stored)
+}
+library(coda)
+k <- 10
+f1 <- mcmc.list()
+for(i in 1:k){
+  f1[[i]]<-as.mcmc(metro_chi_hast2(i, 10000))
+}
+print(gelman.diag(f1))
+
+```
+
+### 5
+ Estimate this function by sampling from step1 and step2:
+ $$ \int_{0}^{\infty} x.f(x) \,dx $$
+ 
+```{r}
+log_norm <- metro_hast2(100,10000)
+chi_square <- metro_chi_hast2(100,10000)
+mean(log_norm)
+mean(chi_square)
+
+```
+ 
