@@ -17,23 +17,21 @@ load("chemical.RData")  # read csv file
 plot(X,Y)
 ```
 
-linear? IDK
+The scatter imaginary line traced by the scatter plot resembles a logarithm function. Therefore, a logarithmic model would probably fit the data.  
 
 
 ### 2.
 
-if $Y_i \sim N(\mu_i,0.2)$
-
-so $p(\vec Y | \vec \mu)$ is multivariate gausian 
-
-$$ p(\vec Y | \vec \mu, \Sigma) \sim \frac {1} {\sqrt{(2 \pi)^n |\Sigma|} } e^{- \frac 1 2 (Y- \vec \mu)^T \Sigma^{-1} (Y-\vec \mu)}$$
-where $\Sigma = 0.2 I$
-
-likelihood of $p(\vec Y | \vec \mu)$ is 
-$$p(\vec Y | \vec \mu) = {(2\pi\sigma^2)^{-\frac{n}{2}}} exp[{-\frac{\sum^n_{i=2} (y_i - \mu_{i})^2}{2\sigma^2}}]$$
+We know $$Y_i \sim N(\mu_i,0.2)$$
 
 
-prior:
+The likelihood of $p(\vec Y | \vec \mu)$ is the probability of observing our $\vec Y$ data given a set of parameters  $\vec \mu$. It is defined like the product of our probability function all over the observed data: 
+$$\mathcal{L}(\vec Y | \vec \mu) = \prod_{i=1}^{n}p(\vec Y | \vec \mu)$$
+
+$$\mathcal{L}(\vec Y | \vec \mu) = {(2\pi\sigma^2)^{-\frac{n}{2}}} exp[{-\frac{\sum^n_{i=2} (y_i - \mu_{i})^2}{2\sigma^2}}]$$
+
+
+Our prior probability is defined like the following expression according to the chain rule:
 
 $$p(\vec \mu) = {(2\pi\sigma^2)^{-\frac{n}{2}}} exp[{-\frac{\sum^n_{i=2} (\mu_i - \mu_{i-1})^2}{2\sigma^2}}] p(\mu_1)$$
 
@@ -41,20 +39,28 @@ where: $\sigma = 0.2$ and $p(\mu_1) = 1$
 
 
 
-posterior$\propto$
+The posterior probability according to Bayes theorem follows the next equation: 
+$$p(\vec \mu | \vec Y)\propto \mathcal{L}(\vec Y | \vec \mu)*p(\vec \mu)$$
 
 
-$$p(\vec \mu | \vec Y) \propto  exp[{-\frac{\sum^n_{i=2} (\mu_i - \mu_{i-1})^2}{2\sigma^2}}] * exp[{-\frac{\sum^n_{i=1} (y_i - \mu_{i})^2}{2\sigma^2}}] = exp[{-\frac{ (y_1 - \mu_1)^2+\sum^n_{i=2} (\mu_i - \mu_{i-1})^2 + (y_i - \mu_{i})^2}{2\sigma^2}}]$$
+$$p(\vec \mu | \vec Y) \propto exp[{-\frac{\sum^n_{i=1} (y_i - \mu_{i})^2}{2\sigma^2}}]*exp[{-\frac{\sum^n_{i=2} (\mu_i - \mu_{i-1})^2}{2\sigma^2}}]$$  
+$$p(\vec \mu | \vec Y) \propto exp[{-\frac{ (y_1 - \mu_1)^2+\sum^n_{i=2} [(\mu_i - \mu_{i-1})^2 + (y_i - \mu_{i})^2]}{2\sigma^2}}]$$
 
 
-when
+Now we will develop a expression for  $p(\mu_i|\vec \mu_{-i})$ first splitting between $p(\mu_1|\vec \mu_{-1,}$, $p(\mu_n|\vec \mu_{-n,}, \vec Y)$ and the middle points. We leverage the property of conditional probability assuming independent events: $$p(A|B)=\frac{ p(A) \cap(B)}{p(B)}=\frac{ p(A) (B)}{p(B)}$$
 
-$$p(\mu_1|\vec \mu_{-1,}, \vec Y) \propto exp[ -\frac 1 {2 \sigma^2} [(\mu_1-\mu_2)^2 + (\mu_1 - y_1)^2]] = exp[- \frac {1}{\sigma^2} [\mu_1 - \frac{\mu_2 + y_1}{2}]^2] \sim N(\frac{\mu_2 + y_1}{2}, \frac {\sigma^2}{2})$$
 
-$$p(\mu_1|\vec \mu_{-1,}, \vec Y) \propto exp[ -\frac 1 {2 \sigma^2} [(\mu_{n-1}-\mu_n)^2 + (\mu_n - y_n)^2]] = exp[- \frac {1}{\sigma^2} [\mu_n - \frac{\mu_{n-1} + y_n}{2}]^2] \sim N(\frac{\mu_{n-1} + y_n}{2}, \frac {\sigma^2}{2})$$
+$$p(\mu_1|\vec \mu_{-1,}, \vec Y) \propto exp[ -\frac 1 {2 \sigma^2} [(\mu_1-\mu_2)^2 + (\mu_1 - y_1)^2]]$$ 
+$$p(\mu_1|\vec \mu_{-1,}, \vec Y) \propto exp[- \frac {1}{\sigma^2}  [\mu_1 - \frac{\mu_2 + y_1}{2}]^2] \sim N(\frac{\mu_2 + y_1}{2}, \frac {\sigma^2}{2})$$
+Let the procedure for the last point be applied:
+$$p(\mu_n|\vec \mu_{-n,}, \vec Y) \propto exp[ -\frac 1 {2 \sigma^2} [(\mu_{n-1}-\mu_n)^2 + (\mu_n - y_n)^2]]$$
+$$p(\mu_n|\vec \mu_{-n}, \vec Y) \propto exp[- \frac {1}{\sigma^2} [\mu_n - \frac{\mu_{n-1} + y_n}{2}]^2] \sim N(\frac{\mu_{n-1} + y_n}{2}, \frac {\sigma^2}{2})$$
+Finally, for the middle points:
+$$p(\mu_i|\vec \mu_{-i}, \vec Y) \propto exp[ -\frac 1 {2 \sigma^2} [(\mu_{i-1}-\mu_i)^2 + (\mu_i-\mu_{i+1})^2 + (\mu_i-y_i)^2]$$  
+$$p(\mu_i|\vec \mu_{-i}, \vec Y) \propto exp[- \frac 3 {2\sigma^2} [\mu_i - \frac{\mu_{i-1}+ \mu_{i+1} + y_i}{3}]^2] \sim N(\frac{\mu_{i-1}+ \mu_{i+1} + y_i}{3}, \frac{\sigma^2}{3})$$
 
-$$p(\mu_i|\vec \mu_{-i}, \vec Y) \propto exp[ -\frac 1 {2 \sigma^2} [(\mu_{i-1}-\mu_i)^2 + (\mu_i-\mu_{i+1})^2 + (\mu_i-y_i)^2] = exp[- \frac 3 {2\sigma^2} [\mu_i - \frac{\mu_{i-1}+ \mu_{i+1} + y_i}{3}]^2] \sim N(\frac{\mu_{i-1}+ \mu_{i+1} + y_i}{3}, \frac{\sigma^2}{3})$$
 ## 4.
+
 
 ```{r}
 GibsSampler <- function(n,k){
@@ -83,10 +89,11 @@ plot(X,expectedmean,type = "l", col="red",ylab = "y")
 lines(X,Y)
 legend("bottomright", c("measured", "expected"), fill=c("black", "red"))
 ```
+Using this method it looks like the expected values plotted smooth the noise compared to the observed ones, leading us to observe with more clarity the correlation variables have underlying. 
 
 ```{r}
 plot(res[, 50], type="l")
 ```
 
 
-No burn in interval? only initial value is 0 and later pretty much fluctuates... 
+The plot does not present a clear burn out period since it goes directly from value 0 to the span it begins oscillating around. Then, convergence is not notoriously achieved as values of $\mu$ fluctuate around 1.5.   
