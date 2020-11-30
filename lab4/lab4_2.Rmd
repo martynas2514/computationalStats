@@ -96,4 +96,4 @@ plot(res[, 50], type="l")
 ```
 
 
-The plot does not present a clear burn out period since it goes directly from value 0 to the span it begins oscillating around. Then, convergence is not notoriously achieved as values of $\mu$ fluctuate around 1.5.   
+The plot does not present a clear burn out period since it goes directly from value 0 to the span it begins oscillating around. Then, convergence is not notoriously achieved as values of $\mu$ fluctuate around 1.5.    
