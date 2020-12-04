@@ -43,7 +43,7 @@ legend("topright", c("target density", "powerlaw"), fill=c("blue", "red"))
 
 
 ```
-Power-law distribution cannot be used just by itself because it does not support range from 0 to $T_{min}$. Because of this, we need to use mixture distribution. To support x from 0 to $T_{min}$ we choose uniform distribution $Unif(0,T_{min})$. As we can see, powerlaw distribution is monotonically decreasing, so $T_{min}$ should be equal to x where target density has maximum value. Aside from this, we will fix $\alpha=1.3$ to ensure the powerlaw function goes pretty much over the target function for the most of its support. Afterwards, the majorizing constant will ensure it gets above of the target.
+Power-law distribution cannot be used just by itself because it does not support range from 0 to $T_{min}$. Because of this, we need to use mixture distribution. To support x from 0 to $T_{min}$ we choose uniform distribution $Unif(0,T_{min})$. As we can see, powerlaw distribution is monotonically decreasing, so $T_{min}$ should be equal to x where target density has maximum value.
 
 Let's find maximum of target density function:
 
@@ -108,8 +108,10 @@ when $1<a<1.5$
 $$c_{maj} = h(x_{maj})$$
 
 
+As we can see $a$ should be between 1 and 1.5 If $a >=1.5$ majorising constant will be negative. We will fix $\alpha=1.3$. Afterwards, the majorizing constant will ensure it gets above of the target.
+
 ```{r }
-majDensity <- function(x, c,a){
+majDensity <- function(x, c, a){
   Tmin <- (c^2)/3
   
   if(x>Tmin){
@@ -120,8 +122,9 @@ majDensity <- function(x, c,a){
 c <- 2
 y3 <- sapply(x, majDensity, c = c, a = 1.3)
 y1 <- sapply(x, distrib1, c = c)
-plot(x,y1, type = "l", ylim = c(0,max(y3,y1)))
+plot(x,y1, type = "l", ylim = c(0,max(y3,y1)), ylab = "y")
 lines(x,y3, col ="blue")
+legend("topright", c("target", "proposal, a = 1.3"), fill=c("black", "blue"))
 
 ```
 
@@ -374,7 +377,7 @@ knitr::kable(compare)
 RR <- (rejected / 2000) 
 ```
 
-rejection rate: `r 1-(1/RR)`, expected rejection rate = c = `r 1-(1/c)`, difference - `r RR - c`
+rejection rate: `r 1-(1/RR)`, expected rejection rate = $1 - \frac 1 c$ = `r 1-(1/c)`, difference - `r (1-(1/RR)) - (1-(1/c))`
 
 We can see that mean and variance of generated distribution slightly differs.
 
