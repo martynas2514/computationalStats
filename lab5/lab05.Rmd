@@ -1,6 +1,6 @@
 ---
-title: "Task1"
-author: "Martynas Lukosevicius, Alejo Perez Gomez, Shwetha Vandagadde Chandramouly"
+title: "Computational Statistics Lab 5"
+author: "Martynas Lukosevicius, Alejo Perez Gomez, Zahra Jalil Pour"
 date: "04/12/2020"
 output: pdf_document
 ---
@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 1.
 
-For this question we are required to make a scatter plot and conclude wether the lottery seems random. 
+For this question we are required to make a scatter plot and conclude whether the lottery looks random. 
 ```{r, echo = FALSE, fig.height=3}
 new_df <- read.csv("lottery.csv", sep = ";")
 ##View(new_df)
@@ -27,7 +27,7 @@ By judging based on our plot, lottery looks random.
 
 ## 2. 
 
-An estimate $\hat{Y}$ will be computed using `r #loess()` and afterwards plot $\hat{Y}(X)$ adding it to the previous plot.
+An estimate $\hat{Y}$ will be computed using function *loess()* and afterwards we will plot $\hat{Y}(X)$ adding it to the previous plot.
 
 ```{r, echo = FALSE, fig.height=3}
 lw1 <- loess(Y ~ X, data = new_df)
@@ -36,7 +36,7 @@ plot(Y ~ X, data=new_df,pch=19,cex=0.1)
 lines(X,lw1$fitted,col="red",lwd=3)
 ```
 
-From estimates we can see that there is some pattern in the data, however it's hardly visible.
+From estimates we can see that there is some pattern in the data, however it is hardly visible.
 
 ## 3.
 
