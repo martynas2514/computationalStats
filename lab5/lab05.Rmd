@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 1.
 
+For this question we are required to make a scatter plot and conclude wether the lottery seems random. 
 ```{r, echo = FALSE, fig.height=3}
 new_df <- read.csv("lottery.csv", sep = ";")
 ##View(new_df)
@@ -22,9 +23,11 @@ Y <- new_df$Draft_No
 plot(X,Y,main="Scatterplot Y versus X", xlab="day of year ", ylab="Draft_no ", pch=19)
 ```
 
-From the plot lottery looks random
+By judging based on our plot, lottery looks random.
 
 ## 2. 
+
+An estimate $\hat{Y}$ will be computed using `r #loess()` and afterwards plot $\hat{Y}(X)$ adding it to the previous plot.
 
 ```{r, echo = FALSE, fig.height=3}
 lw1 <- loess(Y ~ X, data = new_df)
@@ -33,9 +36,11 @@ plot(Y ~ X, data=new_df,pch=19,cex=0.1)
 lines(X,lw1$fitted,col="red",lwd=3)
 ```
 
-From estimates we can see that there is some pattern in the data, however its hardly visible.
+From estimates we can see that there is some pattern in the data, however it's hardly visible.
 
 ## 3.
+
+For this section we will use the statistic given, from where we intuit it stands for a slope in $\hat{Y}(X)$
 
 ```{r, echo = FALSE}
 statis <- function(data, model){
@@ -69,21 +74,23 @@ diff <- abs(0-mean(results$t))
 p_value <- (sum(results$t > (mean(results$t) + diff)) + sum(results$t < (mean(results$t) - diff)))/2000
 
 ```
-$H_0: t = 0$ - lotery is random
+For this hypothesis testing let our hypothesis be.
 
-$H_a: t \neq 0$ -lotery is not random
+$H_0: t = 0$ - lottery is random
 
-two sided p-value: `r p_value`
+$H_a: t \neq 0$ - lottery is not random
 
-p- value is less than 0.05 so we reject null hypothesis, meaning that lotery is not random
+We will consider two sided p-value: `r p_value`. That is because we account for values that would reject the null hypothesis above and below $t=0$.
+
+As p-value results in less than 0.05 that lead us reject null hypothesis, meaning that lottery is not random.
 
 ## 4.
 
-permutation test function:
+Permutation test function will be used in this occasion to evaluate the next hypothesis analysis with $B=2000$:
 
-$H_0: t = 0$ - lotery is random
+$H_0: t = 0$ - lottery is random
 
-$H_a: t \neq 0$ -lotery is not random
+$H_a: t \neq 0$ -lottery is not random
 
 ```{r}
 permutation_test <- function(data, B){
@@ -110,9 +117,11 @@ permutation_test <- function(data, B){
 res <- permutation_test(new_df,2000)
 ```
 
-permutation test when B = 2000: p-value = `r res`
+The permutation test when B = 2000 results in a p-value = `r res`.
 
 ## 5.
+
+A crude estimate of the power of the test constructed in Step 4 will be made.
 
 ```{r,echo=FALSE}
 
@@ -141,18 +150,22 @@ for( i in 1:length(new_alpha)){
 
 ```
 
-table bellows shows p values for alpha 0.1:10 by 0.1 for which p is not equal to 0
+The table bellow shows the p-values for alpha 0.1:10 by 0.1 for which p is not equal to 0.
+
 ```{r, echo=FALSE}
 results <- data.frame(alpha=new_alpha,p = p_val)
 dontprinttwice <- ifelse(sum(results$p !=0) == 0, print("all p values are 0"), knitr::kable(t(results[results$p !=0 , ])) )
 ```
 
-power of the test is: 1-type 2 error.
+The computed power of the test is: 1-type 2 error.
 type 2 error is a probability of failing to reject $H_0$ when $H_a$ is true. We know that our generated data samples are not random. The amount of rejected $H_0:$ `r sum(results$p > 0.05)`. As a result type 2 error is: `r sum(results$p > 0.05)/length(results$p) `, and power of the test is: `r 1-(sum(results$p > 0.05)/length(results$p))`.
 
 # Question 2: Bootstrap, jackknife and confidence intervals
 
+In this section we are required to use bootstrapping and jackknife techniques to estimate some unknown parameters at population level based on the sampling knowledge comprised in confidence intervals.
+
 ## 1.
+Histogram of the Data and distribution-based approach.
 
 ```{r, echo=FALSE}
 library("boot")
@@ -164,7 +177,7 @@ prices = read.csv("prices1.csv", sep = ";")
 hist(prices$Price, breaks = 15)
 ```
 
-Reminds Gamma with shape = 3, scale = 2.
+It resembles a Gamma distribution with shape = 3, scale = 2.
 
 ## 2.
 
@@ -208,12 +221,32 @@ row.names(conf_int) <- c("percentile", "BCa", "first-order normal")
 colnames(conf_int) <- c("low", "high")
 ```
 
+After applying the aforementioned techniques we encountered this parameter estimations.
+
+To calculate the Bias-Correction we applied the ensuing formula. Note $B$ will be our number of sub-samplings, $T$ stands for our Data statistic and $T_i^*$ our statistic for sub-samplings.
+
+$$T_1=2T(D)-\frac1{B}\sum_{i=1}^BT_i^*$$
+
+In order to calculate the variance, the following formula will be used:
+
+$$\hat{Var[T(·)]}=\frac1{B-1}\sum_{i=1}^B(T(D_i)^*-\bar{T}(D^*)^2))$$
+
 Bootstrap bias-correction: `r T_bias_correction`. Variance - `r boot_var`. 
 
 95% confidence intervals: `r knitr::kable(conf_int)`
 
 
 ## 3.
+
+For this section the same thing as in the previous point will be calculated by using jackknife instead. This estimation will be ruled by this mathematical expression:
+
+$$\hat{Var[T(·)]}=\frac1{n(n-1)}\sum_{i=1}^n((T_i^*)-J(T)^2))$$
+Where $T_i^*=nT(D)-(n-1)T(D^*_i)$ and $J(T)=\frac1{n}\sum_{i=1}^nT^*_i$
+
+
+
+
+
 
 ```{r, echo=FALSE}
 #3 jackknife
@@ -234,9 +267,12 @@ jackknife <- function(data, R, func){
 res <- jackknife(prices$Price, 2000, mean)
 ```
 
-variance using jackknife: `r res$variance` , difference between jacknife and bootstrap: `r res$variance - boot_var`. 
+Variance using jackknife: `r res$variance`, the difference obtained between jackknife and bootstrap is: `r res$variance - boot_var`. As can we see the jackknife method tends to overestimate variance.
 
 ## 4. 
+
+In the fourth point we will compare the confdence intervals obtained with respect to their length and the location of the estimated mean in such intervals.
+
 
 ```{r, echo = FALSE}
 location <- function(high,low, mean){
@@ -257,6 +293,6 @@ row.names(conf_int_comp) <- c("percentile", "BCa", "first-order normal")
 colnames(conf_int_comp) <- c("low", "high", "length", "location of mean")
 ```
 
-Table below compares confidence intervals: `r knitr::kable(conf_int_comp)`
+The table below compares confidence intervals: `r knitr::kable(conf_int_comp)`
 
-location of mean shows portion of interval length from the beginning of the interval to the mean  
+The mean location shows the portion of interval length from the beginning of the interval until the mean.
