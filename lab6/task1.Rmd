@@ -1,0 +1,127 @@
+---
+title: "task1"
+author: "Martynas Lukosevicius, Alejo Perez Gomez, Shwetha Vandagadde Chandramouly"
+date: "09/12/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Question 1: Genetic algorithm
+
+## 1. 
+
+Function 
+$$f(x) = \frac {x^2} {e^x} - 2 exp(-(9sinx)/(x^2 + x +1))$$
+```{r}
+f <- function(x){
+  part1 <- (x^2) / exp(x)
+  expPart <- -(9*sin(x)) / ((x^2) + x + 1)
+  return(part1 -2 * exp(expPart))
+}
+```
+## 2.
+Crosover function $\frac {x+y} {2}$:
+
+```{r}
+crossover <- function(x,y){
+  return((x+y)/2)
+}
+```
+## 3.
+
+mutate function $x^2 mod 30$:
+
+```{r}
+mutate <- function(x){
+  return((x^2)%% 30)
+}
+```
+## 4. 
+
+Function implementing genetic algorithm:
+
+ 1. initialazise parameters
+ 2. select parents
+ 3. select victim
+ 4. generate kid by crosover and mutation
+ 5. replace victim with kid 
+ 6. save best value
+ 7. repeat steps 2 to 3 maxiterations times.
+ 
+```{r, echo = FALSE}
+genetic <- function(maxiter,mutprob){
+  # list for task 5 
+  res <- list(initial = numeric(), final = numeric())
+  
+  # a)
+  x <- seq(0,30, 0.1)
+  plot(x,f(x), type = "l", main = paste("maxiter:", maxiter,"mutprob:", mutprob))
+  
+  # b)
+  X <- seq(0,30,5)
+  res$initial <- X
+  # c)
+  
+  Values <- f(X)
+  
+  # d)
+  
+ for (i in 1:maxiter) {
+   # i.
+   parents <- sample(X,2)
+   # ii.
+   victim <- order(Values)[1]
+   # iii.
+   kid <- crossover(parents[1], parents[2])
+   if(runif(1) < mutprob){
+     kid <- mutate(kid)
+   }
+   # iv.
+   X[victim] <- kid
+   Values <- f(X)
+   # v.
+   maxX <- X[which.max(Values)]
+   #points(maxX, f(maxX), col="blue", pch ="x")
+ }
+  res$final <- X
+  points(maxX, f(maxX), col="red", pch ="x")
+  return(res)
+}
+```
+
+## 5. 
+
+```{r,echo=FALSE, error=FALSE, warning=FALSE}
+par(mfrow=c(2,3))
+ m10m1 <- genetic(10,0.1)
+ m10m5 <- genetic(10,0.5)
+ m10m9 <- genetic(10,0.9)
+ 
+ m100m1 <- genetic(100,0.1)
+ m100m5 <- genetic(100,0.5)
+ m100m9 <- genetic(100,0.9)
+ 
+ res <- rbind(m10m1$initial, 
+       m10m1$final, 
+       m10m5$final, 
+       m10m9$final, 
+       m100m1$final, 
+       m100m5$final, 
+       m100m9$final
+       )
+ 
+ rownames(res) <- c("initial",
+                    "10 0.1",
+                    "10 0.5",
+                    "10 0.9",
+                    "100 0.1",
+                    "100 0.5",
+                    "100 0.9"
+                    )
+
+ knitr::kable(res)
+```
+10 iterations are not enough for genetic algorithm to find the max value. It can be seen that increasing mutation propability, max value will fluctuate around the max value and will not reach it.
