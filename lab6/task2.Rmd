@@ -1,0 +1,14 @@
+---
+title: "task2"
+author: "Alejo Perez Gomez"
+date: "10/12/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Question 2: EM algorithm
+
+
