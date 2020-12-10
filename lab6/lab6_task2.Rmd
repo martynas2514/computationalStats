@@ -1,0 +1,107 @@
+---
+title: "Untitled"
+author: "zahra jalilpour"
+date: '2020-12-09'
+output:
+  pdf_document: 
+    latex_engine: xelatex
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, message = F, error = F, warning = F,
+                      fig.align='center', out.width="70%")
+knitr::opts_chunk$set(cache = TRUE)
+```
+### task1
+```{r}
+setwd("D:/Linkoping university/first semester/Computational Statistics/labs/Labs/Lab6")
+df <- read.csv("physical1.csv")
+```
+physical data that we have analyzed, consists of two physical process $Y$ and $Z$.Here we make time series plot. Both variables start with high value and decrease by time. Variable $Z$ has eight missing value. Both series have similar pattern. 
+```{r}
+library(ggplot2)
+palette_OkabeIto_black <- c("blue1", "maroon")
+p<- ggplot(data=df)
+p+geom_line(aes(X, Y, color="Z"))+
+  geom_line(aes(X, Z, color="Y"))+
+  scale_color_manual(values = palette_OkabeIto_black)+
+  theme_bw()+
+  labs(x="Time", y="variables Y , Z")
+  ggtitle("Dependencies of Y and Z versus X")
+
+```
+
+### task 2
+As we see missing values in $Z$ series , we will have problem in estimating model by maximum likelihood.
+Here we assume that we have these two different models for $Y$ and $Z$:
+
+$$Y_i = exp(\frac{X_i}{\lambda})   , Z_i = exp(\frac{X_i}{2\lambda})$$
+
+$\lambda$ is some unknown parameter.
+The aim of this task is to derive an EM algorithm to estimate $\lambda$ .
+Expected value of the log likelihood function of $\lambda$ can be defined as:
+$$Q(\lambda, \lambda^k) = E[loglik(\lambda | X,Y,Z)|\lambda^k, X,Y,Z]$$
+
+#### pdf
+Probability density function of an exponential distribution equals:
+$$ X\sim Exp(\lambda)~=> pdf= \lambda e^{-\lambda x}$$
+Here we assume $Y$ is observed data and $Z$ consists of latent data
+$$ Y_i \sim Exp(\frac{X_i}{\lambda}) ~=> pdf = \frac{X_i}{\lambda} e^{-\frac{X_i}{\lambda}Y_i}$$
+$$ Z_i \sim Exp(\frac{X_i}{2 \lambda}) ~=> pdf = \frac{X_i}{2 \lambda} e^{-\frac{X_i}{2 \lambda}Z_i} $$
+
+#### likelihood
+$${l}(\lambda|Y,Z) =\prod_{i=1}^{n} p(Y_i, Z_i | \lambda)= \prod_{i=1}^{n}p(Y_i |\lambda) p(Z_i |\lambda)=\prod_{i=1}^{n}[\frac{X_i}{\lambda} e^{-\frac{X_i}{\lambda}Y_i}].\prod_{i=1}^{n}[\frac{X_i}{2 \lambda} e^{-\frac{X_i}{2 \lambda}Z_i}]$$
+
+#### Log_likelihood
+$$ln({l}(\lambda|Y,Z)) = ln(\prod_{i=1}^{n}[\frac{X_i}{\lambda} e^{-\frac{X_i}{\lambda}Y_i}]. \prod_{i=1}^{n}[\frac{X_i}{2 \lambda} e^{-\frac{X_i}{2 \lambda}Z_i}])$$
+$$ln({l}(\lambda|Y,Z))= ln(\prod_{i=1}^{n}\frac{X_i^2}{2 \lambda^{2}}.e^{\frac{-1}{\lambda}\sum_{i=1}^n[X_i(Y_i + \frac{Z_i}{2})]})$$
+$$ln({l}(\lambda|Y,Z))= 2ln(\prod_{i=1}^{n} X_i) -2nln(2\lambda) - \frac{1}{\lambda}\sum_{i=1}^n[X_i(Y_i + \frac{Z_i}{2})]$$
+In this equation we have not considered missing values in $Z$. As $Z$ consists of missing values, it is not possible to calculate likelihood of this model. Hence we divide $Z$ into two series , observed and unobserved values, $Z=(Z^o, Z^u)$ and compute Expected log_likelihood. We assume $Z^o$ by length r and $Z^u$ by length n-r.
+Now the log_likelihood:
+$$ln({l}(\lambda|Y,Z))= 2ln(\prod_{i=1}^{n} X_i) -2nln(2\lambda) - \frac{1}{\lambda}\sum_{i=1}^n[X_i.Y_i +\sum_{i=1}^r \frac{X_i.Z^o_i}{2}+ \sum_{i=r+1}^n \frac{X_i. Z^u_i}{2})]$$ 
+
+
+#### Max_log_likelihood Estimation:
+In this step, to find the maximum likelihood , we should derive the expected log_likelihood according to $\lambda$ and set the equation to zero to calculate $\lambda$. We consider $\lambda^k$ as unobserved parameter. It is M_step:
+$$Q(\lambda, \lambda^k)= 2ln(\prod_{i=1}^n X_i) - 2nln(2 \lambda) - \frac{1}{\lambda}(\sum_{i=1}^n X_i. Y_i  + \sum_{i=1}^r \frac{X_i Z^o_i}{2} + \sum_{i=r+1}^n \lambda^k) $$
+Now we should derive this function according to $\lambda$ and set to zero.
+$$ \frac{\partial{E} [L(\lambda)] }{\partial{\lambda}} = \frac{-2n}{\lambda} + \frac{1}{\lambda^2}(\sum_{i=1}^n X_i. Y_i  + \sum_{i=1}^r \frac{X_i. Z^o_i}{2} + (n-r) \lambda^k) = 0$$
+$$\lambda = \frac{1}{2n}(\sum_{i=1}^n X_i Y_i  + \sum_{i=1}^r \frac{X_i Z^o_i}{2} + (n-r) \lambda^k)$$
+
+### task3
+```{r}
+ em_exp <- function(data, eps, lambda0){
+   X <- data$X
+   Y <- data$Y
+   Z <- data$Z
+  # observed Z and X associated to it
+    Zobs <- Z[!is.na(Z)]
+    Xobs <- X[!is.na(Z)]
+    Zmiss <- Z[is.na(Z)]
+    n <- length(X)
+    r <- length(Zobs)
+    # initialize iteration
+    llvalcurr <- lambda0
+    k <- 0
+    llvalprev <- 0
+    #paste(c(k,llvalprev,llvalcurr))
+    while((abs(llvalprev-llvalcurr)>eps) ){
+      llvalprev<-llvalcurr
+      ## E-step
+      llvalcurr <- (sum(X*Y) + sum(Xobs*Zobs)/2 + (n-r)*llvalprev)/(2*n)
+       k <- k+1
+       cat(paste("number of itteration: ", k))
+       cat(paste(" prev_val= ",llvalprev, "current_val= ",llvalcurr))
+       cat("\n")
+       
+      
+    }
+    
+    }
+em_exp(df, 0.001, 100)
+```
+
+
+
