@@ -16,7 +16,7 @@ knitr::opts_chunk$set(cache = TRUE)
 ```
 ### task1
 ```{r}
-setwd("D:/Linkoping university/first semester/Computational Statistics/labs/Labs/Lab6")
+setwd("C:/Users/alejo/Documents/GitHub_Repos/computationalStats/lab6")
 df <- read.csv("physical1.csv")
 ```
 physical data that we have analyzed, consists of two physical process $Y$ and $Z$.Here we make time series plot. Both variables start with high value and decrease by time. Variable $Z$ has eight missing value. Both series have similar pattern. 
@@ -58,6 +58,8 @@ $${l}(\lambda|Y,Z) =\prod_{i=1}^{n} p(Y_i, Z_i | \lambda)= \prod_{i=1}^{n}p(Y_i 
 $$ln({l}(\lambda|Y,Z)) = ln(\prod_{i=1}^{n}[\frac{X_i}{\lambda} e^{-\frac{X_i}{\lambda}Y_i}]. \prod_{i=1}^{n}[\frac{X_i}{2 \lambda} e^{-\frac{X_i}{2 \lambda}Z_i}])$$
 $$ln({l}(\lambda|Y,Z))= ln(\prod_{i=1}^{n}\frac{X_i^2}{2 \lambda^{2}}.e^{\frac{-1}{\lambda}\sum_{i=1}^n[X_i(Y_i + \frac{Z_i}{2})]})$$
 $$ln({l}(\lambda|Y,Z))= 2ln(\prod_{i=1}^{n} X_i) -2nln(2\lambda) - \frac{1}{\lambda}\sum_{i=1}^n[X_i(Y_i + \frac{Z_i}{2})]$$
+$$ln({l}(\lambda|Y,Z))= 2(\sum_{i=1}^{n} X_i) -2nln(2\lambda) - \frac{1}{\lambda}\sum_{i=1}^n[X_i(Y_i + \frac{Z_i}{2})]$$
+
 In this equation we have not considered missing values in $Z$. As $Z$ consists of missing values, it is not possible to calculate likelihood of this model. Hence we divide $Z$ into two series , observed and unobserved values, $Z=(Z^o, Z^u)$ and compute Expected log_likelihood. We assume $Z^o$ by length r and $Z^u$ by length n-r.
 Now the log_likelihood:
 $$ln({l}(\lambda|Y,Z))= 2ln(\prod_{i=1}^{n} X_i) -2nln(2\lambda) - \frac{1}{\lambda}\sum_{i=1}^n[X_i.Y_i +\sum_{i=1}^r \frac{X_i.Z^o_i}{2}+ \sum_{i=r+1}^n \frac{X_i. Z^u_i}{2})]$$ 
