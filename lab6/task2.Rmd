@@ -11,4 +11,22 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Question 2: EM algorithm
 
+## 1.
+
+`Insert Explanation` on the similarity in patterns of Y and Z.
+
+``` {r, echo=FALSE, warning=FALSE}
+library(ggplot2)
+library(reshape2)
+
+df <- read.csv("C:/Users/alejo/Documents/GitHub_Repos/computationalStats/lab6/physical1.csv")
+
+#melt data frame into long format
+df_plot <- melt(df ,  id.vars = 'X', variable.name = 'series')
+
+#create line plot for each column in data frame
+ggplot(df_plot, aes(X, value)) +
+  geom_line(aes(colour = series))
+
+```
 
