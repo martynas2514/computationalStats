@@ -124,4 +124,4 @@ par(mfrow=c(2,3))
 
  knitr::kable(res)
 ```
-10 iterations are not enough for genetic algorithm to find the max value. It can be seen that increasing mutation propability, max value will fluctuate around the max value and will not reach it.
+10 iterations are not enough for genetic algorithm to find the max value. It can be seen that increasing mutation probability, max value will fluctuate around the max value and will not reach it.
