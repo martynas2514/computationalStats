@@ -178,12 +178,12 @@ rDist <- function(n,c,a ,rej = FALSE){
 
 rejected <- 0
 par(mfrow=c(1,3))
-datarDist1 <- rDist(2000, 2, 1.3, TRUE)
+datarDist1 <- rDist(2000, 5, 1.3, TRUE)
 datarDist12 <- datarDist1[datarDist1 < 200]
 rejected1 <- rejected
 
 rejected <- 0
-datarDist2 <- rDist(2000, 9, 1.3, TRUE)
+datarDist2 <- rDist(2000, 10, 1.3, TRUE)
 datarDist22 <- datarDist2[datarDist2 < 200]
 rejected2 <- rejected
 

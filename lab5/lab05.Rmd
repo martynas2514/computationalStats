@@ -29,7 +29,7 @@ By judging based on our plot, lottery looks random.
 
 An estimate $\hat{Y}$ will be computed using function *loess()* and afterwards we will plot $\hat{Y}(X)$ adding it to the previous plot.
 
-```{r, echo = FALSE, fig.height=3}
+```{r, echo = T, fig.height=3}
 lw1 <- loess(Y ~ X, data = new_df)
 new_df$Y_hat <- predict(lw1, new_df$Day_of_year)
 plot(Y ~ X, data=new_df,pch=19,cex=0.1)
@@ -42,7 +42,7 @@ From estimates we can see that there is some pattern in the data, however it is 
 
 For this section we will use the statistic given, from where we intuit it stands for a slope in $\hat{Y}(X)$
 
-```{r, echo = FALSE}
+```{r, echo = T}
 statis <- function(data, model){
   index_max <- which.max(model$fitted)
   index_min <- which.min(model$fitted)
@@ -65,7 +65,7 @@ fc<- function(data, index){
 
 
 # bootstrap
-results <- boot(new_df, statistic = fc, R=2000)  # i think I made mistake here about statistics
+results <- boot(new_df, statistic = fc, R=2000) 
 plot(results)
 
 # h0:0, ha != 0
@@ -117,13 +117,13 @@ permutation_test <- function(data, B){
 res <- permutation_test(new_df,2000)
 ```
 
-The permutation test when B = 2000 results in a p-value = `r res`.
+The permutation test when B = 2000 results in a p-value = `r res`. p-value > 0.05, meaning that we have no evidence to reject null hypothesis - we cant say that lottery is not random
 
 ## 5.
 
 A crude estimate of the power of the test constructed in Step 4 will be made.
 
-```{r,echo=FALSE}
+```{r,echo=T}
 
 new_y <- function(x, alpha){
   set.seed(12345)
@@ -132,11 +132,6 @@ new_y <- function(x, alpha){
   return(y)
 }
 
-#y <- sapply(new_df$Day_of_year, new_y, alpha = 0.2)
-
-### 5-2
-# new_dataset <- data.frame(Day_of_year = new_df$Day_of_year, Draft_No = y )
-# permutation_test(new_dataset, 200)
 
 ### 5-3
 new_alpha <-seq(0.1, 10, 0.1)
@@ -150,12 +145,48 @@ for( i in 1:length(new_alpha)){
 
 ```
 
-The table bellow shows the p-values for alpha 0.1:10 by 0.1 for which p is not equal to 0.
 
 ```{r, echo=FALSE}
 results <- data.frame(alpha=new_alpha,p = p_val)
-dontprinttwice <- ifelse(sum(results$p !=0) == 0, print("all p values are 0"), knitr::kable(t(results[results$p !=0 , ])) )
+# nr <- floor(nrow(results)/8)
+# resmatrix <- cbind(results[1:nr,],
+#                    results[nr+1:(2*nr),],
+#                    results[((2*nr)+1):((3*nr)),],
+#                    results[((3*nr)+1):((4*nr)),],
+#                    results[((4*nr)+1):((5*nr)),],
+#                    results[((5*nr)+1):((6*nr)),],
+#                    results[((6*nr)+1):((7*nr)),],
+#                    results[((7*nr)+1):nrow(results),])
+# newres <-as.matrix(results$p) 
+# row.names(newres) <- results$alpha
+# nr <- floor(nrow(results)/2)
+# knitr::kable(t(results[1:nr,]))
+# knitr::kable(t(results[(nr+1):(2*nr),]))
+# knitr::kable(t(results[((2*nr)+1):((3*nr)),]))
+# knitr::kable(t(results[((3*nr)+1):((4*nr)),]))
+# knitr::kable(t(results[((4*nr)+1):((5*nr)),]))
+# knitr::kable(t(results[((5*nr)+1):((6*nr)),]))
+# knitr::kable(t(results[((6*nr)+1):((7*nr)),]))
+# knitr::kable(t(results[((7*nr)+1):nrow(results),]))
+
+## should we print or not 
+dontprinttwice <- ifelse(sum(results$p !=0) == 0, T, F )
+
+if(dontprinttwice == TRUE){
+  string <- "For all alpha p-values are 0"
+} else {
+  string <- "The table bellow shows the p-values for alpha 0.1:10 by 0.1 for which p is not equal to 0. "
+}
+
 ```
+`r string`
+```{r, echo=FALSE}
+if(dontprinttwice == FALSE){
+  knitr::kable(t(results[results$p !=0 , ]))
+}
+```
+
+
 
 The computed power of the test is: 1-type 2 error.
 type 2 error is a probability of failing to reject $H_0$ when $H_a$ is true. We know that our generated data samples are not random. The amount of rejected $H_0:$ `r sum(results$p > 0.05)`. As a result type 2 error is: `r sum(results$p > 0.05)/length(results$p) `, and power of the test is: `r 1-(sum(results$p > 0.05)/length(results$p))`.
@@ -181,7 +212,7 @@ It resembles a Gamma distribution with shape = 3, scale = 2.
 
 ## 2.
 
-```{r,echo=FALSE}
+```{r,echo=T}
 ## Mean 
 mean_price <- mean(prices$Price)
 
@@ -248,7 +279,7 @@ Where $T_i^*=nT(D)-(n-1)T(D^*_i)$ and $J(T)=\frac1{n}\sum_{i=1}^nT^*_i$
 
 
 
-```{r, echo=FALSE}
+```{r, echo=T}
 #3 jackknife
 
 jackknife <- function(data, R, func){
@@ -274,7 +305,7 @@ Variance using jackknife: `r res$variance`, the difference obtained between jack
 In the fourth point we will compare the confdence intervals obtained with respect to their length and the location of the estimated mean in such intervals.
 
 
-```{r, echo = FALSE}
+```{r, echo = T}
 location <- function(high,low, mean){
   length <- high-low
   loc <- (mean-low) /length

@@ -214,16 +214,14 @@ $$p(\mu_i|\vec \mu_{-i}, \vec Y) \propto exp[- \frac 3 {2\sigma^2} [\mu_i - \fra
 ```{r}
 GibsSampler <- function(n,k){
   initx <- as.data.frame(t(rep(0,k)))
+  mu<- unlist(initx[1, ])
   for (i in 2:n) {
-    muold <- unlist(initx[i-1, ])
-    munew <- vector()
-    munew[1] <- rnorm(1,(muold[2]+Y[1])/2,0.2/2)
+    mu[1] <- rnorm(1,(mu[2]+Y[1])/2,0.2/2)
     for (j in 2:(k-1)) {
-      munew[j] <- rnorm(1,(muold[j-1]+muold[j+1]+Y[j])/3,0.2/3)
+      mu[j] <- rnorm(1,(mu[j-1]+mu[j+1]+Y[j])/3,0.2/3)
     }
-    munew[k] <- rnorm(1,(muold[k-1]+Y[k])/2,0.2/2)
-    initx <- rbind(initx,munew)
-    muold <- munew
+    mu[k] <- rnorm(1,(mu[k-1]+Y[k])/2,0.2/2)
+    initx <- rbind(initx,mu)
   }
   return(initx)
 }
